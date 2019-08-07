@@ -134,3 +134,6 @@ setxkbmap us
 
 # alias for sudo vim
 alias svim='sudo -e '
+
+# list only hidden files
+alias lh='ls -d .?*'
