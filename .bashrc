@@ -129,8 +129,8 @@ export EDITOR='vim'
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'
 
-# use US keyboard layout
-setxkbmap us
+## use US keyboard layout
+#setxkbmap us
 
 # alias for sudo vim
 alias svim='sudo -e '
