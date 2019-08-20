@@ -1,8 +1,7 @@
 set relativenumber
-set number 
+set number
 syntax on
-colorscheme torte 
-filetype plugin indent on 
+filetype plugin indent on
 " show existing tab with 4 spaces width
 set tabstop=4
 " when indenting with '>', use 4 spaces width
@@ -51,4 +50,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'haya14busa/incsearch.vim'
 
 Plug 'jamessan/vim-gnupg'
+
+" Better color scheme
+Plug 'cocopon/iceberg.vim/'
 call plug#end()
+
+" cool color scheme
+colorscheme iceberg

@@ -137,7 +137,7 @@ bindsym Mod4+Shift+8 move container to workspace 8
 bindsym Mod4+Shift+9 move container to workspace 9
 bindsym Mod4+Shift+0 move container to workspace 10
 
-set default_border none  
+set default_border none
 
 # reload the configuration file
 bindsym Mod4+Shift+c reload
@@ -183,3 +183,7 @@ bar {
 
 # Use US keyboard layout
 exec "setxkbmap -layout us"
+
+# Take screenshots
+bindsym Print --release exec "scrot -s $HOME/Pictures/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+bindsym Shift+Print exec "scrot $HOME/Pictures/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
