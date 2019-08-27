@@ -8,9 +8,9 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
-" Allow saving of files as sudo when I forgot to start vim using sudo. 
-cmap w!! w !sudo tee > /dev/null %
-" Use system clipboard by default 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
 " Use case insensitive search
@@ -22,10 +22,11 @@ nnoremap D "_D
 vnoremap d "_d
 nnoremap c "_c
 
+nnoremap <leader>dd "+dd
 nnoremap <leader>d "cd
 nnoremap <leader>D "cD
 vnoremap <leader>d "cd
-
+vnoremap <leader>d "+d
 " Execute current file
 nnoremap <F9> :w<CR> :!clear && %:p<Enter>
 
@@ -57,3 +58,7 @@ call plug#end()
 
 " cool color scheme
 colorscheme iceberg
+
+" Change unprintable chars color
+highlight SpecialKey ctermfg=blue guifg=grey70
+
