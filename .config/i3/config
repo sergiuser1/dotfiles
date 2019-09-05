@@ -149,7 +149,9 @@ bar {
 }
 
 # Use US keyboard layout
-exec "setxkbmap -layout us"
+exec --no-startup-id "setxkbmap -layout us"
+
+exec --no-startup-id i3-msg 'workspace 9; exec telegram-desktop'
 
 # Open firefox
 bindsym $mod+o exec firefox
