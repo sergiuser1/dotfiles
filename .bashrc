@@ -137,3 +137,7 @@ alias svim='sudo -e '
 
 # list only hidden files
 alias lh='ls -d .?*'
+
+# alias for dotfiles repo
+alias dots='git --git-dir=$HOME/dotfiles/.git/'
+
