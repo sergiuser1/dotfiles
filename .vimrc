@@ -39,7 +39,7 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 set list          " Display unprintable characters f12 - switches
-set listchars=tab:•\ ,trail:•,extends:»,precedes:« " Unprintable chars mapping
+set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡ " Unprintable chars mapping
 
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -54,11 +54,26 @@ Plug 'jamessan/vim-gnupg'
 
 " Better color scheme
 Plug 'cocopon/iceberg.vim/'
+
+" Higlight the yanked region
+Plug 'machakann/vim-highlightedyank'
+
+" Easy commenting
+Plug 'scrooloose/nerdcommenter'
 call plug#end()
+
+" Commenting
+nmap <C-_>   <Plug>NERDCommenterToggle
+vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
 
 " cool color scheme
 colorscheme iceberg
 
 " Change unprintable chars color
 highlight SpecialKey ctermfg=blue guifg=grey70
+
+" Old vim
+if !exists('##TextYankPost')
+  map y <Plug>(highlightedyank)
+endif
 
