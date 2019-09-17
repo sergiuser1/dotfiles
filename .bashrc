@@ -141,3 +141,4 @@ alias lh='ls -d .?*'
 # alias for dotfiles repo
 alias dots='git --git-dir=$HOME/dotfiles/.git/'
 
+alias vi3='vim ~/.config/i3/config'

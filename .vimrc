@@ -21,6 +21,7 @@ nnoremap d "_d
 nnoremap D "_D
 vnoremap d "_d
 nnoremap c "_c
+nnoremap s "_s
 
 nnoremap <leader>dd "+dd
 nnoremap <leader>d "cd
@@ -29,7 +30,10 @@ vnoremap <leader>d "cd
 vnoremap <leader>d "+d
 " Execute current file
 nnoremap <F9> :w<CR> :!clear && %:p<Enter>
-
+" Compile and run C file
+map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
+" Save and restart i3
+map <F10> :w <CR> :!i3 restart <CR><CR>
 " set _ as a word boundary
 set iskeyword-=_
 
