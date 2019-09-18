@@ -139,6 +139,6 @@ alias svim='sudo -e '
 alias lh='ls -d .?*'
 
 # alias for dotfiles repo
-alias dots='git --git-dir=$HOME/dotfiles/.git/'
+alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 
 alias vi3='vim ~/.config/i3/config'

@@ -28,7 +28,7 @@ font pango:DejaVu Sans Mono 8
 set $mod Mod4
 
 #lock screen
-bindsym $mod+l exec i3lock
+bindsym $mod+l exec "i3lock -i ~/Pictures/galaxy.png"
 
 # shutdown
 bindsym $mod+Shift+p exec shutdown now
@@ -94,7 +94,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -127,6 +127,8 @@ bindsym Mod4+Shift+8 move container to workspace 8
 bindsym Mod4+Shift+9 move container to workspace 9
 bindsym Mod4+Shift+0 move container to workspace 10
 
+# switch to recent workspace
+bindsym $mod+Tab workspace back_and_forth
 # set default_border none
 
 # reload the configuration file
