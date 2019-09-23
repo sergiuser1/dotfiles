@@ -67,7 +67,7 @@ bindsym $mod+Right focus right
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Up   move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
@@ -149,8 +149,14 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 #        tray_output primary
 #        position top
 #}
+bar {
+    font pango:Inconsolata 10
+    position top
+    status_command SCRIPT_DIR=$HOME/.config/i3blocks/ i3blocks
+}
+# Use US keyboard layout
+exec --no-startup-id "setxkbmap us"
 
-exec --no-startup-id i3-msg 'workspace 9; exec telegram-desktop'
 
 exec_always --no-startup-id "~/.config/polybar/polybar.sh"
 exec_always --no-startup-id "compton -b"
@@ -161,8 +167,7 @@ bindsym $mod+o exec firefox
 ## i3 gaps
 
 # You can also use any non-zero value if you'd like to have a border
-for_window [class=".*"] border pixel 4
-
+for_window [class=".*"] border pixel 2
 # Examples
 gaps inner 25
 gaps outer -2
