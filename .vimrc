@@ -32,7 +32,7 @@ nnoremap <F9> :w<CR> :!clear && %:p<Enter>
 " Compile and run C file
 map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
 " Save and restart i3
-map <F10> :w <CR> :!i3 restart <CR><CR>
+map <F10> :w <CR> :!i3-msg restart <CR><CR>
 " Paste toggle for SSH
 set pastetoggle=<F3>
 " set _ as a word boundary
