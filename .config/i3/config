@@ -44,7 +44,7 @@ bindsym $mod+Shift+p exec shutdown now
 #floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+q kill
@@ -150,11 +150,17 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 #        position top
 #}
 
-exec --no-startup-id i3-msg 'workspace 9; exec telegram-desktop'
+for_window [instance="__scratchpad"] move scratchpad
+exec --no-startup-id telegram-desktop -name __scratchpad
 
+# Polybar
 exec_always --no-startup-id "~/.config/polybar/polybar.sh"
+# compositor
 exec_always --no-startup-id "compton -b"
+# wallpaper
 exec --no-startup-id "~/.fehbg"
+# hide the cursors
+exec --no-startup-id "unclutter"
 # Open firefox
 bindsym $mod+o exec firefox
 
@@ -164,10 +170,10 @@ bindsym $mod+o exec firefox
 for_window [class=".*"] border pixel 4
 
 # Examples
-gaps inner 25
-gaps outer -2
+gaps inner 20
+gaps outer -8
 # Take screenshots
-bindsym Shift+Print --release exec "scrot -s -e 'xclip -selection c -t image/png < $f'"
+bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t image/png"
 bindsym Print exec "scrot -e 'xclip -selection c -t image/png < $f'"
 
 # Pulse Audio controls

@@ -22,6 +22,7 @@ nnoremap D "_D
 vnoremap d "_d
 nnoremap c "_c
 nnoremap s "_s
+nnoremap C "_C
 
 nnoremap <leader>dd "+dd
 nnoremap <leader>d "cd
@@ -34,6 +35,9 @@ nnoremap <F9> :w<CR> :!clear && %:p<Enter>
 map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
 " Save and restart i3
 map <F10> :w <CR> :!i3 restart <CR><CR>
+" F3: Toggle list (display unprintable characters).
+nnoremap <F3> :set list!<CR>
+
 " set _ as a word boundary
 set iskeyword-=_
 
@@ -64,6 +68,9 @@ Plug 'machakann/vim-highlightedyank'
 
 " Easy commenting
 Plug 'scrooloose/nerdcommenter'
+
+" Syntax check
+Plug 'vim-syntastic/syntastic'
 call plug#end()
 
 " Commenting
@@ -80,4 +87,13 @@ highlight SpecialKey ctermfg=blue guifg=grey70
 if !exists('##TextYankPost')
   map y <Plug>(highlightedyank)
 endif
+" Syntax
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 

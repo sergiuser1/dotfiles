@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -125,7 +125,7 @@ done
 export PATH="$HOME/bin:$PATH"
 # default editor is vim
 export EDITOR='vim'
-
+export TERMINAL='gnome-terminal'
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'
 
@@ -142,3 +142,7 @@ alias lh='ls -d .?*'
 alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 
 alias vi3='vim ~/.config/i3/config'
+
+# fuck
+eval $(thefuck --alias)
+
