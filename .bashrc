@@ -123,9 +123,6 @@ for i in /etc/novoenv.d/*.sh; do
 done
 
 export PATH="$HOME/bin:$PATH"
-# default editor is vim
-export EDITOR='vim'
-export TERMINAL='gnome-terminal'
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'
 
@@ -145,4 +142,8 @@ alias vi3='vim ~/.config/i3/config'
 
 # fuck
 eval $(thefuck --alias)
-
+export EDITOR=vim
+export TERMINAL=rxvt-unicode
+export JAVA_HOME=/usr/lib/jvm/default
+shopt -s cdable_vars
+export acrypto=$HOME/study/applied_crypto/AppliedCryptoLab1/
