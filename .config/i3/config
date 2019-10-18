@@ -197,7 +197,7 @@ gaps inner 20
 gaps outer -8
 # Take screenshots
 bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t image/png"
-bindsym Print exec "maim | xclip -selection clipboard -t image/png"
+bindsym Print --release exec "maim | xclip -selection clipboard -t image/png"
 
 bindsym Control+Shift+Print --release exec "maim -s ~/Pictures/screenshot_$(date +%Y_%m_%d-%H:%M:%S).png"
 bindsym Control+Print --release exec "maim ~/Pictures/screenshot_$(date +%Y_%m_%d-%H:%M:%S).png"
