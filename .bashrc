@@ -141,9 +141,5 @@ alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 alias vi3='vim ~/.config/i3/config'
 
 # fuck
-eval $(thefuck --alias)
-export EDITOR=vim
-export TERMINAL=rxvt-unicode
-export JAVA_HOME=/usr/lib/jvm/default
-shopt -s cdable_vars
-export acrypto=$HOME/study/applied_crypto/AppliedCryptoLab1/
+#eval "$(thefuck --alias --enable-experimental-instant-mode)"
+

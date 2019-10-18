@@ -87,6 +87,17 @@ highlight SpecialKey ctermfg=blue guifg=grey70
 if !exists('##TextYankPost')
   map y <Plug>(highlightedyank)
 endif
+
+" NERD commenter settings
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
 " Syntax
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
