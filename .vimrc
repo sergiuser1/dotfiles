@@ -29,11 +29,11 @@ nnoremap <leader>d "+d
 nnoremap <leader>D "cD
 vnoremap <leader>d "+d
 " Execute current file
-nnoremap <F9> :w<CR> :!clear && %:p<Enter>
+nnoremap <F10> :w<CR> :!clear && %:p<Enter>
 " Compile and run C file
 map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
 " Save and restart i3
-map <F10> :w <CR> :!i3 restart <CR><CR>
+map <F9> :w <CR> :!i3 restart <CR><CR>
 " F3: Toggle list (display unprintable characters).
 nnoremap <F4> :set list!<CR>
 " Paste toggle for SSH
