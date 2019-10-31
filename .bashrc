@@ -122,6 +122,7 @@ for i in /etc/novoenv.d/*.sh; do
 	fi
 done
 
+export EDITOR=vim
 export PATH="$HOME/bin:$PATH"
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'

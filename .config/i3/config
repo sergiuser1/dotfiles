@@ -173,6 +173,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 #}
 # Use US keyboard layout
 exec_always --no-startup-id "setxkbmap us+capsoff"
+# Turn numlock on
+exec_always --no-startup-id "numlockx on"
 
 for_window [instance="__scratchpad"] move scratchpad
 exec --no-startup-id telegram-desktop -startintray
@@ -185,6 +187,8 @@ exec_always --no-startup-id "compton -b"
 exec --no-startup-id "~/.fehbg"
 # hide the cursors
 exec --no-startup-id "unclutter"
+# hide the cursor while typing
+exec --no-startup-id "xbanish"
 # Open firefox
 bindsym $mod+o exec firefox
 
