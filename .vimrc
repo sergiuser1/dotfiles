@@ -71,6 +71,12 @@ Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
 Plug 'vim-syntastic/syntastic'
+
+" Markdown highlighting
+Plug 'plasticboy/vim-markdown'
+
+" Vim script for text filtering and alignment
+Plug 'godlygeek/tabular'
 call plug#end()
 
 " Commenting
@@ -108,3 +114,5 @@ let g:NERDDefaultAlign = 'left'
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 let g:airline_powerline_fonts = 1
+let g:vim_markdown_folding_disabled = 1
+
