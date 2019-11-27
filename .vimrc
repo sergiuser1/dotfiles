@@ -29,7 +29,7 @@ nnoremap <leader>d "+d
 nnoremap <leader>D "cD
 vnoremap <leader>d "+d
 " Execute current file
-nnoremap <F10> :w<CR> :!clear && %:p<Enter>
+nnoremap <F10> :w<CR> :!clear && %:p<CR>
 " Compile and run C file
 map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
 " Save and restart i3

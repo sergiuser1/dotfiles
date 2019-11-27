@@ -28,17 +28,13 @@ font pango:DejaVu Sans Mono 8
 set $mod Mod4
 
 #lock screen
-bindsym $mod+l exec "i3lock -i ~/Pictures/galaxy.png"
+bindsym $mod+Shift+l exec "i3lock -i ~/Pictures/galaxy.png"
 
 # shutdown
 bindsym $mod+Shift+p exec shutdown now
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-#set $up $mod+j
-#set $down $mod+k
-#set $left $mod+h
-#set $right $mod+l
 
 # use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -75,13 +71,17 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-# alternatively, you can use the cursor keys:
+
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 
+# bindsym $mod+h focus left
+# bindsym $mod+j focus down
+# bindsym $mod+k focus up
+# bindsym $mod+l focus right
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
