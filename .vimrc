@@ -113,6 +113,8 @@ let g:NERDDefaultAlign = 'left'
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
+" Disable style error message
+let g:syntastic_quiet_messages = { "type": "style" }
 let g:airline_powerline_fonts = 1
 let g:vim_markdown_folding_disabled = 1
 

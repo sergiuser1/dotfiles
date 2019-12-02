@@ -47,12 +47,12 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -117,12 +117,13 @@ if ! shopt -oq posix; then
 fi
 # Source novoenv. Added by root (/root/bin/fix_umask.sh) at Mon May 27 10:26:25 CEST 2019, see #2351/sysadm
 for i in /etc/novoenv.d/*.sh; do
-	if [ -r "$i" ]; then
-		. $i
-	fi
+    if [ -r "$i" ]; then
+        . $i
+    fi
 done
 
 export PATH="$HOME/bin:$PATH"
+export EDITOR=vim
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'
 
