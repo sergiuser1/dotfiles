@@ -228,6 +228,9 @@ for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 for_window [class="Telegram"] floating enable
 for_window [class="Bitwarden"] floating enable
+for_window [class="mpv"] floating enable
+for_window [class="qBittorrent"] floating enable
+
 for_window [class="Zathura"] move container to workspace 1
 
 # Floating terminal
