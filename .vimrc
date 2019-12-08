@@ -86,9 +86,6 @@ vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
 " cool color scheme
 colorscheme iceberg
 
-" Change unprintable chars color
-highlight SpecialKey ctermfg=blue guifg=grey70
-
 " Old vim
 if !exists('##TextYankPost')
   map y <Plug>(highlightedyank)
@@ -117,4 +114,16 @@ let g:NERDDefaultAlign = 'left'
 let g:syntastic_quiet_messages = { "type": "style" }
 let g:airline_powerline_fonts = 1
 let g:vim_markdown_folding_disabled = 1
+
+" Transparency
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText ctermbg=NONE
+highlight LineNr ctermbg=NONE
+highlight EndOfBuffer ctermbg=none
+highlight ErrorMsg ctermbg=none
+highlight Error ctermbg=none
+highlight WarningMsg ctermbg=none
+
+" Change unprintable chars color
+highlight SpecialKey ctermbg=none ctermfg=blue guifg=grey70
 
