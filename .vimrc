@@ -1,5 +1,12 @@
+" Vim configuration
+
+
+" Show line numbers
 set relativenumber
 set number
+
+" Show command typed
+set showcmd
 syntax on
 filetype plugin indent on
 " show existing tab with 4 spaces width
@@ -16,6 +23,8 @@ set shortmess=a
 " Use case insensitive search
 set ignorecase
 set smartcase
+" Reload vimrc after writing to it
+autocmd BufWritePost .vimrc source %
 nnoremap x "_x
 nnoremap d "_d
 nnoremap D "_D
@@ -54,6 +63,9 @@ call plug#begin('~/.vim/plugged')
 
 " vim-airline
 Plug 'vim-airline/vim-airline'
+"
+" vim-airline-themes
+Plug 'vim-airline/vim-airline-themes'
 
 " incremental searching
 Plug 'haya14busa/incsearch.vim'
@@ -151,6 +163,7 @@ highlight EndOfBuffer ctermbg=none
 highlight ErrorMsg ctermbg=none
 highlight Error ctermbg=none
 highlight WarningMsg ctermbg=none
+highlight Todo ctermbg=none
 
 " Change unprintable chars color
 highlight SpecialKey ctermbg=none ctermfg=blue guifg=grey70

@@ -148,6 +148,12 @@ alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 
 alias vi3='vim ~/.config/i3/config'
 
+# Vi mode
+# set -o vi
+# Forward search
+stty -ixon
+# Clear screen with ctrl L no matter the mode
+# bind -m vi-insert "\C-l":clear-screen
 # fuck
 #eval "$(thefuck --alias --enable-experimental-instant-mode)"
 

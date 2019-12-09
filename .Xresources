@@ -72,7 +72,7 @@ URxvt.letterSpace: -1
 !! terminus names see end of file!
 
 URxvt.depth:                      32
-URxvt.background:                 rgba:0000/0000/0200/d900
+URxvt.background:                 rgba:0000/0000/0200/ed00
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
 URxvt*cursorBlink:                true

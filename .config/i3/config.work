@@ -44,8 +44,13 @@ bindsym $mod+Shift+p exec shutdown now
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
+# Start a floating terminal
+bindsym $mod+Shift+Return exec urxvt -name floating
+
+# Floating URxvt
+for_window [class="URxvt" instance="floating"] floating enable
 # kill focused window
 bindsym $mod+q kill
 
@@ -174,6 +179,9 @@ bar {
 }
 # Use US keyboard layout
 exec --no-startup-id "setxkbmap us"
+exec --no-startup-id "unclutter"
+exec --no-startup-id "compton"
+exec --no-startup-id "nitrogen --restore"
 
 
 # Open firefox
