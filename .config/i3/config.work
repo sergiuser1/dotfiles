@@ -44,10 +44,10 @@ bindsym $mod+Shift+p exec shutdown now
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec terminal
 
 # Start a floating terminal
-bindsym $mod+Shift+Return exec urxvt -name floating
+bindsym $mod+Shift+Return exec terminal -name floating
 
 # Floating URxvt
 for_window [class="URxvt" instance="floating"] floating enable
