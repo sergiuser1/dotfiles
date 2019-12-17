@@ -230,6 +230,8 @@ for_window [class="Telegram"] floating enable
 for_window [class="Bitwarden"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="qBittorrent"] floating enable
+for_window [class="Roccatkoneplusconfig"] floating enable
+
 
 for_window [class="Zathura"] move container to workspace 1
 
