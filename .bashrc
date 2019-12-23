@@ -12,6 +12,7 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -39,12 +40,13 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Defining PS1
-green="\001$(tput setaf 2)\002"
+bold="\001$(tput bold)\002"
+green="\001$(tput setaf 10)\002"
 blue="\001$(tput setaf 4)\002"
 magenta="\001$(tput setaf 5)\002"
 white="\001$(tput setaf 7)\002"
 reset="\001$(tput sgr0)\002"
-PS1="$green\u@\h:$blue\W$white\$$reset "
+PS1="$bold$green\u@\h$reset:$blue\W$white\$$reset "
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 

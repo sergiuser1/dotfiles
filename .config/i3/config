@@ -233,7 +233,7 @@ for_window [class="qBittorrent"] floating enable
 for_window [class="Roccatkoneplusconfig"] floating enable
 
 
-for_window [class="Zathura"] move container to workspace 1
+# for_window [clas="Zathura"] move container to workspace 1
 
 # Floating terminal
 for_window [class="URxvt" instance="floating"] floating enable

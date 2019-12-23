@@ -72,7 +72,7 @@ URxvt.letterSpace: -1
 !! terminus names see end of file!
 
 URxvt.depth:                      32
-URxvt.background:                 rgba:0000/0000/0200/ed00
+URxvt.background:                 rgba:0000/0000/0200/bd00
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
 URxvt*cursorBlink:                true
@@ -80,6 +80,9 @@ URxvt*background:                 black
 URxvt*foreground:                 grey
 URxvt*saveLines:                  5000
 
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
 ! for 'fake' transparency (without Compton) uncomment the following three lines
 ! URxvt*inheritPixmap:            true
 ! URxvt*transparent:              true
