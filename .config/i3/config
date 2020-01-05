@@ -231,6 +231,7 @@ for_window [class="Bitwarden"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="qBittorrent"] floating enable
 for_window [class="Roccatkoneplusconfig"] floating enable
+for_window [class="Simplenote"] floating enable border normal
 
 
 # for_window [clas="Zathura"] move container to workspace 1
