@@ -30,7 +30,7 @@ floating_modifier $mod
 bindsym $mod+Return exec terminal
 
 # Start a floating terminal
-bindsym $mod+Shift+Return exec urxvt -name floating
+bindsym $mod+Shift+Return exec terminal -name floating
 
 # kill focused window
 bindsym $mod+q kill
