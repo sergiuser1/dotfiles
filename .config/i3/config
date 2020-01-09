@@ -296,6 +296,8 @@ bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 
+# Make screen color warmer at night
+exec --no-startup-id "unclutter"
 # Hide the cursors
 exec --no-startup-id "unclutter"
 # Hide the cursor while typing
