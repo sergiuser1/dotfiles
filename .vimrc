@@ -17,6 +17,8 @@ set shiftwidth=4
 set expandtab
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" Remove trailing whitespace
+command RmWhite :%s/\s\+$//e
 " Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
