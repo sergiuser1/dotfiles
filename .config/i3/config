@@ -38,6 +38,9 @@ bindsym $mod+q kill
 # start program launcher
 bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -show drun -show-icons"
 
+# Toggle redshift
+bindsym $mod+backslash exec --no-startup-id "pkill -USR1 redshift"
+
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
 
@@ -297,7 +300,7 @@ bindsym $mod+9 exec --no-startup-id blurlock
 # Autostart applications
 
 # Make screen color warmer at night
-exec --no-startup-id "unclutter"
+exec --no-startup-id "redshift"
 # Hide the cursors
 exec --no-startup-id "unclutter"
 # Hide the cursor while typing
@@ -311,7 +314,7 @@ exec --no-startup-id xfce4-power-manager
 exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util

@@ -102,6 +102,7 @@ alias lh='ls -d .?*'
 alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 
 alias vi3='vim ~/.config/i3/config'
+alias clipboard='xclip -sel clip'
 
 # fuck
 eval "$(thefuck --alias fuck)"
