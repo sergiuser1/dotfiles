@@ -87,11 +87,11 @@ bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t imag
 bindsym Print --release exec "maim | xclip -selection clipboard -t image/png"
 # focus_follows_mouse no
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# Vim keybinds
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -117,7 +117,7 @@ bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
-bindsym $mod+h split h
+bindsym $mod+g split h
 bindsym $mod+v split v
 # bindsym $mod+q split toggle
 
@@ -306,6 +306,7 @@ exec --no-startup-id "unclutter"
 # Hide the cursor while typing
 exec --no-startup-id "xbanish"
 exec --no-startup-id telegram-desktop -startintray
+exec --no-startup-id "setxkbmap us -option caps:swapescape"
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 #exec --no-startup-id manjaro-hello
