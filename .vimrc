@@ -34,6 +34,7 @@ vnoremap d "_d
 nnoremap c "_c
 nnoremap s "_s
 nnoremap C "_C
+nnoremap Y y$
 
 nnoremap <leader>dd "+dd
 nnoremap <leader>d "+d
