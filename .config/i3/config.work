@@ -28,7 +28,7 @@ font pango:DejaVu Sans Mono 8
 set $mod Mod4
 
 #lock screen
-bindsym $mod+Shift+l exec "i3lock -i ~/Pictures/galaxy.png"
+bindsym $mod+Shift+semicolon   exec "i3lock -i ~/Pictures/galaxy.png"
 
 # shutdown
 bindsym $mod+Shift+p exec shutdown now
@@ -93,10 +93,10 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up   move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+h     move left
+bindsym $mod+Shift+j     move down
+bindsym $mod+Shift+k     move up
+bindsym $mod+Shift+l     move right
 
 # split in horizontal orientation
 bindsym $mod+g split h
