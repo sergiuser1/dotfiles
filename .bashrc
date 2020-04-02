@@ -54,7 +54,7 @@ PS1="$bold$green\u@\h$reset:$blue\W$white\$$reset "
 alias ls='ls -lFh --group-directories-first --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
-alias less='less -i -n'
+export LESS='-i -n -R -F -X'
 alias grep='grep --color=auto'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
