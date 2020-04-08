@@ -56,6 +56,7 @@ alias la='ls -A'
 alias l='ls -CF'
 export LESS='-i -n -R -F -X'
 alias grep='grep --color=auto'
+alias diff='diff --color=auto'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -81,6 +82,7 @@ if ! shopt -oq posix; then
 fi
 
 export EDITOR=vim
+export BROWSER=firefox
 export PATH="$HOME/bin:$PATH"
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'

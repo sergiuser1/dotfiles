@@ -306,7 +306,6 @@ exec --no-startup-id "unclutter"
 # Hide the cursor while typing
 exec --no-startup-id "xbanish"
 exec --no-startup-id telegram-desktop -startintray
-exec --no-startup-id "setxkbmap us -option caps:swapescape"
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 #exec --no-startup-id manjaro-hello
@@ -352,34 +351,8 @@ set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
-bar {
-    i3bar_command i3bar
-    status_command i3status
-    position top
-
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-    tray_output primary
-    tray_output DP-4
-
-    bindsym button4 nop
-    bindsym button5 nop
-#   font xft:URWGothic-Book 11
-    strip_workspace_numbers yes
-
-    colors {
-        background #222D31F0
-        statusline #F9FAF9
-        separator  #454947
-
-#                      border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
-    }
-}
+# Start polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -450,3 +423,5 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
+exec --no-startup-id setxkbmap us,ru -variant ", phonetic" -option caps:swapescape -option "grp:alt_shift_toggle"

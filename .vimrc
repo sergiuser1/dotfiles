@@ -40,8 +40,12 @@ nnoremap <leader>dd "+dd
 nnoremap <leader>d "+d
 nnoremap <leader>D "cD
 vnoremap <leader>d "+d
+
+" Swtich between tabs
+nnoremap <F6> :tabp<CR>
+nnoremap <F7> :tabn<CR>
 " Execute current file
-nnoremap <F10> :w<CR> :!clear && %:p<CR>
+nnoremap <F10>:w<CR>:!clear && %:p<CR>
 " Compile and run C file
 map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
 " Save and restart i3
@@ -50,6 +54,7 @@ map <F9> :w <CR> :!i3 restart <CR><CR>
 nnoremap <F4> :set list!<CR>
 " Paste toggle for SSH
 set pastetoggle=<F3>
+
 " set _ as a word boundary
 set iskeyword-=_
 
@@ -92,6 +97,9 @@ Plug 'plasticboy/vim-markdown'
 
 " Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
+
+" Latex plugin
+Plug 'lervag/vimtex'
 call plug#end()
 
 " Commenting
@@ -170,4 +178,7 @@ highlight Todo ctermbg=none
 
 " Change unprintable chars color
 highlight SpecialKey ctermbg=none ctermfg=blue guifg=grey70
+set foldmethod=marker
+set colorcolumn=80
+set textwidth=80
 
