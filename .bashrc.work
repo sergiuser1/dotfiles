@@ -141,11 +141,15 @@ alias vi3='vim ~/.config/i3/config'
 # https://blog.andrewray.me/a-better-git-blame/
 alias git-follow='git log -p -M --follow --stat --'
 # Vi mode
-# set -o vi
+set -o vi
+# Clear screen with ctrl L no matter the mode
+bind -m vi-command ".":insert-last-argument
+bind -m vi-insert "\C-l.":clear-screen
+bind -m vi-insert "\C-a.":beginning-of-line
+bind -m vi-insert "\C-e.":end-of-line
+bind -m vi-insert "\C-w.":backward-kill-word
 # Forward search
 stty -ixon
-# Clear screen with ctrl L no matter the mode
-# bind -m vi-insert "\C-l":clear-screen
 # fuck
 #eval "$(thefuck --alias --enable-experimental-instant-mode)"
 
