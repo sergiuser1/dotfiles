@@ -181,4 +181,6 @@ highlight SpecialKey ctermbg=none ctermfg=blue guifg=grey70
 set foldmethod=marker
 set colorcolumn=80
 set textwidth=80
+" Remove splash screen
+set shortmess+=I
 
