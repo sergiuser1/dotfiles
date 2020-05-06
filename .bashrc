@@ -106,7 +106,11 @@ alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 alias vi3='vim ~/.config/i3/config'
 alias clipboard='xclip -sel clip'
 
-# fuck
-eval "$(thefuck --alias fuck)"
-# eval $(thefuck --alias --enable-experimental-instant-mode)
+# Vi mode
+set -o vi
+bind -m vi-command ".":insert-last-argument
+bind -m vi-insert "\C-l.":clear-screen
+bind -m vi-insert "\C-a.":beginning-of-line
+bind -m vi-insert "\C-e.":end-of-line
+bind -m vi-insert "\C-w.":backward-kill-word
 
