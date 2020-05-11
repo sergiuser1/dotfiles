@@ -1,0 +1,6 @@
+set guioptions ""
+set selection-clipboard clipboard
+set window-title-basename true
+set window-title-page true
+map <BackSpace> scroll full-up
+map z toggle_statusbar

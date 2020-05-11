@@ -237,6 +237,7 @@ for_window [class="Roccatkoneplusconfig"] floating enable
 for_window [class="Simplenote"] floating enable border normal
 for_window [class="jetbrains-.*" title="win0"] floating enable border none
 for_window [class="Signal"] floating enable
+for_window [class="feh"] floating enable
 # for_window [clas="Zathura"] move container to workspace 1
 
 # Floating terminal
