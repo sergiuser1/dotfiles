@@ -184,3 +184,15 @@ set textwidth=80
 " Remove splash screen
 set shortmess+=I
 
+" Vimtex config
+
+" Detect latex files properly
+let g:tex_flavor = 'latex'
+" Disable underfull warnings
+let g:vimtex_quickfix_latexlog = {
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'packages' : {
+      \   'default' : 0,
+      \ },
+      \}

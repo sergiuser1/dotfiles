@@ -35,6 +35,9 @@ bindsym $mod+Shift+Return exec terminal -name floating
 # kill focused window
 bindsym $mod+q kill
 
+# Open firefox
+bindsym $mod+o exec --no-startup-id firefox
+
 # start program launcher
 bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -show drun -show-icons"
 
