@@ -77,7 +77,7 @@ bindsym $mod+F3 exec pcmanfm
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
 bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id telegram-desktop
-bindsym $mod+Ctrl+t exec --no-startup-id compton -b
+bindsym $mod+Ctrl+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 # bindsym Print exec --no-startup-id i3-scrot
 # bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
