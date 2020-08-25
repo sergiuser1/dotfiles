@@ -183,7 +183,7 @@ bar {
     status_command SCRIPT_DIR=$HOME/.config/i3blocks/ i3blocks
 }
 # Use US keyboard layout
-exec --no-startup-id "setxkbmap us -option caps:swapescape"
+exec_always --no-startup-id "setxkbmap us -option caps:swapescape"
 exec --no-startup-id "unclutter"
 exec --no-startup-id "compton"
 exec --no-startup-id "nitrogen --restore"
