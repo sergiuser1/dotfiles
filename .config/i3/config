@@ -307,6 +307,8 @@ bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 
+# Screen colors
+exec --no-startup-id "xiccd"
 # Make screen color warmer at night
 exec --no-startup-id "redshift"
 # Hide the cursors

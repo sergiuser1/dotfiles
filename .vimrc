@@ -100,6 +100,10 @@ Plug 'godlygeek/tabular'
 
 " Latex plugin
 Plug 'lervag/vimtex'
+
+" sxhk
+Plug 'kovetskiy/sxhkd-vim'
+
 call plug#end()
 
 " Commenting
@@ -166,6 +170,9 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+" Dark background
+set bg=dark
+
 " Transparency
 highlight Normal guibg=NONE ctermbg=NONE
 highlight NonText ctermbg=NONE
@@ -196,7 +203,4 @@ let g:vimtex_quickfix_latexlog = {
       \   'default' : 0,
       \ },
       \}
-
-" Create a backup file on save
-set backup
 
