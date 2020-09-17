@@ -36,6 +36,9 @@ nnoremap s "_s
 nnoremap C "_C
 nnoremap Y y$
 
+" Yank the contents of the file
+nnoremap <leader>Y :%y<CR>
+
 nnoremap <leader>dd "+dd
 nnoremap <leader>d "+d
 nnoremap <leader>D "cD
@@ -46,11 +49,7 @@ nnoremap <F6> :tabp<CR>
 nnoremap <F7> :tabn<CR>
 " Execute current file
 nnoremap <F10>:w<CR>:!clear && %:p<CR>
-" Compile and run C file
-map <F8> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
-" Save and restart i3
-map <F9> :w <CR> :!i3 restart <CR><CR>
-" F3: Toggle list (display unprintable characters).
+" Toggle list (display unprintable characters).
 nnoremap <F4> :set list!<CR>
 " Paste toggle for SSH
 set pastetoggle=<F3>
@@ -103,6 +102,9 @@ Plug 'lervag/vimtex'
 
 " sxhk
 Plug 'kovetskiy/sxhkd-vim'
+
+" C++ compiler
+Plug 'vim-scripts/SingleCompile'
 
 call plug#end()
 
@@ -203,4 +205,6 @@ let g:vimtex_quickfix_latexlog = {
       \   'default' : 0,
       \ },
       \}
+" Run and compile C++
+nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
