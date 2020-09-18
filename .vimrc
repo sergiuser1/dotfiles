@@ -106,14 +106,13 @@ Plug 'kovetskiy/sxhkd-vim'
 " C++ compiler
 Plug 'vim-scripts/SingleCompile'
 
+" Ansible highlighting
+Plug 'pearofducks/ansible-vim'
 call plug#end()
 
 " Commenting
 nmap <C-_>   <Plug>NERDCommenterToggle
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
-
-" cool color scheme
-colorscheme iceberg
 
 " Old vim
 if !exists('##TextYankPost')
@@ -175,6 +174,9 @@ let g:airline_symbols.linenr = ''
 " Dark background
 set bg=dark
 
+" Icerberg
+colorscheme iceberg
+
 " Transparency
 highlight Normal guibg=NONE ctermbg=NONE
 highlight NonText ctermbg=NONE
@@ -207,4 +209,7 @@ let g:vimtex_quickfix_latexlog = {
       \}
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
+
+" Detect ansible yaml files
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 
