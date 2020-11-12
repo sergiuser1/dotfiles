@@ -200,13 +200,13 @@ set shortmess+=I
 " Detect latex files properly
 let g:tex_flavor = 'latex'
 " Disable underfull warnings
-let g:vimtex_quickfix_latexlog = {
-      \ 'overfull' : 0,
-      \ 'underfull' : 0,
-      \ 'packages' : {
-      \   'default' : 0,
-      \ },
-      \}
+" let g:vimtex_quickfix_latexlog = {
+"       \ 'overfull' : 0,
+"       \ 'underfull' : 0,
+"       \ 'packages' : {
+"       \   'default' : 0,
+"       \ },
+"       \}
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
