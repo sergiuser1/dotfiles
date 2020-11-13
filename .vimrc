@@ -54,9 +54,6 @@ nnoremap <F4> :set list!<CR>
 " Paste toggle for SSH
 set pastetoggle=<F3>
 
-" set _ as a word boundary
-set iskeyword-=_
-
 " Use the incremental search
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -211,5 +208,7 @@ let g:tex_flavor = 'latex'
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
 " Detect ansible yaml files
-au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+autocmd BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+" Box of devops
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
