@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $1 in
+    hshrink) bspc node -z left 10 0; bspc node -z right -10 0;;
+    vshrink) bspc node -z bottom 0 -10; bspc node -z top 0 10;;
+    hexpand) bspc node -z left -10 0; bspc node -z right 10 0;;
+    vexpand) bspc node -z bottom 0 10; bspc node -z top 0 -10;;
+esac

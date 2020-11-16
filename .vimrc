@@ -168,6 +168,8 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+let g:airline#extensions#tabline#enabled = 1
+
 " Dark background
 set bg=dark
 
@@ -212,3 +214,14 @@ autocmd BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 " Box of devops
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
+"" Buffer stuff
+
+" Hide buffers instead of unloading them
+set hidden
+
+" Cycle through buffers
+nnoremap gb :bnext<CR>
+nnoremap gB :bprevious<CR>
+
+" Reload sxhkd on write to sxhkdrc
+au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
