@@ -48,7 +48,7 @@ vnoremap <leader>d "+d
 nnoremap <F6> :tabp<CR>
 nnoremap <F7> :tabn<CR>
 " Execute current file
-nnoremap <F10>:w<CR>:!clear && %:p<CR>
+nnoremap <F10> :w<CR>:!clear && %:p<CR>
 " Toggle list (display unprintable characters).
 nnoremap <F4> :set list!<CR>
 " Paste toggle for SSH
@@ -137,6 +137,11 @@ let g:NERDDefaultAlign = 'left'
 "let g:syntastic_check_on_wq = 0
 " Disable style error message
 let g:syntastic_quiet_messages = { "type": "style" }
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": [],
+    \ "passive_filetypes": []}
+
 let g:vim_markdown_folding_disabled = 1
 " air-line
 let g:airline_powerline_fonts = 1
