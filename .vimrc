@@ -230,3 +230,4 @@ nnoremap gB :bprevious<CR>
 
 " Reload sxhkd on write to sxhkdrc
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
+au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
