@@ -15,6 +15,7 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
+set autoindent
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " Remove trailing whitespace
@@ -55,12 +56,23 @@ nnoremap <F4> :set list!<CR>
 set pastetoggle=<F3>
 
 " Use the incremental search
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+set incsearch
+set hlsearch
 
-set list          " Display unprintable characters f12 - switches
-set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡ " Unprintable chars mapping
+" Remap Tab and Shift-Tab for cycling around matches
+augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>
+  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>
+augroup END
+" Clear screen with Control L
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Show unprintable characters
+set list
+set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡
 
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -70,9 +82,6 @@ Plug 'vim-airline/vim-airline'
 "
 " vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
-
-" incremental searching
-Plug 'haya14busa/incsearch.vim'
 
 Plug 'jamessan/vim-gnupg'
 
