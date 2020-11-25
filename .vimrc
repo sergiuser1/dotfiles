@@ -53,7 +53,7 @@ set spelllang=en_gb
 " Autoreload
 set autoread
 " Autoformat
-set formatoptions+=a
+autocmd FileType tex,text set formatoptions+=a
 " Show command typed
 set showcmd
 syntax on
