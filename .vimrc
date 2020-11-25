@@ -1,80 +1,6 @@
 " Vim configuration
 
-
-" Show line numbers
-set relativenumber
-set number
-
-" Show command typed
-set showcmd
-syntax on
-filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
-set expandtab
-set autoindent
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
-" Remove trailing whitespace
-command RmWhite :%s/\s\+$//e
-" Use system clipboard by default
-set clipboard=unnamedplus
-set shortmess=a
-" Use case insensitive search
-set ignorecase
-set smartcase
-" Reload vimrc after writing to it
-autocmd BufWritePost .vimrc source %
-nnoremap x "_x
-nnoremap d "_d
-nnoremap D "_D
-vnoremap d "_d
-nnoremap c "_c
-nnoremap s "_s
-nnoremap C "_C
-nnoremap Y y$
-
-" Yank the contents of the file
-nnoremap <leader>Y :%y<CR>
-
-nnoremap <leader>dd "+dd
-nnoremap <leader>d "+d
-nnoremap <leader>D "cD
-vnoremap <leader>d "+d
-
-" Swtich between tabs
-nnoremap <F6> :tabp<CR>
-nnoremap <F7> :tabn<CR>
-" Execute current file
-nnoremap <F10> :w<CR>:!clear && %:p<CR>
-" Toggle list (display unprintable characters).
-nnoremap <F4> :set list!<CR>
-" Paste toggle for SSH
-set pastetoggle=<F3>
-
-" Use the incremental search
-set incsearch
-set hlsearch
-
-" Remap Tab and Shift-Tab for cycling around matches
-augroup vimrc-incsearch-highlight
-  autocmd!
-  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>
-  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>
-augroup END
-" Clear screen with Control L
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
-
-" Show unprintable characters
-set list
-set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡
-
-" Specify a directory for plugins
+" Plugins
 call plug#begin('~/.vim/plugged')
 
 " vim-airline
@@ -115,16 +41,91 @@ Plug 'vim-scripts/SingleCompile'
 " Ansible highlighting
 Plug 'pearofducks/ansible-vim'
 
-" Git for vim
+" Git plugin
 Plug 'tpope/vim-fugitive'
-
-" Cpp highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
-
-" Mario
-Plug 'rbtnn/vim-mario'
-Plug 'rbtnn/vim-game_engine'
 call plug#end()
+
+" Show line numbers
+set relativenumber
+set number
+
+set spelllang=en_gb
+" Autoreload
+set autoread
+" Autoformat
+set formatoptions+=a
+" Show command typed
+set showcmd
+syntax on
+filetype plugin indent on
+" Show existing tab with 4 spaces width
+set tabstop=4
+" When indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
+set autoindent
+" Allow saving of files as root
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" Remove trailing whitespace
+command RmWhite :%s/\s\+$//e
+" Use system clipboard by default
+set clipboard=unnamedplus
+set shortmess=a
+" Use case insensitive search
+set ignorecase
+set smartcase
+" Reload vimrc after writing to it
+autocmd BufWritePost .vimrc source %
+
+" Don't cut by default
+nnoremap x "_x
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+nnoremap c "_c
+nnoremap s "_s
+nnoremap C "_C
+nnoremap Y y$
+
+" Yank the contents of the file
+nnoremap <leader>Y :%y<CR>
+
+nnoremap <leader>dd "+dd
+nnoremap <leader>d "+d
+nnoremap <leader>D "cD
+vnoremap <leader>d "+d
+
+" Swtich between tabs
+nnoremap <F6> :tabp<CR>
+nnoremap <F7> :tabn<CR>
+" Execute current file
+nnoremap <F10> :w<CR>:!clear && %:p<CR>
+" Toggle list (display unprintable characters).
+nnoremap <F4> :set list!<CR>
+" Paste toggle for SSH
+set pastetoggle=<F3>
+
+" Use incremental search
+set incsearch
+set hlsearch
+
+" Remap Tab and Shift-Tab for cycling around matches
+augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
+              \set hlsearch
+  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
+augroup END
+" Clear screen with Control L
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Show unprintable characters
+set list
+set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡
+
 
 " Commenting
 nmap <C-_>   <Plug>NERDCommenterToggle
@@ -154,6 +155,7 @@ let g:NERDDefaultAlign = 'left'
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
+"
 " Disable style error message
 let g:syntastic_quiet_messages = { "type": "style" }
 let g:syntastic_mode_map = {
@@ -169,7 +171,7 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-" unicode symbols
+" Unicode symbols
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'
 let g:airline_right_sep = '«'
