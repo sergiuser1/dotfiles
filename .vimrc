@@ -114,6 +114,16 @@ Plug 'vim-scripts/SingleCompile'
 
 " Ansible highlighting
 Plug 'pearofducks/ansible-vim'
+
+" Git for vim
+Plug 'tpope/vim-fugitive'
+
+" Cpp highlight
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+" Mario
+Plug 'rbtnn/vim-mario'
+Plug 'rbtnn/vim-game_engine'
 call plug#end()
 
 " Commenting
@@ -212,14 +222,14 @@ set shortmess+=I
 
 " Detect latex files properly
 let g:tex_flavor = 'latex'
+" Don't open quickfix on warnings
+let g:vimtex_quickfix_open_on_warning = 0
 " Disable underfull warnings
-" let g:vimtex_quickfix_latexlog = {
-"       \ 'overfull' : 0,
-"       \ 'underfull' : 0,
-"       \ 'packages' : {
-"       \   'default' : 0,
-"       \ },
-"       \}
+let g:vimtex_quickfix_ignore_filters = [
+      \ 'Marginpar on page',
+      \ 'overfull',
+      \ 'underfull',
+ \]
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
