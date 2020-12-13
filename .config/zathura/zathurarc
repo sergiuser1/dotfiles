@@ -2,5 +2,11 @@ set guioptions ""
 set selection-clipboard clipboard
 set window-title-basename true
 set window-title-page true
-map <BackSpace> scroll full-up
+map <BackSpace> navigate previous
+map <Space> navigate next
+map J scroll full-down
+map K scroll full-up
 map z toggle_statusbar
+map D toggle_page_mode
+map d scroll half-down
+map u scroll half-up

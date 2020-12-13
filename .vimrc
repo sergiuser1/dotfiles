@@ -43,6 +43,9 @@ Plug 'pearofducks/ansible-vim'
 
 " Git plugin
 Plug 'tpope/vim-fugitive'
+
+" C++ better highlight
+Plug 'octol/vim-cpp-enhanced-highlight'
 call plug#end()
 
 " Show line numbers
@@ -53,7 +56,7 @@ set spelllang=en_gb
 " Autoreload
 set autoread
 " Autoformat
-autocmd FileType tex,text set formatoptions+=a
+" autocmd FileType tex,text set formatoptions+=a
 " Show command typed
 set showcmd
 syntax on
@@ -158,10 +161,10 @@ let g:NERDDefaultAlign = 'left'
 "
 " Disable style error message
 let g:syntastic_quiet_messages = { "type": "style" }
-let g:syntastic_mode_map = {
-    \ "mode": "passive",
-    \ "active_filetypes": [],
-    \ "passive_filetypes": []}
+" let g:syntastic_mode_map = {
+"     \ "mode": "passive",
+"     \ "active_filetypes": [],
+"     \ "passive_filetypes": []}
 
 let g:vim_markdown_folding_disabled = 1
 " air-line
@@ -252,3 +255,11 @@ nnoremap gB :bprevious<CR>
 " Reload sxhkd on write to sxhkdrc
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
 au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
+
+" Go back a line
+if empty(mapcheck('<C-U>', 'i'))
+  inoremap <C-U> <C-G>u<C-U>
+endif
+if empty(mapcheck('<C-W>', 'i'))
+  inoremap <C-W> <C-G>u<C-W>
+endif
