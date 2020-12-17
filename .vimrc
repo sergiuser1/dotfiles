@@ -116,9 +116,9 @@ set hlsearch
 " Remap Tab and Shift-Tab for cycling around matches
 augroup vimrc-incsearch-highlight
   autocmd!
-  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
+  autocmd CmdlineEnter /,\?,s :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
               \set hlsearch
-  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
+  autocmd CmdlineLeave /,\?, :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
 augroup END
 " Clear screen with Control L
 if maparg('<C-L>', 'n') ==# ''
