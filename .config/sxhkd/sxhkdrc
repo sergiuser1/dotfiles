@@ -1,3 +1,5 @@
+#
+#
 # sxkhd config
 #
 #
@@ -27,8 +29,8 @@ super + m
     bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
-super + y
-    bspc node newest.marked.local -n newest.!automatic.local
+# super + y
+#     bspc node newest.marked.local -n newest.!automatic.local
 
 # swap the current node and the biggest window
 super + g
@@ -40,7 +42,7 @@ super + g
 
 # set the window state
 # FIXME: add floating support
-super + {t,shift + t,s,f}
+super + {y,shift + y,s,f}
     bspc node -t ~{tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
@@ -57,25 +59,29 @@ super + {_,shift + }{h,j,k,l}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
-    bspc node -f @{parent,brother,first,second} && notify-send "henlo"
+    bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous window in the current desktop
 super + {_,shift + }c
     bspc node -f {next,prev}.local.!hidden.window
 
-# focus the next/previous desktop in the current monitor
+# Focus the next/previous monitor
 super + bracket{left,right}
     bspc desktop -f {prev,next}.local
+
+# focus the next/previous desktop in the current monitor
+super + brace{left,right}
+    bspc monitor -f {prev,next}
 
 # focus the last node/desktop
 super + {grave,Tab}
     bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
-super + {o,i}
-    bspc wm -h off; \
-    bspc node {older,newer} -f; \
-    bspc wm -h on
+# super + {o,i}
+#     bspc wm -h off; \
+#     bspc node {older,newer} -f; \
+#     bspc wm -h on
 
 # Send node to given desktop
 super + shift + {1-9,0}
@@ -93,7 +99,7 @@ super + {1-9,0}
 super + ctrl + {h,j,k,l}
     bspc node -p {west,south,north,east}
 
-e preselect the ratio
+# preselect the ratio
 super + ctrl + {1-9}
     bspc node -o 0.{1-9}
 
@@ -134,3 +140,15 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
 
+# Program bindings
+super + o
+    firefox
+
+super + t
+    telegram-desktop
+
+super + backslash
+    pkill -USR1 redshift
+
+super + shift + p
+    shutdown now
