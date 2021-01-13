@@ -1,31 +1,37 @@
 #!/bin/bash
 
-start_once(){ pgrep -x "$1" > /dev/null || ("$1" &) }
+start_once(){ pgrep -x "$1" > /dev/null || ("$@" &) }
 start_once sxhkd
 
 bspc monitor DP-4 -d 1 3 5 7 9
 bspc monitor HDMI-0 -d 2 4 6 8 10
 
-bspc config border_width         2
+bspc config border_width         4
 bspc config window_gap          12
 
 bspc config split_ratio          0.52
-bspc config borderless_monocle   true
-bspc config gapless_monocle      true
-# bspc config single_monocle       true
+bspc config borderless_monocle   false
+bspc config single_monocle       true
+# Focus window on hover
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus true
 
+bspc config  focused_border_color "#3D84CB"
+
+bspc rule -a qBittorrent state=floating
+bspc rule -a Sxiv       state=floating
+bspc rule -a Bluetooth state=floating follow=on
 bspc rule -a feh state=floating follow=on
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a TelegramDesktop state=floating
 bspc rule -a *:floating state=floating
 bspc rule -a Signal state=floating
-bspc rule -a Chromium desktop='^2'
 bspc rule -a mpv state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+bspc rule -a Pavucontrol state=floating
 
-# Focus window on hover
-bspc config focus_follows_pointer true
+bspc rule -a Zathura state=tiled
 
 # Init programs
 xwallpaper  --output HDMI-0 --center $HOME/.local/wallpapers/mountain.jpg \
@@ -33,6 +39,7 @@ xwallpaper  --output HDMI-0 --center $HOME/.local/wallpapers/mountain.jpg \
 
 start_once redshift
 start_once picom
+pgrep telegram || telegram-desktop -startintray &
 
 # Polybar and hacks
 $HOME/.config/polybar/launch.sh

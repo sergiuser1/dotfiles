@@ -4,5 +4,9 @@
 killall -q polybar
 
 # Start polybar
-polybar --reload -c ~/.config/polybar/config.ini main &
+if pgrep -x bspwm; then
+    polybar --reload -c ~/.config/polybar/config_bspwm.ini main &
+else
+    polybar --reload -c ~/.config/polybar/config.ini main &
+fi
 
