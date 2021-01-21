@@ -46,6 +46,12 @@ Plug 'tpope/vim-fugitive'
 
 " C++ better highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
+
+" SudoEdit
+Plug 'chrisbra/SudoEdit.vim'
+
+" Incremental search
+Plug 'haya14busa/is.vim'
 call plug#end()
 
 " Show line numbers
@@ -114,12 +120,14 @@ set incsearch
 set hlsearch
 
 " Remap Tab and Shift-Tab for cycling around matches
-augroup vimrc-incsearch-highlight
-  autocmd!
-  autocmd CmdlineEnter /,\?,s :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
-              \set hlsearch
-  autocmd CmdlineLeave /,\?, :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
-augroup END
+if v:version >= 800
+    augroup vimrc-incsearch-highlight
+      autocmd!
+      autocmd CmdlineEnter /,\?,s :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
+                  \set hlsearch
+      autocmd CmdlineLeave /,\?, :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
+    augroup END
+endif
 " Clear screen with Control L
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
