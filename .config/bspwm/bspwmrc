@@ -41,7 +41,7 @@ bspc rule -a Pavucontrol state=floating
 bspc rule -a Zathura state=tiled
 
 # Init programs
-start_once redshift
+start_once redshift -l $(<$HOME/.config/redshift/location.txt)
 start_once picom
 pgrep telegram || telegram-desktop -startintray &
 
