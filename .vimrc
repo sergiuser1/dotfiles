@@ -75,9 +75,9 @@ set shiftwidth=4
 set expandtab
 set autoindent
 " Allow saving of files as root
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " Remove trailing whitespace
-command RmWhite :%s/\s\+$//e
+command! RmWhite :%s/\s\+$//e
 " Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
@@ -117,15 +117,16 @@ set pastetoggle=<F3>
 
 " Use incremental search
 set incsearch
-set hlsearch
 
 " Remap Tab and Shift-Tab for cycling around matches
+" For replacing with previous search look at
+" https://vi.stackexchange.com/a/387
 if v:version >= 800
     augroup vimrc-incsearch-highlight
       autocmd!
-      autocmd CmdlineEnter /,\?,s :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
+      autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>|
                   \set hlsearch
-      autocmd CmdlineLeave /,\?, :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
+      autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
     augroup END
 endif
 " Clear screen with Control L

@@ -198,7 +198,12 @@ bindsym $mod+o exec firefox
 # You can also use any non-zero value if you'd like to have a border
 for_window [class=".*"] border pixel 2
 assign [class="zoom"] 1
+for_window [class="com-sun-javaws-Main"] floating enable border normal
 # Take screenshots
 bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t image/png"
 bindsym Print --release exec "maim | xclip -selection clipboard -t image/png"
 
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop # TODO: make script to display metadata
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
