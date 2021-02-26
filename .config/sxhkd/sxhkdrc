@@ -6,7 +6,7 @@
 
 # Run urxvt
 super + {_,shift +} Return
-    terminal {_, -name floating}
+    alacritty {_, --class floating}
 
 # Program launcher
 super + d
