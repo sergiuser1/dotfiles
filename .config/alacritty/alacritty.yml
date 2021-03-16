@@ -110,7 +110,7 @@ colors: *tokyo-night
   #  cyan:    '#70c0b1'
   #  white:   '#eaeaea'
 
-background_opacity: 0.92
+background_opacity: 0.89
 
 cursor:
   # Cursor style

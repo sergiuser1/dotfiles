@@ -1,6 +1,31 @@
 " Vim configuration
 
-" Plugins
+"" Sensible defaults
+
+" Make Esc take effect more quickly. Might be bad over SSH
+set ttimeout
+set ttimeoutlen=50
+
+" Show @@ in the last line if it is truncated
+set display=truncate
+
+" Do not recognize numbers starting with a zero as octal.
+set nrformats-=octal
+
+" Format with Q
+map Q gq
+
+" When deleting with ctrl-{u,w}, keep the undo
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+
+" Enable syntax highlighting
+syntax on
+
+" Detect filetype and others automatically
+filetype plugin indent on
+
+"" Plugins
 call plug#begin('~/.vim/plugged')
 
 " vim-airline
@@ -65,8 +90,6 @@ set autoread
 " autocmd FileType tex,text set formatoptions+=a
 " Show command typed
 set showcmd
-syntax on
-filetype plugin indent on
 " Show existing tab with 4 spaces width
 set tabstop=4
 " When indenting with '>', use 4 spaces width
@@ -101,6 +124,7 @@ nnoremap Y y$
 nnoremap <leader>Y :%y<CR>
 
 nnoremap <leader>dd "+dd
+nnoremap <leader>x "+x
 nnoremap <leader>d "+d
 nnoremap <leader>D "cD
 vnoremap <leader>d "+d
@@ -238,10 +262,8 @@ nnoremap gB :bprevious<CR>
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
 au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
 
-" Go back a line
-if empty(mapcheck('<C-U>', 'i'))
-  inoremap <C-U> <C-G>u<C-U>
-endif
-if empty(mapcheck('<C-W>', 'i'))
-  inoremap <C-W> <C-G>u<C-W>
-endif
+" Keep undo tree after closing a buffer
+set undofile
+
+"" Built-in packages
+packadd! matchit
