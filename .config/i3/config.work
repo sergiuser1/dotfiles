@@ -185,7 +185,6 @@ bar {
 # Use US keyboard layout
 exec_always --no-startup-id "setxkbmap us -option caps:swapescape"
 exec --no-startup-id "unclutter"
-exec --no-startup-id "xbanish"
 exec --no-startup-id "compton"
 exec --no-startup-id "nitrogen --restore"
 exec --no-startup-id "redshift"
