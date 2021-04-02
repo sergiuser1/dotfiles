@@ -111,6 +111,9 @@ call plug#end()
 set relativenumber
 set number
 
+" Disable read-only warnings
+au BufEnter * set noro
+
 set spelllang=en_gb
 " Autoreload
 set autoread
