@@ -116,9 +116,9 @@ super + ctrl + shift + space
 #
 
 # Resize with "continous input" magic
-super + r : {h,j,k,l}
-    notify-send "Resizing window"; \
-    resize-bspwm {hshrink,vshrink,vexpand,hexpand};
+# super + r : {h,j,k,l}
+#     notify-send "Resizing window"; \
+#     resize-bspwm {hshrink,vshrink,vexpand,hexpand};
 
 # contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}

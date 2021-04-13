@@ -47,10 +47,9 @@ pgrep telegram || LOCALE=en_UK.UTF8 \
     DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
 
 # Polybar and hacks
-$HOME/.config/polybar/launch.sh
-sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n tray) \
-    && xdo above -t $(xdo id -n root) $(xdo id -n polybar)
-
+$HOME/.config/polybar/launch.sh &
 $HOME/bin/keyboard
 xbanish &
 unclutter &
+
+echo $(whoami) > ~/log.txt
