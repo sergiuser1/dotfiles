@@ -269,8 +269,8 @@ let g:vimtex_quickfix_open_on_warning = 0
 " Disable underfull warnings
 let g:vimtex_quickfix_ignore_filters = [
       \ 'Marginpar on page',
-      \ 'overfull',
-      \ 'underfull',
+      \ 'Overfull',
+      \ 'Underfull',
  \]
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LANG=en_DK.UTF-8
+
 start_once(){ pgrep -x "$1" > /dev/null || ("$@" &) }
 start_once sxhkd
 
@@ -43,8 +45,7 @@ bspc rule -a Zathura state=tiled
 # Init programs
 start_once redshift -l $(<$HOME/.config/redshift/location.txt)
 start_once picom
-pgrep telegram || LOCALE=en_UK.UTF8 \
-    DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
+pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
 
 # Polybar and hacks
 $HOME/.config/polybar/launch.sh &
@@ -52,4 +53,3 @@ $HOME/bin/keyboard
 xbanish &
 unclutter &
 
-echo $(whoami) > ~/log.txt
