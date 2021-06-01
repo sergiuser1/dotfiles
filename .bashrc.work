@@ -141,6 +141,7 @@ alias vi3='vim ~/.config/i3/config'
 # Better git blame
 # https://blog.andrewray.me/a-better-git-blame/
 alias git-follow='git log -p -M --follow --stat --'
+alias git-remove-merged-branches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 # Vi mode
 set -o vi
 # Clear screen with ctrl L no matter the mode
@@ -155,3 +156,4 @@ stty -ixon
 #eval "$(thefuck --alias --enable-experimental-instant-mode)"
 alias tlf="/z/home/nzdb_prod/bin/tlf "
 
+bind 'set match-hidden-files off'
