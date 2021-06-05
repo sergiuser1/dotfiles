@@ -51,6 +51,7 @@ bindsym $mod+Shift+Return exec alacritty --class floating
 
 # Floating terminal
 for_window [instance="floating"] floating enable
+for_window [class="mpv"] floating enable
 # kill focused window
 bindsym $mod+q kill
 
