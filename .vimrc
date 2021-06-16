@@ -271,6 +271,9 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Marginpar on page',
       \ 'Overfull',
       \ 'Underfull',
+      \ 'overfull',
+      \ 'underfull',
+      \ 'citation',
  \]
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
