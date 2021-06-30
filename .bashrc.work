@@ -155,5 +155,6 @@ stty -ixon
 # fuck
 #eval "$(thefuck --alias --enable-experimental-instant-mode)"
 alias tlf="/z/home/nzdb_prod/bin/tlf "
+alias cal="ncal -b"
 
 bind 'set match-hidden-files off'

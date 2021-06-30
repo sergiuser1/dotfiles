@@ -82,11 +82,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # Vim keybinds
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -202,6 +197,11 @@ for_window [class="com-sun-javaws-Main"] floating enable border normal
 # Take screenshots
 bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t image/png"
 bindsym Print --release exec "maim | xclip -selection clipboard -t image/png"
+
+bindsym $mod+Down exec playerctl play-pause
+bindsym $mod+Up exec playerctl stop # TODO: make script to display metadata
+bindsym $mod+Right  exec playerctl next
+bindsym $mod+Left exec playerctl previous
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioStop exec playerctl stop # TODO: make script to display metadata
