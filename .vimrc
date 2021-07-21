@@ -293,8 +293,8 @@ nnoremap gB :bprevious<CR>
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
 au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
 
-" Keep undo tree after closing a buffer
-set undofile
-
 "" Built-in packages
 packadd! matchit
+
+" No backup files after writing
+set nobackup writebackup
