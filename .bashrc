@@ -51,7 +51,7 @@ PS1="$bold$green\u@\h$reset:$blue\W$white\$$reset "
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ls='ls -lFhXH --group-directories-first --color=auto'
+alias ls='ls -lFhX --group-directories-first --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
 export LESS='-i -n -R -F -X'

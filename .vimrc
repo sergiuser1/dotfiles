@@ -74,7 +74,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
