@@ -17,8 +17,12 @@ super + shift + backslash
     notify-send "sxhkd has been restarted"; pkill -USR1 -x sxhkd
 
 # Quit/restart bspwm
-super + shift + {semicolon,r}
-    bspc {quit,wm -r};notify-send "bspwm has been restarted"
+super + shift + r
+    bspc wm -r; notify-send "bspwm has been restarted"
+
+# Lock screen
+super + shift + semicolon
+    xsecurelock
 
 # close and kill
 super + {_,shift + }q
@@ -132,10 +136,10 @@ super + alt + shift + {h,j,k,l}
 ## Audio and media control
 
 super + {Left,Right,Down,Up}
-    playerctl {next,previous,play-pause,stop}
+    playerctl {previous,next,play-pause,stop}
 
-XF86Audio{Next,Prev,Play,Stop}
-    playerctl {next,previous,play-pause,stop}
+XF86Audio{Prev,Next,Play,Stop}
+    playerctl {previous,next,play-pause,stop}
 XF86Audio{Raise,Lower}Volume
     pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
 XF86AudioMute
