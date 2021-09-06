@@ -147,6 +147,9 @@ XF86AudioMute
 XF86AudioMicMute
     pactl set-source-mute  @DEFAULT_SOURCE@ toggle
 
+## Brightness
+XF86MonBrightness{Down,Up}
+    xbacklight {-,+} 10
 # Program bindings
 super + o
     firefox
