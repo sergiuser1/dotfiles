@@ -22,7 +22,7 @@ super + shift + r
 
 # Lock screen
 super + shift + semicolon
-    xsecurelock
+    XSECURELOCK_PAM_SERVICE=xsecurelock xsecurelock
 
 # close and kill
 super + {_,shift + }q

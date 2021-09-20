@@ -3,7 +3,7 @@
 LANG=en_DK.UTF-8
 
 start_once(){ pgrep -x "$1" > /dev/null || ("$@" &) }
-killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc
+killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 
 if [ $(hostname) = 'desks' ]; then
     bspc monitor DP-4 -d 1 3 5 7 9
@@ -26,6 +26,8 @@ bspc config borderless_monocle   false
 bspc config single_monocle       true
 # Focus window on hover
 bspc config focus_follows_pointer true
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
 # bspc config pointer_follows_focus true
 
 bspc config  focused_border_color "#3D84CB"

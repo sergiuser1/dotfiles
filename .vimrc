@@ -301,3 +301,6 @@ packadd! matchit
 
 " No backup files after writing
 set nobackup writebackup
+
+" No warning for ReadOnly files
+autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
