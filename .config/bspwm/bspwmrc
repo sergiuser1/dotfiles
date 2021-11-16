@@ -3,6 +3,7 @@
 LANG=en_DK.UTF-8
 
 start_once(){ pgrep -x "$1" > /dev/null || ("$@" &) }
+$HOME/bin/keyboard
 killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 
 if [ $(hostname) = 'desks' ]; then
@@ -54,7 +55,8 @@ pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-deskto
 
 # Polybar and hacks
 $HOME/.config/polybar/launch.sh &
-$HOME/bin/keyboard
-xbanish &
-unclutter &
+start_once xbanish
+start_once unclutter
+start_once nm-applet
+start_once blueman-applet
 

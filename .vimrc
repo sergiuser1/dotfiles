@@ -56,6 +56,18 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Fuzzy
+Plug 'junegunn/fzf.vim'
+
+" File explorer
+Plug 'preservim/nerdtree'
+
+" Surround words
+Plug 'tpope/vim-repeat'
+
+" Surround words
+Plug 'tpope/vim-surround'
+
 " vim-airline
 Plug 'vim-airline/vim-airline'
 "
@@ -74,7 +86,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
-" Plug 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
@@ -98,7 +110,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'tpope/vim-fugitive'
 
 " C++ better highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'bfrg/vim-cpp-modern'
 
 " SudoEdit
 Plug 'chrisbra/SudoEdit.vim'
@@ -225,10 +237,10 @@ let g:NERDDefaultAlign = 'left'
 "
 " Disable style error message
 let g:syntastic_quiet_messages = { "type": "style" }
-" let g:syntastic_mode_map = {
-"     \ "mode": "passive",
-"     \ "active_filetypes": [],
-"     \ "passive_filetypes": []}
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": ["python"],
+    \ "passive_filetypes": [] }
 
 let g:vim_markdown_folding_disabled = 1
 " air-line
@@ -260,7 +272,7 @@ set textwidth=80
 " Remove splash screen
 set shortmess+=I
 
-" Vimtex config
+"" Vimtex config
 
 " Detect latex files properly
 let g:tex_flavor = 'latex'
@@ -275,6 +287,13 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'underfull',
       \ 'citation',
  \]
+
+let g:vimtex_compiler_latexmk = {
+    \ 'build_dir' : 'build',
+    \}
+autocmd BufRead,BufNewFile *.tex inoremap <C-i> \textit{
+autocmd BufRead,BufNewFile *.tex inoremap <C-b> \textbf{
+autocmd BufRead,BufNewFile *.tex inoremap <C-l> \texttt{
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
@@ -282,6 +301,9 @@ nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR
 autocmd BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 " Box of devops
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" C magic
+autocmd FileType c setlocal ts=2 sts=2 sw=2 expandtab
 
 "" Buffer stuff
 
@@ -304,3 +326,8 @@ set nobackup writebackup
 
 " No warning for ReadOnly files
 autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+if match(getcwd(), '.*micro-firewalls') != -1
+    set path+=../contiki-ng/os/
+endif
