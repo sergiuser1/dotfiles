@@ -57,6 +57,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Fuzzy
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " File explorer
@@ -86,7 +87,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
@@ -126,7 +127,11 @@ set number
 " Disable read-only warnings
 au BufEnter * set noro
 
+"" Spell stuff
 set spelllang=en_gb
+" Enable word completion when spell is set
+set complete+=kspell
+
 " Autoreload
 set autoread
 " Autoformat
@@ -150,8 +155,12 @@ set shortmess=a
 " Use case insensitive search
 set ignorecase
 set smartcase
+" But not for insert mode completion
+au InsertEnter * set noignorecase
+au InsertLeave * set ignorecase
+
 " Reload vimrc after writing to it
-autocmd BufWritePost .vimrc source %
+" autocmd BufWritePost .vimrc source %
 
 " Don't cut by default
 nnoremap x "_x
@@ -291,9 +300,13 @@ let g:vimtex_quickfix_ignore_filters = [
 let g:vimtex_compiler_latexmk = {
     \ 'build_dir' : 'build',
     \}
+let g:vimtex_view_method = 'zathura'
+
 autocmd BufRead,BufNewFile *.tex inoremap <C-i> \textit{
 autocmd BufRead,BufNewFile *.tex inoremap <C-b> \textbf{
 autocmd BufRead,BufNewFile *.tex inoremap <C-l> \texttt{
+
+
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
@@ -314,6 +327,10 @@ set hidden
 nnoremap gb :bnext<CR>
 nnoremap gB :bprevious<CR>
 
+" Open new windows below and right
+set splitbelow
+set splitright
+
 " Reload sxhkd on write to sxhkdrc
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
 au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
@@ -328,6 +345,11 @@ set nobackup writebackup
 autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
 nnoremap <C-n> :NERDTreeToggle<CR>
 
+" Thesis stuff
 if match(getcwd(), '.*micro-firewalls') != -1
     set path+=../contiki-ng/os/
+    command!      -bang -nargs=* Crg    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>)." ../contiki-ng/os", 1, fzf#vim#with_preview(), <bang>0)
+
+    command!      -bang  Cfiles         call fzf#vim#files('../contiki-ng/os/', fzf#vim#with_preview(), <bang>0)
 endif
+

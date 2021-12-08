@@ -110,6 +110,7 @@ if ! shopt -oq posix; then
   fi
 fi
 export PATH="$HOME/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
 export EDITOR=vim
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
