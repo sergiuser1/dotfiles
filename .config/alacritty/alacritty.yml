@@ -1,15 +1,16 @@
 # Alacritty terminal config
 
-env:
-  TERM: alacritty
+# env:
+#   TERM: alacritty
 
 window:
   dimensions:
       columns: 80
       lines: 24
   decorations: none
+  opacity: 0.89
 scrolling:
-  history: 10000
+  history: 50000
   multiplier: 5
 font:
   normal:
@@ -109,8 +110,6 @@ colors: *tokyo-night
   #  magenta: '#c397d8'
   #  cyan:    '#70c0b1'
   #  white:   '#eaeaea'
-
-background_opacity: 0.89
 
 cursor:
   # Cursor style

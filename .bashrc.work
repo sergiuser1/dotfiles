@@ -109,9 +109,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-# Source novoenv. Added by root (/root/bin/fix_umask.sh) at Mon May 27 10:26:25 CEST 2019, see #2351/sysadm
-# export PATH="/z/home/nzdb_prod/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
 export EDITOR=vim
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
@@ -141,6 +140,7 @@ alias vi3='vim ~/.config/i3/config'
 # Better git blame
 # https://blog.andrewray.me/a-better-git-blame/
 alias git-follow='git log -p -M --follow --stat --'
+alias git-remove-merged-branches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 # Vi mode
 set -o vi
 # Clear screen with ctrl L no matter the mode
@@ -154,4 +154,9 @@ stty -ixon
 # fuck
 #eval "$(thefuck --alias --enable-experimental-instant-mode)"
 alias tlf="/z/home/nzdb_prod/bin/tlf "
+alias cal="ncal -b"
 
+bind 'set match-hidden-files off'
+export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.vault_pass.txt
+export UNIFLASH_PATH=~/ti/uniflash_6.4.0/
+export CNG="$HOME/thesis/board/contiki-ng/"

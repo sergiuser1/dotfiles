@@ -51,6 +51,7 @@ bindsym $mod+Shift+Return exec alacritty --class floating
 
 # Floating terminal
 for_window [instance="floating"] floating enable
+for_window [class="mpv"] floating enable
 # kill focused window
 bindsym $mod+q kill
 
@@ -80,11 +81,6 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
 
 # Vim keybinds
 bindsym $mod+h focus left
@@ -202,7 +198,18 @@ for_window [class="com-sun-javaws-Main"] floating enable border normal
 bindsym Shift+Print --release exec "maim -s | xclip -selection clipboard -t image/png"
 bindsym Print --release exec "maim | xclip -selection clipboard -t image/png"
 
+bindsym $mod+Down exec playerctl play-pause
+bindsym $mod+Up exec playerctl stop # TODO: make script to display metadata
+bindsym $mod+Right  exec playerctl next
+bindsym $mod+Left exec playerctl previous
+
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioStop exec playerctl stop # TODO: make script to display metadata
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# Audio controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute  @DEFAULT_SOURCE@ toggle

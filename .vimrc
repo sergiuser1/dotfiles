@@ -56,6 +56,19 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Fuzzy
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" File explorer
+Plug 'preservim/nerdtree'
+
+" Surround words
+Plug 'tpope/vim-repeat'
+
+" Surround words
+Plug 'tpope/vim-surround'
+
 " vim-airline
 Plug 'vim-airline/vim-airline'
 "
@@ -74,7 +87,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
@@ -98,7 +111,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'tpope/vim-fugitive'
 
 " C++ better highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'bfrg/vim-cpp-modern'
 
 " SudoEdit
 Plug 'chrisbra/SudoEdit.vim'
@@ -114,7 +127,11 @@ set number
 " Disable read-only warnings
 au BufEnter * set noro
 
+"" Spell stuff
 set spelllang=en_gb
+" Enable word completion when spell is set
+set complete+=kspell
+
 " Autoreload
 set autoread
 au CursorHold,CursorHoldI * checktime
@@ -139,8 +156,12 @@ set shortmess=a
 " Use case insensitive search
 set ignorecase
 set smartcase
+" But not for insert mode completion
+au InsertEnter * set noignorecase
+au InsertLeave * set ignorecase
+
 " Reload vimrc after writing to it
-autocmd BufWritePost .vimrc source %
+" autocmd BufWritePost .vimrc source %
 
 " Don't cut by default
 nnoremap x "_x
@@ -226,10 +247,10 @@ let g:NERDDefaultAlign = 'left'
 "
 " Disable style error message
 let g:syntastic_quiet_messages = { "type": "style" }
-" let g:syntastic_mode_map = {
-"     \ "mode": "passive",
-"     \ "active_filetypes": [],
-"     \ "passive_filetypes": []}
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": ["python"],
+    \ "passive_filetypes": [] }
 
 let g:vim_markdown_folding_disabled = 1
 " air-line
@@ -261,7 +282,7 @@ set textwidth=80
 " Remove splash screen
 set shortmess+=I
 
-" Vimtex config
+"" Vimtex config
 
 " Detect latex files properly
 let g:tex_flavor = 'latex'
@@ -272,6 +293,9 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Marginpar on page',
       \ 'Overfull',
       \ 'Underfull',
+      \ 'overfull',
+      \ 'underfull',
+      \ 'citation',
  \]
 
 augroup vimtex_event_1
@@ -280,6 +304,15 @@ augroup vimtex_event_1
     " au User VimtexEventInitPost call vimtex#compiler#compile()
 augroup END
 
+let g:vimtex_compiler_latexmk = {
+    \ 'build_dir' : 'build',
+    \}
+let g:vimtex_view_method = 'zathura'
+
+autocmd BufRead,BufNewFile *.tex inoremap <C-i> \textit{
+autocmd BufRead,BufNewFile *.tex inoremap <C-b> \textbf{
+autocmd BufRead,BufNewFile *.tex inoremap <C-l> \texttt{
+
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
@@ -287,6 +320,9 @@ nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR
 autocmd BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 " Box of devops
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" C magic
+autocmd FileType c setlocal ts=2 sts=2 sw=2 expandtab
 
 "" Buffer stuff
 
@@ -297,12 +333,28 @@ set hidden
 nnoremap gb :bnext<CR>
 nnoremap gB :bprevious<CR>
 
+" Open new windows below and right
+set splitbelow
+set splitright
+
 " Reload sxhkd on write to sxhkdrc
 au BufWritePost *sxhkdrc :silent exec "!pkill -USR1 -x sxhkd"
 au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
 
-" Keep undo tree after closing a buffer
-set undofile
-
-" Built-in packages
+"" Built-in packages
 packadd! matchit
+
+" No backup files after writing
+set nobackup writebackup
+
+" No warning for ReadOnly files
+autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Thesis stuff
+if match(getcwd(), '.*micro-firewalls') != -1
+    set path+=../contiki-ng/os/
+    command!      -bang -nargs=* Crg    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>)." ../contiki-ng/os", 1, fzf#vim#with_preview(), <bang>0)
+
+    command!      -bang  Cfiles         call fzf#vim#files('../contiki-ng/os/', fzf#vim#with_preview(), <bang>0)
+endif

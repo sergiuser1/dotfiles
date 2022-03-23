@@ -22,8 +22,10 @@
     "x$": { "type": "tabs.close.right" },
     "!d": { "type": "tabs.close.force" },
     "U": { "type": "tabs.reopen" },
-    "J": { "type": "tabs.prev" },
-    "K": { "type": "tabs.next" },
+    "H": { "type": "tabs.prev" },
+    "L": { "type": "tabs.next" },
+    "J": { "type": "navigate.history.prev" },
+    "K": { "type": "navigate.history.next" },
     "gT": { "type": "tabs.prev" },
     "gt": { "type": "tabs.next" },
     "g0": { "type": "tabs.first" },
@@ -40,8 +42,6 @@
     "F": { "type": "follow.start", "newTab": true, "background": false },
     "m": { "type": "mark.set.prefix" },
     "'": { "type": "mark.jump.prefix" },
-    "H": { "type": "navigate.history.prev" },
-    "L": { "type": "navigate.history.next" },
     "[[": { "type": "navigate.link.prev" },
     "]]": { "type": "navigate.link.next" },
     "gu": { "type": "navigate.parent" },
@@ -76,6 +76,8 @@
     "complete": "sbh"
   },
   "blacklist": [
-    "*youtube.com"
+    "*youtube.com",
+    "*sp/*",
+    "*mendeley.com*"
   ]
 }
