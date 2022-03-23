@@ -133,22 +133,17 @@ super + alt + shift + {h,j,k,l}
 {_,shift + } @Print
     maim {_,-s} | xclip -selection clipboard -t image/png
 
-<<<<<<< HEAD
 ctrl + {_,shift + } @Print
     maim {_,-s} ~/Pictures/screenshots/"$(date +%Y_%m_%d-%H_%M_%S)".png
 
-# Audio and media control
-XF86Audio{Next,Prev,Play,Stop}
-    playerctl {next,previous,play-pause,stop}
-=======
-## Audio and media control
 
+## Audio and media control
 super + {Left,Right,Down,Up}
     playerctl {previous,next,play-pause,stop}
 
 XF86Audio{Prev,Next,Play,Stop}
     playerctl {previous,next,play-pause,stop}
->>>>>>> b6e06fbef06eb29a17f8f822eec7dd6e6b274944
+
 XF86Audio{Raise,Lower}Volume
     pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
 XF86AudioMute
