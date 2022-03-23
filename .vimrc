@@ -117,6 +117,7 @@ au BufEnter * set noro
 set spelllang=en_gb
 " Autoreload
 set autoread
+au CursorHold,CursorHoldI * checktime
 " Autoformat
 " autocmd FileType tex,text set formatoptions+=a
 " Show command typed
@@ -272,6 +273,13 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Overfull',
       \ 'Underfull',
  \]
+
+augroup vimtex_event_1
+    au!
+    au User VimtexEventQuit     call vimtex#compiler#clean(0)
+    " au User VimtexEventInitPost call vimtex#compiler#compile()
+augroup END
+
 " Run and compile C++
 nnoremap <F9> :silent !clear <CR> :SCCompileRunAF -g -Wall -Wextra -std=c++2a<CR><CR>
 
@@ -296,5 +304,5 @@ au BufWritePost *bspwmrc :silent exec "!bspc wm -r"
 " Keep undo tree after closing a buffer
 set undofile
 
-"" Built-in packages
+" Built-in packages
 packadd! matchit

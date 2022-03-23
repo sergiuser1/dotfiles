@@ -132,6 +132,9 @@ super + {Left,Down,Up,Right}
 {_,shift + } @Print
     maim {_,-s} | xclip -selection clipboard -t image/png
 
+ctrl + {_,shift + } @Print
+    maim {_,-s} ~/Pictures/screenshots/"$(date +%Y_%m_%d-%H_%M_%S)".png
+
 # Audio and media control
 XF86Audio{Next,Prev,Play,Stop}
     playerctl {next,previous,play-pause,stop}

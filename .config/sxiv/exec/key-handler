@@ -25,8 +25,9 @@ rotate() {
 case "$1" in
 "C-x")      xclip -in -filter | tr '\n' ' ' | xclip -in -selection clipboard ;;
 "C-c")      while read file; do xclip -selection clipboard -target image/png "$file"; done ;;
-"C-e")      while read file; do urxvt -bg "#444" -fg "#eee" -sl 0 -title "$file" -e sh -c "exiv2 pr -q -pa '$file' | less" & done ;;
+"C-e")      while read file; do alacritty --class floating -e sh -c "exiv2 pr '$file' | less" & done ;;
 "C-g")      tr '\n' '\0' | xargs -0 gimp & ;;
+"C-w")      xargs >> sxiv.txt ;;
 # "C-r")      while read file; do rawtherapee "$file" & done ;;
 "C-comma")  rotate 270 ;;
 "C-period") rotate  90 ;;
