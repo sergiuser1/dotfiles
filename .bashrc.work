@@ -160,3 +160,6 @@ bind 'set match-hidden-files off'
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.vault_pass.txt
 export UNIFLASH_PATH=~/ti/uniflash_6.4.0/
 export CNG="$HOME/thesis/board/contiki-ng/"
+# Function for coloring stderr to red
+color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
+alias clip='xclip -sel clip'

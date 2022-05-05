@@ -150,6 +150,8 @@ set autoindent
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " Remove trailing whitespace
 command! RmWhite :%s/\s\+$//e
+" Replace every multiple space with only one
+command! ChSpace :%s/\S\zs\(\s\)\{2,}\ze\S/\1/eg
 " Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
@@ -309,7 +311,9 @@ let g:vimtex_compiler_latexmk = {
     \}
 let g:vimtex_view_method = 'zathura'
 
-autocmd BufRead,BufNewFile *.tex inoremap <C-i> \textit{
+let g:vimtex_complete_bib = { 'menu_fmt': '[@type] "@title", (@year)' }
+
+autocmd BufRead,BufNewFile *.tex inoremap <C-f> \textit{
 autocmd BufRead,BufNewFile *.tex inoremap <C-b> \textbf{
 autocmd BufRead,BufNewFile *.tex inoremap <C-l> \texttt{
 
@@ -356,5 +360,8 @@ if match(getcwd(), '.*micro-firewalls') != -1
     set path+=../contiki-ng/os/
     command!      -bang -nargs=* Crg    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>)." ../contiki-ng/os", 1, fzf#vim#with_preview(), <bang>0)
 
-    command!      -bang  Cfiles         call fzf#vim#files('../contiki-ng/os/', fzf#vim#with_preview(), <bang>0)
+    command!      -bang  Cfiles         call fzf#vim#files('../contiki-ng/', fzf#vim#with_preview(), <bang>0)
 endif
+
+nnoremap <leader>h :History<CR>
+nnoremap <leader>f :Files<CR>
