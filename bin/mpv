@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export MESA_LOADER_DRIVER_OVERRIDE=i965
+/usr/bin/mpv "$@"

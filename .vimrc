@@ -56,6 +56,12 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Better yaml
+Plug 'stephpy/vim-yaml'
+
+" Better diffs
+Plug 'airblade/vim-gitgutter'
+
 " Fuzzy
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
