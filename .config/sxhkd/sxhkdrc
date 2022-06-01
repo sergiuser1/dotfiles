@@ -10,7 +10,11 @@ super + {_,shift +} Return
 
 # Program launcher
 super + d
-    rofi -modi drun,run -show drun -show-icons
+    rofi -modi drun,run -show drun -show-icons -font "Source Sans Pro 11"
+
+# Emoji selector
+super + e
+    rofi -show emoji -modi emoji
 
 # Reload sxhkd
 super + shift + backslash
