@@ -362,7 +362,7 @@ key_bindings:
   - { key: H,                           mode: Vi|~Search, action: Left                    }
   - { key: L,                           mode: Vi|~Search, action: Right                   }
   - { key: Key0,                        mode: Vi|~Search, action: First                   }
-  - { key: Key4,   mods: Shift,         mode: Vi|~Search, action: Last                    }
+  - { key: Key4,                        mode: Vi|~Search, action: Last                    }
   # - { key: Key6,   mods: Shift,         mode: Vi|~Search, action: FirstOccupied           }
   - { key: H,      mods: Shift,         mode: Vi|~Search, action: High                    }
   - { key: M,      mods: Shift,         mode: Vi|~Search, action: Middle                  }
