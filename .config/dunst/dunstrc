@@ -87,7 +87,8 @@
     history_length = 20
 
     # Display indicators for URLs (U) and actions (A).
-    show_indicators = yes
+    # TODO: What does this do?
+    show_indicators = no
 
     # The height of a single line.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -123,7 +124,10 @@
     icon_position = off
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/Papirus-Dark/16x16/actions/
+    # icon_path = /usr/share/icons/Papirus-Dark/
+
+    enable_recursive_icon_lookup = true
+    icon_theme = "Papirus-Dark"
 
 [urgency_low]
     background = "#6D7B8D"
