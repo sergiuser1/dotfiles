@@ -47,6 +47,7 @@ bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a Pavucontrol state=floating
 bspc rule -a Blueman-manager state=floating
+bspc rule -a Nm-connection-editor state=floating
 
 bspc rule -a Zathura state=tiled
 

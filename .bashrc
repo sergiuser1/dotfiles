@@ -14,6 +14,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
+# Allow reverse search
+stty -ixon
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -103,9 +105,13 @@ alias lh='ls -d .?*'
 # alias for dotfiles repo
 alias dots='git --git-dir=$HOME/dotfiles/.git/ --work-tree=$HOME/dotfiles'
 
-alias vi3='vim ~/.config/i3/config'
-alias clipboard='xclip -sel clip'
-alias iclipboard='xclip -sel clip -t image/png -o'
+alias clip='xclip -sel clip'
+alias iclip='xclip -sel clip -t image/png -o'
+alias fig='find | grep '
+# Better git blame
+# https://blog.andrewray.me/a-better-git-blame/
+alias git-follow='git log -p -M --follow --stat --'
+alias git-remove-merged-branches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 
 # Vi mode
 set -o vi
@@ -115,4 +121,5 @@ bind -m vi-insert "\C-a.":beginning-of-line
 bind -m vi-insert "\C-e.":end-of-line
 bind -m vi-insert "\C-w.":backward-kill-word
 
-export LANG=en_DK.UTF-8
+color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
+bind 'set match-hidden-files off'
