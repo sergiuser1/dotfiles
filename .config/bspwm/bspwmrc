@@ -54,7 +54,7 @@ bspc rule -a Zathura state=tiled
 # Init programs
 start_once redshift -l $(<$HOME/.config/redshift/location.txt)
 start_once picom
-pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
+# pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
 
 # Polybar and hacks
 $HOME/.config/polybar/launch.sh &

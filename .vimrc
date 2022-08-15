@@ -56,6 +56,9 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Debugging
+Plug 'puremourning/vimspector'
+
 " Better yaml
 Plug 'stephpy/vim-yaml'
 
@@ -93,7 +96,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'scrooloose/nerdcommenter'
 
 " Syntax check
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
@@ -140,7 +143,7 @@ set complete+=kspell
 
 " Autoreload
 set autoread
-au CursorHold,CursorHoldI * checktime
+au CursorHold,CursorHoldI * silent! checktime
 " Autoformat
 " autocmd FileType tex,text set formatoptions+=a
 " Show command typed
@@ -361,13 +364,22 @@ set nobackup writebackup
 autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
 nnoremap <C-n> :NERDTreeToggle<CR>
 
-" Thesis stuff
-if match(getcwd(), '.*micro-firewalls') != -1
-    set path+=../contiki-ng/os/
-    command!      -bang -nargs=* Crg    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>)." ../contiki-ng/os", 1, fzf#vim#with_preview(), <bang>0)
-
-    command!      -bang  Cfiles         call fzf#vim#files('../contiki-ng/', fzf#vim#with_preview(), <bang>0)
-endif
-
+" Fzf keybinds
 nnoremap <leader>h :History<CR>
 nnoremap <leader>f :Files<CR>
+nnoremap <leader>r :Rg<Space>
+
+" Debugger (vimspector) keybinds
+nnoremap <Leader>bb :call vimspector#Launch()<CR>
+nnoremap <Leader>be :call vimspector#Reset()<CR>
+nnoremap <Leader>bc :call vimspector#Continue()<CR>
+
+nnoremap <Leader>bt :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <Leader>bT :call vimspector#ClearBreakpoints()<CR>
+
+nmap <Leader>bk <Plug>VimspectorRestart
+nmap <Leader>bh <Plug>VimspectorStepOut
+nmap <Leader>bl <Plug>VimspectorStepInto
+nmap <Leader>bj <Plug>VimspectorStepOver
+
+autocmd FileType gitcommit set colorcolumn=72 | set textwidth=72

@@ -26,7 +26,7 @@ super + shift + r
 
 # Lock screen
 super + shift + semicolon
-    XSECURELOCK_PAM_SERVICE=xsecurelock xsecurelock
+    XSECURELOCK_PASSWORD_PROMPT=asterisks xsecurelock
 
 # close and kill
 super + {_,shift + }q
@@ -52,6 +52,10 @@ super + g
 # FIXME: add floating support
 super + {y,shift + y,s,f}
     bspc node -t ~{tiled,pseudo_tiled,floating,fullscreen}
+
+# Set hidden flag
+super + u
+    bspc node -g hidden
 
 # set the node flags
 super + ctrl + {m,x,y,z}

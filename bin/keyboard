@@ -1,2 +1,2 @@
 #/usr/bin/sh
-setxkbmap us,ru -variant ", phonetic" -option caps:swapescape -option "grp:alt_space_toggle"
+setxkbmap usdk,ru -variant ", phonetic" -option caps:swapescape -option "grp:alt_space_toggle"

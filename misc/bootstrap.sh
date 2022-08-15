@@ -33,7 +33,7 @@ create_links
 if [ $HOSTNAME == "desks" ]; then
     cd desks/
     create_links
-elif [ $HOSTNAME == "sinkpad" ]; then
+elif [ $HOSTNAME == "sinkpad" ] || [ $HOSTNAME == "delltron" ]; then
     cd sinkpad/
     create_links
 fi
