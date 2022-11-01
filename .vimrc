@@ -238,7 +238,7 @@ endif
 
 " NERD commenter settings
 " Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
+let g:NERDSpaceDelims = 0
 
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
@@ -367,6 +367,7 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 " Fzf keybinds
 nnoremap <leader>h :History<CR>
 nnoremap <leader>f :Files<CR>
+nnoremap <leader>g :GFiles<CR>
 nnoremap <leader>r :Rg<Space>
 
 " Debugger (vimspector) keybinds

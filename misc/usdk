@@ -1,0 +1,69 @@
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "usdk_technical" {
+
+    name[Group1]= "English (US/DK, Symbolic)";
+
+    include "us(basic)"
+
+    key <TLDE> { [ grave, asciitilde,  U211D,         U2115          ] }; // ` ~ ℝ ℕ
+    key <AE01> { [ 1,     exclam,      onesuperior,   notsign        ] }; // 1 ! ¹ ¬
+    key <AE02> { [ 2,     at,          twosuperior,   rightarrow     ] }; // 2 @ ² →
+    key <AE03> { [ 3,     numbersign,  threesuperior, sterling       ] }; // 3 # ³ £
+    key <AE04> { [ 4,     dollar,      foursuperior,  EuroSign       ] }; // 4 $ ⁴ €
+    key <AE05> { [ 5,     percent,     fivesuperior,  U2030          ] }; // 5 % ⁵ ‰
+    key <AE06> { [ 6,     asciicircum, sixsuperior,   squareroot     ] }; // 6 ^ ⁶ √
+    key <AE07> { [ 7,     ampersand,   sevensuperior, therefore      ] }; // 7 & ⁷ ∴
+    key <AE08> { [ 8,     asterisk,    eightsuperior, infinity       ] }; // 8 * ⁸ ∞
+    key <AE09> { [ 9,     parenleft,   ninesuperior,  periodcentered ] }; // 9 ( ⁹ ·
+    key <AE10> { [ 0,     parenright,  zerosuperior,  degree         ] }; // 0 ) ⁰ °
+    key <AE11> { [ minus, underscore,  multiply,      division       ] }; // - _ × ÷
+    key <AE12> { [ equal, plus,        notequal,      plusminus      ] }; // = + ≠ ±
+
+    key <AD01> { [ q,            Q,          U2200,         U2203         ] }; // q Q ∀ ∃
+    key <AD02> { [ w,            W,          elementof,     notelementof  ] }; // w W ∈ ∉
+    key <AD03> { [ e,            E,          Greek_epsilon, Greek_EPSILON ] }; // e E ε Ε
+    key <AD04> { [ r,            R,          Greek_rho,     Greek_RHO     ] }; // p P ρ Ρ
+    key <AD05> { [ t,            T,          Greek_tau,     Greek_TAU     ] }; // t T τ Τ
+    key <AD06> { [ y,            Y,          Greek_upsilon, Greek_UPSILON ] }; // y Y υ Υ
+    key <AD07> { [ u,            U,          Greek_theta,   Greek_THETA   ] }; // u U θ Θ
+    key <AD08> { [ i,            I,          Greek_iota,    Greek_IOTA    ] }; // i I ι Ι
+    key <AD09> { [ o,            O,          Greek_omicron, Greek_OMICRON ] }; // o O ο Ο
+    key <AD10> { [ p,            P,          Greek_pi,      Greek_PI      ] }; // p P π Π
+    key <AD11> { [ bracketleft,  braceleft,  aring,         Aring         ] }; // [ { å Å
+    key <AD12> { [ bracketright, braceright, union,         intersection  ] }; // ] } ∪ ∩
+
+    key <AC01> { [ a,          A,        Greek_alpha, Greek_ALPHA ] }; // a A α Α
+    key <AC02> { [ s,          S,        Greek_sigma, Greek_SIGMA ] }; // s S σ Σ
+    key <AC03> { [ d,          D,        Greek_delta, Greek_DELTA ] }; // d D δ Δ
+    key <AC04> { [ f,          F,        Greek_phi,   Greek_PHI   ] }; // f F φ Φ
+    key <AC05> { [ g,          G,        Greek_gamma, Greek_GAMMA ] }; // g G γ Γ
+    key <AC06> { [ h,          H,        Greek_eta,   Greek_ETA   ] }; // h H η Η
+    key <AC07> { [ j,          J,        Greek_xi,    Greek_XI    ] }; // j J ξ Ξ
+    key <AC08> { [ k,          K,        Greek_kappa, Greek_KAPPA ] }; // k K κ Κ
+    key <AC09> { [ l,          L,        Greek_lamda, Greek_LAMDA ] }; // l L λ Λ
+    key <AC10> { [ semicolon,  colon,    ae,          AE          ] }; // ; : æ Æ
+    key <AC11> { [ apostrophe, quotedbl, oslash,      Ooblique    ] }; // ' " ø Ø
+
+    key <AB01> { [ z,      Z,        Greek_zeta,       Greek_ZETA     ] }; // z Z ζ Ζ
+    key <AB02> { [ x,      X,        Greek_chi,        Greek_CHI      ] }; // x X χ Χ
+    key <AB03> { [ c,      C,        Greek_psi,        Greek_PSI      ] }; // c C ψ Ψ
+    key <AB04> { [ v,      V,        Greek_omega,      Greek_OMEGA    ] }; // v V ω Ω
+    key <AB05> { [ b,      B,        Greek_beta,       Greek_BETA     ] }; // b B β Β
+    key <AB06> { [ n,      N,        Greek_nu,         Greek_NU       ] }; // n N ν Ν
+    key <AB07> { [ m,      M,        Greek_mu,         Greek_MU       ] }; // m M μ Μ
+    key <AB08> { [ comma,  less,     lessthanequal,    includedin     ] }; // , < ≤ ⊂
+    key <AB09> { [ period, greater,  greaterthanequal, includes       ] }; // . > ≥ ⊃
+    key <AB10> { [ slash,  question, implies,          ifonlyif       ] }; // / ? ⇒ ⇔
+
+    key <BKSL> { [ backslash, bar,   approxeq, variation ] }; // \ | ≈ ∝
+    key <LSGT> { [ U230A,     U230B, U2308, U2309        ] }; // ⌊ ⌋ ⌈ ⌉
+
+    // key <AC01> { [           a,         A,  aring,    Aring ] };
+    // key <AD03> { [           e,         E,     ae,       AE ] };
+    // key <AD09> { [           o,         O, oslash, Ooblique ] };
+
+    include "level3(ralt_switch)"
+
+};
+
+// ® © ™ ∧ ∨ 𝔼 integral, partial diff?

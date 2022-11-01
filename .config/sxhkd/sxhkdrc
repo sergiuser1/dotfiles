@@ -144,6 +144,8 @@ super + alt + shift + {h,j,k,l}
 ctrl + {_,shift + } @Print
     maim {_,-s} ~/Pictures/screenshots/"$(date +%Y_%m_%d-%H_%M_%S)".png
 
+super + shift + s
+    maim -s | xclip -selection clipboard -t image/png
 
 ## Audio and media control
 super + {Left,Right,Down,Up}
