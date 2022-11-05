@@ -123,3 +123,4 @@ bind -m vi-insert "\C-w.":backward-kill-word
 
 color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
 bind 'set match-hidden-files off'
+alias xt="export TERM=xterm-256color"
