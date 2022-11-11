@@ -10,7 +10,11 @@ declare -r FILENAMES_FILE=$(mktemp "${TMPDIR:-/tmp}/vimv.XXX")
 trap '{ rm -f "${FILENAMES_FILE}" ; }' EXIT
 
 if [ $# -ne 0 ]; then
-    src=( "$@" )
+    if [[ "$1" == "-i" ]]; then
+        IFS=$'\r\n' GLOBIGNORE='*' command eval 'src=($(ls -A))'
+    else
+        src=( "$@" )
+    fi
 else
     IFS=$'\r\n' GLOBIGNORE='*' command eval 'src=($(ls))'
 fi
