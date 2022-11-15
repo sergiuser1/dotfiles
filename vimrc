@@ -56,6 +56,12 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Terraform
+Plug 'EdenEast/nightfox.nvim'
+
+" Terraform
+Plug 'hashivim/vim-terraform'
+
 " Debugging
 Plug 'puremourning/vimspector'
 
@@ -270,7 +276,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " Dark background
-set bg=dark
+set background=dark
 
 " Icerberg
 colorscheme iceberg
