@@ -2,6 +2,9 @@
 
 "" Sensible defaults
 
+" Save to disk every 100ms
+set updatetime=100
+
 " Make Esc take effect more quickly. Might be bad over SSH
 set ttimeout
 set ttimeoutlen=50

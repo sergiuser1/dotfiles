@@ -4,6 +4,7 @@
 [ ${PWD##*/} = 'dotfiles' ] || exit 1
 
 HOSTNAME="$(hostname -s)"
+ARG="$1"
 
 create_links() {
 
@@ -25,7 +26,7 @@ create_links() {
         mkdir -p "$(dirname "$HOME/$destination")"
 
         # ln makes backups even the file is a symlink
-        if [[ ! -L "$HOME/$destination" ]]; then
+        if [[ "$ARG" == "-f" || ! -L "$HOME/$destination" ]]; then
             ln -rsfv --backup=simple "$file" "$HOME/$destination"
         fi
     done

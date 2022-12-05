@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+pgrep -x alacritty > /dev/null && alacritty msg create-window || alacritty

@@ -12,6 +12,16 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+case ${TERM} in
+
+  xterm*|rxvt*|Eterm|alacritty|aterm|kterm|gnome*)
+     PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+
+    ;;
+  screen*)
+    PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+    ;;
+esac
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # Allow reverse search
@@ -124,3 +134,5 @@ bind -m vi-insert "\C-w.":backward-kill-word
 color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
 bind 'set match-hidden-files off'
 alias xt="export TERM=xterm-256color"
+alias belp='bat -l help'
+source /usr/share/nvm/init-nvm.sh
