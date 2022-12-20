@@ -135,4 +135,5 @@ color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
 bind 'set match-hidden-files off'
 alias xt="export TERM=xterm-256color"
 alias belp='bat -l help'
-source /usr/share/nvm/init-nvm.sh
+eval "$(zoxide init bash --cmd j)"
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .git'

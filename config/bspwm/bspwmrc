@@ -65,4 +65,7 @@ start_once xbanish
 start_once unclutter
 start_once nm-applet
 start_once blueman-applet
+start_once xautolock -time 5 -notify 5 \
+    -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' \
+    -locker xsecurelock
 

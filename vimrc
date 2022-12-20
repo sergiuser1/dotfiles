@@ -253,7 +253,7 @@ let g:NERDSpaceDelims = 0
 let g:NERDCompactSexyComs = 1
 
 " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
+let g:NERDDefaultAlign = 'start'
 
 " Syntax
 "set statusline+=%#warningmsg#
@@ -376,20 +376,22 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 " Fzf keybinds
 nnoremap <leader>h :History<CR>
 nnoremap <leader>f :Files<CR>
-nnoremap <leader>g :GFiles<CR>
+" Show untracked files
+nnoremap <leader>g :GFiles --cached --others --exclude-standard<CR>
 nnoremap <leader>r :Rg<Space>
+nnoremap <leader>b :Buffers<CR>
 
 " Debugger (vimspector) keybinds
-nnoremap <Leader>bb :call vimspector#Launch()<CR>
-nnoremap <Leader>be :call vimspector#Reset()<CR>
-nnoremap <Leader>bc :call vimspector#Continue()<CR>
+"nnoremap <Leader>bb :call vimspector#Launch()<CR>
+"nnoremap <Leader>be :call vimspector#Reset()<CR>
+"nnoremap <Leader>bc :call vimspector#Continue()<CR>
 
-nnoremap <Leader>bt :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <Leader>bT :call vimspector#ClearBreakpoints()<CR>
+"nnoremap <Leader>bt :call vimspector#ToggleBreakpoint()<CR>
+"nnoremap <Leader>bT :call vimspector#ClearBreakpoints()<CR>
 
-nmap <Leader>bk <Plug>VimspectorRestart
-nmap <Leader>bh <Plug>VimspectorStepOut
-nmap <Leader>bl <Plug>VimspectorStepInto
-nmap <Leader>bj <Plug>VimspectorStepOver
+"nmap <Leader>bk <Plug>VimspectorRestart
+"nmap <Leader>bh <Plug>VimspectorStepOut
+"nmap <Leader>bl <Plug>VimspectorStepInto
+"nmap <Leader>bj <Plug>VimspectorStepOver
 
 autocmd FileType gitcommit set colorcolumn=72 | set textwidth=72
