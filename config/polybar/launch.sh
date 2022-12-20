@@ -1,4 +1,11 @@
 #!/usr/bin/env sh
 
 killall -q polybar
-polybar -l warning -r -c $HOME/.config/polybar/main.ini thinkpad
+
+HOST="$(hostname -s)"
+
+if [ "$HOS" = 'thinkpad' ]; then
+    polybar -l warning -r -c $HOME/.config/polybar/main.ini thinkpad
+elif [ "$HOST" = 'desks' ]; then
+    polybar -l warning -r -c $HOME/.config/polybar/main.ini desks
+fi
