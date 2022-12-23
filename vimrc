@@ -59,8 +59,8 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
-" Terraform
-Plug 'EdenEast/nightfox.nvim'
+" Indent lines
+Plug 'Yggdroot/indentLine'
 
 " Terraform
 Plug 'hashivim/vim-terraform'
