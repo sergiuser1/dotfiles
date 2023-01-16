@@ -305,6 +305,7 @@ set shortmess+=I
 "" Vimtex config
 
 " Detect latex files properly
+let g:vimtex_syntax_conceal_disable = 1
 let g:tex_flavor = 'latex'
 " Don't open quickfix on warnings
 let g:vimtex_quickfix_open_on_warning = 0

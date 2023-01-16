@@ -75,4 +75,5 @@ start_once blueman-applet
 start_once xautolock -time 5 -notify 5 \
     -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' \
     -locker xsecurelock
+start_once fusuma
 
