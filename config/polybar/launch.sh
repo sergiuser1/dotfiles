@@ -5,7 +5,7 @@ killall -q polybar
 HOST="$(hostname -s)"
 
 case "$HOST" in
-    sinkpad|desks|delltron)
+    sinkpad|desks|seoj-linux0x)
         BAR="$HOST";;
     *)
         BAR=default;;

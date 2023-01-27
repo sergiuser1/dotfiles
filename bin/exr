@@ -9,7 +9,7 @@ fi
 nohup $HOME/.config/polybar/launch.sh >/dev/null &
 bspc config -m eDP1 top_padding 0
 xrandr --output "$mon" --right-of eDP1 --auto --primary
-bspc monitor eDP1 -d 1 9 10
-bspc monitor "$mon" -d 2 3 4 5 6 7 8
+bspc monitor eDP1 -d 1 8 9 10
+bspc monitor "$mon" -d 2 3 4 5 6 7
 xwallpaper --output $mon --center $HOME/.local/wallpapers/purple.jpg \
     --output eDP1 --center $HOME/.local/wallpapers/purple.jpg
