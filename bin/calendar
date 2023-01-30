@@ -2,8 +2,8 @@
 
 send_notification() {
     TODAY=$(date '+%-d')
-    HEAD=$(cal "$1" | head -n1)
-    BODY=$(cal "$1" | tail -n7 )
+    HEAD=$(cal -w "$1" | head -n1)
+    BODY=$(cal -w "$1" | tail -n7 )
     # Only highlight today's date if it's the current month
     if [ "$DIFF" = 0 ]; then
         BODY=$(sed -z "s|$TODAY|<u><b>$TODAY</b></u>|1" <<< $BODY)
