@@ -1,0 +1,11 @@
+[user]
+	email = sergiu.ojog@tuta.io
+	name = sergiuser1
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[advice]
+	skippedCherryPicks = false
+[init]
+	defaultBranch = master

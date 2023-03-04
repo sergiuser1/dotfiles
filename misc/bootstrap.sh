@@ -9,7 +9,7 @@ ARG="$1"
 create_links() {
 
     # find magic
-    find -name '*git*' -prune -o \
+    find -name '*.git*' -prune -o \
     -name 'misc' -prune -o \
     -type f -print | while read file; do
 
