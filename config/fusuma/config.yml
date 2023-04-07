@@ -1,8 +1,8 @@
 swipe:
   3:
-    left:
-      command: "xdotool key alt+Right" # History forward
     right:
+      command: "xdotool key alt+Right" # History forward
+    left:
       command: "xdotool key alt+Left" # History back
 #     up:
 #       command: "xdotool key super" # Activity
