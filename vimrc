@@ -59,6 +59,9 @@ endif
 "" Plugins
 call plug#begin('~/.vim/plugged')
 
+" Kotlin
+Plug 'udalov/kotlin-vim'
+
 " Indent lines
 Plug 'Yggdroot/indentLine'
 
