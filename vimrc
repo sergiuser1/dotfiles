@@ -68,8 +68,11 @@ Plug 'Yggdroot/indentLine'
 " Terraform
 Plug 'hashivim/vim-terraform'
 
-" Debugging
-Plug 'puremourning/vimspector'
+" Code completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Dotnet stuff
+Plug 'OmniSharp/omnisharp-vim'
 
 " Better yaml
 Plug 'stephpy/vim-yaml'
@@ -301,7 +304,7 @@ highlight Todo ctermbg=none
 highlight SpecialKey ctermbg=none ctermfg=blue guifg=grey70
 set foldmethod=marker
 set colorcolumn=80
-set textwidth=80
+set textwidth=0
 " Remove splash screen
 set shortmess+=I
 
@@ -383,6 +386,8 @@ nnoremap <leader>f :Files<CR>
 " Show untracked files
 nnoremap <leader>g :GFiles --cached --others --exclude-standard<CR>
 nnoremap <leader>r :Rg<Space>
+" Search for the word under cursos
+nnoremap <leader>e :Rg \b<c-r><c-w>\b<CR>
 nnoremap <leader>b :Buffers<CR>
 
 " Debugger (vimspector) keybinds
