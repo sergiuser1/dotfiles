@@ -381,7 +381,7 @@ autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl Non
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 " Fzf keybinds
-nnoremap <leader>h :History<CR>
+nnoremap <leader>i :History<CR>
 nnoremap <leader>f :Files<CR>
 " Show untracked files
 nnoremap <leader>g :GFiles --cached --others --exclude-standard<CR>
