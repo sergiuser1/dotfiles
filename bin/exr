@@ -3,7 +3,8 @@
 mon_arr=( $(xrandr | grep " connected" | cut -f 1 -d " " | grep -v eDP1) )
 
 if [ $1 ]; then
-    xrandr --output $mon --off
+    xrandr --output ${mon_arr[0]} --off
+    bspc wm -r
     exit 0
 fi
 
