@@ -164,12 +164,13 @@ set autoread
 au CursorHold,CursorHoldI * silent! checktime
 " Autoformat
 " autocmd FileType tex,text set formatoptions+=a
+
 " Show command typed
 set showcmd
 " Show existing tab with 4 spaces width
 set tabstop=4
-" When indenting with '>', use 4 spaces width
-set shiftwidth=4
+" Use same indent as tabstop
+set shiftwidth=0
 " On pressing tab, insert 4 spaces
 set expandtab
 set autoindent

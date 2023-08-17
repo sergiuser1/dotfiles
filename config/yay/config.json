@@ -8,7 +8,7 @@
     "pacmanconf": "/etc/pacman.conf",
     "redownload": "no",
     "rebuild": "no",
-    "answerclean": "All",
+    "answerclean": "None",
     "answerdiff": "None",
     "answeredit": "None",
     "answerupgrade": "None",
