@@ -119,8 +119,8 @@ Plug 'scrooloose/nerdcommenter'
 " Markdown highlighting
 Plug 'plasticboy/vim-markdown'
 
-" Vim script for text filtering and alignment
-Plug 'godlygeek/tabular'
+" Alligning tables
+Plug 'dhruvasagar/vim-table-mode'
 
 " Latex plugin
 Plug 'lervag/vimtex'
@@ -174,12 +174,17 @@ set shiftwidth=0
 " On pressing tab, insert 4 spaces
 set expandtab
 set autoindent
+
+"" Commands
 " Allow saving of files as root
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " Remove trailing whitespace
 command! RmWhite :%s/\s\+$//e
 " Replace every multiple space with only one
 command! ChSpace :%s/\S\zs\(\s\)\{2,}\ze\S/\1/eg
+" Remove Windows LF
+command! Rwind :%s///e
+
 " Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
@@ -455,3 +460,6 @@ augroup omnisharp_commands
   autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
   autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
 augroup END
+
+" Only conceal text in normal mode
+set concealcursor=n
