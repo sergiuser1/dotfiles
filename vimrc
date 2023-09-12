@@ -2,6 +2,9 @@
 
 "" Sensible defaults
 
+" Don't auto set end of line
+set nofixeol
+
 " Use Space as the leader instead of backslash
 map <SPACE> <leader>
 
