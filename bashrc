@@ -93,7 +93,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export EDITOR=vim
+export EDITOR=nvim
 export BROWSER=firefox
 export PATH="$HOME/bin:$PATH"
 export LESS_TERMCAP_mb=$'\e[1;32m'

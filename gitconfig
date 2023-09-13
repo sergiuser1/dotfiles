@@ -9,3 +9,5 @@
 	skippedCherryPicks = false
 [init]
 	defaultBranch = master
+[core]
+	quotepath = off
