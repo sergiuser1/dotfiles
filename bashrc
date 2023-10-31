@@ -137,3 +137,4 @@ alias xt="export TERM=xterm-256color"
 alias belp='bat -l help'
 eval "$(zoxide init bash --cmd j)"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .git'
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
