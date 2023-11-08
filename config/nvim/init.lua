@@ -573,8 +573,18 @@ local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
         null_ls.builtins.formatting.stylua,
---        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.completion.spell,
     },
 })
+
+require('Comment').setup({
+    toggler = {
+        ---Line-comment toggle keymap, Control + /
+        line = '<C-_>',
+        ---Block-comment toggle keymap
+        block = 'gbc',
+    }
+})
+
 -- vim: ts=2 sts=2 sw=2 et
