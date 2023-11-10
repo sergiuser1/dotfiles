@@ -195,6 +195,13 @@ require('lazy').setup({
   {
     'nvimtools/none-ls.nvim'
   },
+
+  {
+  "folke/todo-comments.nvim",
+  opts = {
+    signs = false,
+  },
+  }
 },{})
 
 -- [[ Setting options ]]
@@ -587,4 +594,19 @@ require('Comment').setup({
     }
 })
 
+vim.cmd('nnoremap x "_x')
+vim.cmd('nnoremap d "_d')
+vim.cmd('nnoremap D "_D')
+vim.cmd('vnoremap d "_d')
+vim.cmd('nnoremap c "_c')
+vim.cmd('nnoremap s "_s')
+vim.cmd('nnoremap C "_C')
+vim.cmd('nnoremap Y y$')
+vim.cmd('')
+vim.cmd('nnoremap <leader>dd "+dd')
+vim.cmd('nnoremap <leader>x "+x')
+vim.cmd('nnoremap <leader>d "+d')
+vim.cmd('nnoremap <leader>D "cD')
+vim.cmd('vnoremap <leader>d "+d')
+vim.cmd('nnoremap <leader>Y :%y<CR>')
 -- vim: ts=2 sts=2 sw=2 et
