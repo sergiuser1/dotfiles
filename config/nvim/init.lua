@@ -578,20 +578,21 @@ vim.lsp.set_log_level("debug")
 local null_ls = require("null-ls")
 
 null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.completion.spell,
-    },
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.code_actions.eslint_d,
+    null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.completion.spell,
+  },
 })
 
 require('Comment').setup({
-    toggler = {
-        ---Line-comment toggle keymap, Control + /
-        line = '<C-_>',
-        ---Block-comment toggle keymap
-        block = 'gbc',
-    }
+  toggler = {
+    ---Line-comment toggle keymap, Control + /
+    line = '<C-_>',
+    ---Block-comment toggle keymap
+    block = 'gbc',
+  }
 })
 
 vim.cmd('nnoremap x "_x')
