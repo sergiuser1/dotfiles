@@ -249,7 +249,9 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({
+      timeout = 1000,
+    })
   end,
   group = highlight_group,
   pattern = '*',
@@ -263,6 +265,8 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ['<C-j>'] = require('telescope.actions').move_selection_next,
+        ['<C-k>'] = require('telescope.actions').move_selection_previous,
       },
     },
   },
@@ -614,4 +618,11 @@ vim.cmd('nnoremap <leader>d "+d')
 vim.cmd('nnoremap <leader>D "cD')
 vim.cmd('vnoremap <leader>d "+d')
 vim.cmd('nnoremap <leader>Y :%y<CR>')
+vim.cmd([[
+  augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>| set hlsearch
+  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
+  augroup END
+  ]])
 -- vim: ts=2 sts=2 sw=2 et
