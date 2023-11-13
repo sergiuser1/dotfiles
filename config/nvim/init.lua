@@ -111,7 +111,7 @@ require('lazy').setup({
   },
 
    {
-     -- Theme inspired by Atom
+     -- My theme
      'folke/tokyonight.nvim',
      lazy = false,
      priority = 1000,
@@ -173,19 +173,9 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
   -- require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
 
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
   {
     'xiyaowong/transparent.nvim',
      lazy = false,
@@ -204,15 +194,14 @@ require('lazy').setup({
   }
 },{})
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
+
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -586,13 +575,28 @@ null_ls.setup({
   },
 })
 
+
+-- Comment stuff
+local function comment_post_hook()
+  -- If in Visual mode, don't leave
+    local mode = vim.fn.visualmode()
+    if mode ~= 'v' then
+        vim.cmd[[normal! gv]]
+    end
+end
+
 require('Comment').setup({
   toggler = {
     ---Line-comment toggle keymap, Control + /
     line = '<C-_>',
     ---Block-comment toggle keymap
-    block = 'gbc',
-  }
+    block = '<leader><C-_>',
+  },
+  opleader = {
+    ---Line-comment keymap
+    line = '<C-_>',
+  },
+  post_hook = comment_post_hook,
 })
 
 vim.cmd('nnoremap x "_x')
