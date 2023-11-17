@@ -26,7 +26,7 @@ super + shift + r
 
 # Lock screen
 super + shift + semicolon
-    XSECURELOCK_NO_COMPOSITE=1 XSECURELOCK_PASSWORD_PROMPT=asterisks xsecurelock
+    XSECURELOCK_PASSWORD_PROMPT=asterisks xsecurelock
 
 # close and kill
 super + {_,shift + }q
