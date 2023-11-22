@@ -1,7 +1,10 @@
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- nvim-tree wants this. Why?
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -187,10 +190,14 @@ require('lazy').setup({
   },
 
   {
-  "folke/todo-comments.nvim",
-  opts = {
-    signs = false,
+    "folke/todo-comments.nvim",
+    opts = {
+      signs = false,
+    },
   },
+
+  {
+    "nvim-tree/nvim-tree.lua",
   }
 },{})
 
@@ -603,8 +610,10 @@ require('Comment').setup({
   },
   -- Ignore empty lines
   ignore = '^$',
-  post_hook = comment_post_hook,
+  -- post_hook = comment_post_hook,
 })
+
+require("nvim-tree").setup {}
 
 vim.cmd('nnoremap x "_x')
 vim.cmd('nnoremap d "_d')
@@ -628,4 +637,17 @@ vim.cmd([[
   autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
   augroup END
   ]])
+
+vim.cmd('nnoremap <C-N> :NvimTreeToggle<CR>')
+
+vim.cmd([[
+  " Show existing tab with 4 spaces width
+  set tabstop=4
+  " Use same indent as tabstop
+  set shiftwidth=0
+  " On pressing tab, insert 4 spaces
+  set expandtab
+  set autoindent
+  ]])
+
 -- vim: ts=2 sts=2 sw=2 et
