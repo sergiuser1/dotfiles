@@ -1,4 +1,5 @@
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+-- Neovim
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -22,13 +23,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -37,8 +32,6 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -419,6 +412,12 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+
+  local temp = os.date("%H:%M:%S\n");
+  local file = io.open("/home/sergiuser/lua.txt", "a");
+  io.output(file);
+  io.write(temp);
+  io.close(file);
 end
 
 -- document existing key chains

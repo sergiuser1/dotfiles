@@ -138,7 +138,7 @@ command! RWind :%s///e
 " Use system clipboard by default
 set clipboard=unnamedplus
 set shortmess=a
-" Use case insensitive search
+" Use case insensitive search IgNorecase
 set ignorecase
 set smartcase
 " But not for insert mode completion
