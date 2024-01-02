@@ -366,57 +366,57 @@ action = "DecreaseFontSize"
 key = "Minus"
 mods = "Control"
 
-[schemes.papercolor-light.bright]
-black = "0x949494"
-blue = "0x4271ae"
-cyan = "0x3e999f"
-green = "0x718c00"
-magenta = "0x8959a8"
-red = "0xd7005f"
-white = "0xf5f5f5"
-yellow = "0xd75f00"
-
-[schemes.papercolor-light.cursor]
-cursor = "0x4d4d4c"
-text = "0xf3f3f3"
-
-[schemes.papercolor-light.normal]
-black = "0xededed"
-blue = "0x4271ae"
-cyan = "0x3e999f"
-green = "0x718c00"
-magenta = "0x8959a8"
-red = "0xd7005f"
-white = "0x4d4d4c"
-yellow = "0xd75f00"
-
-[schemes.papercolor-light.primary]
-background = "0xeeeeee"
-foreground = "0x4d4d4c"
-
-[schemes.tokyo-night.bright]
-black = "0x444b6a"
-blue = "0x7da6ff"
-cyan = "0x0db9d7"
-green = "0xb9f27c"
-magenta = "0xbb9af7"
-red = "0xff7a93"
-white = "0xacb0d0"
-yellow = "0xff9e64"
-
-[schemes.tokyo-night.normal]
-black = "0x32344a"
-blue = "0x7aa2f7"
-cyan = "0x449dab"
-green = "0x9ece6a"
-magenta = "0xad8ee6"
-red = "0xf7768e"
-white = "0x787c99"
-yellow = "0xe0af68"
-
-[schemes.tokyo-night.primary]
-background = "0x0a0b12"
-foreground = "0xc2c4cf"
+# [schemes.papercolor-light.bright]
+# black = "0x949494"
+# blue = "0x4271ae"
+# cyan = "0x3e999f"
+# green = "0x718c00"
+# magenta = "0x8959a8"
+# red = "0xd7005f"
+# white = "0xf5f5f5"
+# yellow = "0xd75f00"
+# 
+# [schemes.papercolor-light.cursor]
+# cursor = "0x4d4d4c"
+# text = "0xf3f3f3"
+# 
+# [schemes.papercolor-light.normal]
+# black = "0xededed"
+# blue = "0x4271ae"
+# cyan = "0x3e999f"
+# green = "0x718c00"
+# magenta = "0x8959a8"
+# red = "0xd7005f"
+# white = "0x4d4d4c"
+# yellow = "0xd75f00"
+# 
+# [schemes.papercolor-light.primary]
+# background = "0xeeeeee"
+# foreground = "0x4d4d4c"
+# 
+# [schemes.tokyo-night.bright]
+# black = "0x444b6a"
+# blue = "0x7da6ff"
+# cyan = "0x0db9d7"
+# green = "0xb9f27c"
+# magenta = "0xbb9af7"
+# red = "0xff7a93"
+# white = "0xacb0d0"
+# yellow = "0xff9e64"
+# 
+# [schemes.tokyo-night.normal]
+# black = "0x32344a"
+# blue = "0x7aa2f7"
+# cyan = "0x449dab"
+# green = "0x9ece6a"
+# magenta = "0xad8ee6"
+# red = "0xf7768e"
+# white = "0x787c99"
+# yellow = "0xe0af68"
+# 
+# [schemes.tokyo-night.primary]
+# background = "0x0a0b12"
+# foreground = "0xc2c4cf"
 
 [scrolling]
 history = 50000
