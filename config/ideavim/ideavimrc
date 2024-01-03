@@ -1,0 +1,6 @@
+source ~/.vimrc
+
+Plug 'machakann/vim-highlightedyank'
+set clipboard^=ideaput
+set ideajoin
+noremap <C-c> y
