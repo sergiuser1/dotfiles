@@ -4,28 +4,28 @@ live_config_reload = true
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "0x444b6a"
-blue = "0x7da6ff"
-cyan = "0x0db9d7"
-green = "0xb9f27c"
+black = "0x414868"
+blue = "0x7aa2f7"
+cyan = "0x7dcfff"
+green = "0x9ece6a"
 magenta = "0xbb9af7"
-red = "0xff7a93"
-white = "0xacb0d0"
-yellow = "0xff9e64"
+red = "0xf7768e"
+white = "0xc0caf5"
+yellow = "0xe0af68"
 
 [colors.normal]
-black = "0x32344a"
+black = "0x15161e"
 blue = "0x7aa2f7"
-cyan = "0x449dab"
+cyan = "0x7dcfff"
 green = "0x9ece6a"
-magenta = "0xad8ee6"
+magenta = "0xbb9af7"
 red = "0xf7768e"
-white = "0x787c99"
+white = "0xa9b1d6"
 yellow = "0xe0af68"
 
 [colors.primary]
-background = "0x0a0b12"
-foreground = "0xc2c4cf"
+background = "0x1a1b26"
+foreground = "0xc0caf5"
 
 [cursor]
 blink_interval = 750
@@ -43,6 +43,7 @@ size = 12.0
 [font.normal]
 family = "Source Code Pro"
 
+# TODO: Refactor this in TOML to look like before
 [[keyboard.bindings]]
 action = "ScrollPageUp"
 key = "PageUp"
@@ -365,58 +366,6 @@ mods = "Control"
 action = "DecreaseFontSize"
 key = "Minus"
 mods = "Control"
-
-# [schemes.papercolor-light.bright]
-# black = "0x949494"
-# blue = "0x4271ae"
-# cyan = "0x3e999f"
-# green = "0x718c00"
-# magenta = "0x8959a8"
-# red = "0xd7005f"
-# white = "0xf5f5f5"
-# yellow = "0xd75f00"
-# 
-# [schemes.papercolor-light.cursor]
-# cursor = "0x4d4d4c"
-# text = "0xf3f3f3"
-# 
-# [schemes.papercolor-light.normal]
-# black = "0xededed"
-# blue = "0x4271ae"
-# cyan = "0x3e999f"
-# green = "0x718c00"
-# magenta = "0x8959a8"
-# red = "0xd7005f"
-# white = "0x4d4d4c"
-# yellow = "0xd75f00"
-# 
-# [schemes.papercolor-light.primary]
-# background = "0xeeeeee"
-# foreground = "0x4d4d4c"
-# 
-# [schemes.tokyo-night.bright]
-# black = "0x444b6a"
-# blue = "0x7da6ff"
-# cyan = "0x0db9d7"
-# green = "0xb9f27c"
-# magenta = "0xbb9af7"
-# red = "0xff7a93"
-# white = "0xacb0d0"
-# yellow = "0xff9e64"
-# 
-# [schemes.tokyo-night.normal]
-# black = "0x32344a"
-# blue = "0x7aa2f7"
-# cyan = "0x449dab"
-# green = "0x9ece6a"
-# magenta = "0xad8ee6"
-# red = "0xf7768e"
-# white = "0x787c99"
-# yellow = "0xe0af68"
-# 
-# [schemes.tokyo-night.primary]
-# background = "0x0a0b12"
-# foreground = "0xc2c4cf"
 
 [scrolling]
 history = 50000

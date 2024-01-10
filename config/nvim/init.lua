@@ -120,7 +120,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'auto',
         component_separators = '|',
         section_separators = '',
       },
@@ -172,11 +172,11 @@ require('lazy').setup({
   -- require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
 
-  {
-    'xiyaowong/transparent.nvim',
-     lazy = false,
-     priority = 1000,
-  },
+  -- {
+  --   'xiyaowong/transparent.nvim',
+  --    lazy = false,
+  --    priority = 1000,
+  -- },
 
   {
     'nvimtools/none-ls.nvim'
@@ -191,9 +191,11 @@ require('lazy').setup({
 
   {
     "nvim-tree/nvim-tree.lua",
-  }
+  },
+  {
+    "edgedb/edgedb-vim"
+  },
 },{})
-
 
 
 -- Set highlight on search
@@ -372,9 +374,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
   --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
@@ -387,7 +386,7 @@ local on_attach = function(_, bufnr)
   end
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader><CR>', vim.lsp.buf.code_action, 'Space + Enter <3')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -396,7 +395,6 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-  -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
@@ -413,11 +411,6 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
 
-  local temp = os.date("%H:%M:%S\n");
-  local file = io.open("/home/sergiuser/lua.txt", "a");
-  io.output(file);
-  io.write(temp);
-  io.close(file);
 end
 
 -- document existing key chains
@@ -579,8 +572,6 @@ local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,
-    null_ls.builtins.code_actions.eslint,
-    null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.completion.spell,
   },
 })
@@ -599,13 +590,13 @@ end
 require('Comment').setup({
   toggler = {
     ---Line-comment toggle keymap, Control + /
-    line = '<C-_>',
+    line = '<C-/>',
     ---Block-comment toggle keymap
-    block = '<leader><C-_>',
+    block = '<leader><C-/>',
   },
   opleader = {
     ---Line-comment keymap
-    line = '<C-_>',
+    line = '<C-/>',
   },
   -- Ignore empty lines
   ignore = '^$',
