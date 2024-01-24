@@ -24,6 +24,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  {
+    import = 'plugins'
+  },
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -192,9 +195,15 @@ require('lazy').setup({
   {
     "nvim-tree/nvim-tree.lua",
   },
+
   {
     "edgedb/edgedb-vim"
   },
+
+  {
+    "nvim-tree/nvim-web-devicons"
+  },
+
 },{})
 
 
