@@ -197,11 +197,11 @@ require('lazy').setup({
   },
 
   {
-    "edgedb/edgedb-vim"
+    "nvim-tree/nvim-web-devicons",
   },
 
   {
-    "nvim-tree/nvim-web-devicons"
+    "edgedb/edgedb-vim"
   },
 
 },{})
