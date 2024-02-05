@@ -11,6 +11,7 @@ create_links() {
     # find magic
     find -name '*.git*' -prune -o \
     -name 'misc' -prune -o \
+    -not -path './.*' \
     -type f -print | while read file; do
 
         # Remove './' from the beginning
