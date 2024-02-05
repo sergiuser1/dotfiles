@@ -1,4 +1,5 @@
-return { "stevearc/conform.nvim",
+return {
+  "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
   config = function()
     local conform = require("conform")
@@ -25,9 +26,8 @@ return { "stevearc/conform.nvim",
       conform.format({
         lsp_fallback = true,
         async = false,
-        timeout_ms = 500,
+        timeout_ms = 1000,
       })
-    end,
-    { desc = "[F]ormat file or range (in visual mode)" })
+    end, { desc = "[F]ormat file or range (in visual mode)" })
   end,
 }

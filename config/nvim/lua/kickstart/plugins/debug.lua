@@ -1,13 +1,4 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
-
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
   -- NOTE: And you can specify dependencies as well
   dependencies = {
@@ -20,10 +11,29 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'firefox-devtools/vscode-firefox-debug',
   },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+
+    dap.adapters.firefox = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv('HOME') .. 'git/vscode-firefox-debug/dist/adapter.bundle.js' },
+    }
+
+    dap.configurations.typescript = {
+      {
+        name = 'Debug with Firefox',
+        type = 'firefox',
+        request = 'attach',
+        reAttach = true,
+        url = 'http://localhost:6000',
+        webRoot = '${workspaceFolder}',
+        firefoxExecutable = '/usr/bin/firefox'
+      }
+    }
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
