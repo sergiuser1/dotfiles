@@ -19,6 +19,7 @@ return {
         graphql = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
+        sh = { "shfmt" },
       },
     })
 

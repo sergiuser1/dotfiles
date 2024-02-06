@@ -66,19 +66,12 @@ require("lazy").setup({
   { "folke/which-key.nvim", opts = {} },
 
   {
-    -- My theme
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  {
     -- Set lualine as statusline
     "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = "auto",
         component_separators = "|",
         section_separators = "",
@@ -94,9 +87,6 @@ require("lazy").setup({
     main = "ibl",
     opts = {},
   },
-
-  -- "gc" to comment visual regions/lines
-  { "numToStr/Comment.nvim", opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -128,14 +118,7 @@ require("lazy").setup({
     build = ":TSUpdate",
   },
 
-  -- require 'kickstart.plugins.autoformat',
   require("kickstart.plugins.debug"),
-
-  -- {
-  --   'xiyaowong/transparent.nvim',
-  --    lazy = false,
-  --    priority = 1000,
-  -- },
 
   {
     "nvimtools/none-ls.nvim",
@@ -171,9 +154,6 @@ vim.wo.relativenumber = true
 -- Enable mouse mode
 vim.o.mouse = "a"
 
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.o.clipboard = "unnamedplus"
 
 -- Enable break indent
@@ -503,41 +483,7 @@ cmp.setup({
   },
 })
 
-require("tokyonight").setup({
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-  light_style = "day", -- The theme is used when the background is set to light
-  transparent = true, -- Enable this to disable setting the background color
-  terminal_colors = false, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
-  styles = {},
-  sidebars = {}, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-  day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-  hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-  dim_inactive = false, -- dims inactive windows
-  lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
-  --- You can override specific color groups to use other groups or a hex color
-  --- function will be called with a ColorScheme table
-  ---@param colors ColorScheme
-  on_colors = function(colors) end,
-  --- You can override specific highlights to use other groups or a hex color
-  --- function will be called with a Highlights and ColorScheme table
-  ---@param highlights Highlights
-  ---@param colors ColorScheme
-  on_highlights = function(highlights, colors) end,
-})
 vim.cmd.colorscheme("tokyonight")
-
-local util = require("lspconfig.util")
-
--- Angular requires a node_modules directory to probe for @angular/language-service and typescript
--- in order to use your projects configured versions.
--- This defaults to the vim cwd, but will get overwritten by the resolved root of the file.
-local function get_probe_dir(root_dir)
-  local project_root = util.find_node_modules_ancestor(root_dir)
-
-  return project_root and (project_root .. "/node_modules") or ""
-end
 
 require("lspconfig").pyright.setup({})
 vim.lsp.set_log_level("debug")
@@ -551,31 +497,6 @@ null_ls.setup({
 })
 
 require("lspconfig").angularls.setup({})
-
--- Comment stuff
-local function comment_post_hook()
-  -- If in Visual mode, don't leave
-  local mode = vim.fn.visualmode()
-  if mode ~= "v" then
-    vim.cmd([[normal! gv]])
-  end
-end
-
-require("Comment").setup({
-  toggler = {
-    ---Line-comment toggle keymap, Control + /
-    line = "<C-/>",
-    ---Block-comment toggle keymap
-    block = "<leader><C-/>",
-  },
-  opleader = {
-    ---Line-comment keymap
-    line = "<C-/>",
-  },
-  -- Ignore empty lines
-  ignore = "^$",
-  -- post_hook = comment_post_hook,
-})
 
 require("nvim-tree").setup({})
 
@@ -613,5 +534,18 @@ vim.cmd([[
   set expandtab
   set autoindent
   ]])
+
+-- When opening a file, go the last cursor position
+vim.cmd([[
+  autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ |   exe "normal! g`\""
+    \ | endif
+]])
+
+vim.cmd([[
+  aunmenu PopUp.How-to\ disable\ mouse
+  aunmenu PopUp.-1-
+]])
 
 -- vim: ts=2 sts=2 sw=2 et

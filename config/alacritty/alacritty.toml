@@ -373,7 +373,7 @@ multiplier = 5
 
 [window]
 decorations = "none"
-opacity = 0.89
+opacity = 0.93
 
 [window.dimensions]
 columns = 80
