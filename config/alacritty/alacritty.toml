@@ -118,7 +118,7 @@ multiplier = 5
 
 [window]
 decorations = "none"
-opacity = 0.93
+opacity = 0.95
 
 [window.dimensions]
 columns = 80
