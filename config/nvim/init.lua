@@ -492,7 +492,6 @@ local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,
-    null_ls.builtins.completion.spell,
   },
 })
 
@@ -548,4 +547,8 @@ vim.cmd([[
   aunmenu PopUp.-1-
 ]])
 
+vim.cmd([[
+  " set splitbelow
+  set splitright
+]])
 -- vim: ts=2 sts=2 sw=2 et

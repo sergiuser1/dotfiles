@@ -9,7 +9,7 @@ return {
     terminal_colors = false,
     styles = {
       sidebars = "transparent",
-      floats = "transparent",
+      -- floats = "transparent",
     },
     hide_inactive_statusline = false,
     dim_inactive = false,
