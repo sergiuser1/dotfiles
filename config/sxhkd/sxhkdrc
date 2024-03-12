@@ -137,9 +137,14 @@ super + alt + shift + {h,j,k,l}
     bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 
+# Print with delay
+{alt + shift + } @Print
+    maim -s -d 3 | xclip -selection clipboard -t image/png
+
 # Print screen
 {_,shift + } @Print
     maim {_,-s} | xclip -selection clipboard -t image/png
+
 
 ctrl + {_,shift + } @Print
     maim {_,-s} ~/Pictures/screenshots/"$(date +%Y_%m_%d-%H_%M_%S)".png
