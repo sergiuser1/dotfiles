@@ -142,6 +142,11 @@ require("lazy").setup({
   {
     "edgedb/edgedb-vim",
   },
+
+  {
+    "lambdalisue/suda.vim",
+  },
+
 }, {})
 
 -- Set highlight on search
@@ -479,7 +484,6 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },
-    { name = "angularls" },
   },
 })
 
@@ -494,8 +498,6 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
   },
 })
-
-require("lspconfig").angularls.setup({})
 
 require("nvim-tree").setup({})
 
