@@ -23,6 +23,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local function temp_func()
+  -- local result = vim.opt.fileencoding
+  -- if vim.opt.bomb then
+  --   result = result .. "yes"
+  -- else
+  --   result = result .. "no"
+  -- end
+  return [[sdfds]]
+end
+
 require("lazy").setup({
   { import = "plugins" },
 
@@ -76,6 +86,10 @@ require("lazy").setup({
         component_separators = "|",
         section_separators = "",
       },
+      -- TODO: Add BOM and EOL
+      -- sections = {
+      --   lualine_x = { temp_func, "fileformat", "filetype" },
+      -- },
     },
   },
 

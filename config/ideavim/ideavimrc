@@ -4,3 +4,4 @@ Plug 'machakann/vim-highlightedyank'
 set clipboard^=ideaput
 set ideajoin
 noremap <C-c> y
+nmap gI :action GotoImplementation<CR>
