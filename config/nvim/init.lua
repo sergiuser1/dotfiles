@@ -23,14 +23,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local function temp_func()
-  -- local result = vim.opt.fileencoding
-  -- if vim.opt.bomb then
-  --   result = result .. "yes"
-  -- else
-  --   result = result .. "no"
-  -- end
-  return [[sdfds]]
+local function encoding()
+  local result = vim.opt.fileencoding:get()
+  if vim.opt.bomb:get() then
+    result = result .. " [BOM]"
+  end
+
+  return result
 end
 
 require("lazy").setup({
@@ -86,10 +85,9 @@ require("lazy").setup({
         component_separators = "|",
         section_separators = "",
       },
-      -- TODO: Add BOM and EOL
-      -- sections = {
-      --   lualine_x = { temp_func, "fileformat", "filetype" },
-      -- },
+      sections = {
+        lualine_x = { encoding, "fileformat", "filetype" },
+      },
     },
   },
 
@@ -160,7 +158,6 @@ require("lazy").setup({
   {
     "lambdalisue/suda.vim",
   },
-
 }, {})
 
 -- Set highlight on search
@@ -504,7 +501,6 @@ cmp.setup({
 vim.cmd.colorscheme("tokyonight")
 
 require("lspconfig").pyright.setup({})
-vim.lsp.set_log_level("debug")
 local null_ls = require("null-ls")
 
 null_ls.setup({
