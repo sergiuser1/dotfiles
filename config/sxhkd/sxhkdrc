@@ -176,6 +176,9 @@ super + o
 super + t
     telegram-desktop
 
+super + shift + t
+    signal-desktop
+
 # Turn screens off
 super + BackSpace
     displayoff
