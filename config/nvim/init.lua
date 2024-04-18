@@ -563,4 +563,11 @@ vim.cmd([[
   " set splitbelow
   set splitright
 ]])
+
+-- Remove trailing whitespace
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
+})
+
 -- vim: ts=2 sts=2 sw=2 et

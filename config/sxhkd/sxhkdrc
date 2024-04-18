@@ -177,7 +177,7 @@ super + t
     telegram-desktop
 
 super + shift + t
-    signal-desktop
+    signal-desktop --use-tray-icon
 
 # Turn screens off
 super + BackSpace
