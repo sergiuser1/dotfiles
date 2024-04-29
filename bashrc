@@ -96,13 +96,6 @@ fi
 export EDITOR=nvim
 export BROWSER=firefox
 export PATH="$HOME/bin:$PATH"
-export LESS_TERMCAP_mb=$'\e[1;32m'
-export LESS_TERMCAP_md=$'\e[1;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;31m'
 # rerun last command as sudo
 alias pls='sudo $(history -p !!)'
 
@@ -147,3 +140,6 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.sh
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
+
+export MANPAGER="less -R --use-color -Dd+g -Du+r"
+export MANROFFOPT="-P -c"
