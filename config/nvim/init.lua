@@ -23,15 +23,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local function encoding()
-  local result = vim.opt.fileencoding:get()
-  if vim.opt.bomb:get() then
-    result = result .. " [BOM]"
-  end
-
-  return result
-end
-
 require("lazy").setup({
   { import = "plugins" },
 
@@ -76,7 +67,7 @@ require("lazy").setup({
 
   {
     -- Set lualine as statusline
-    "nvim-lualine/lualine.nvim",
+    "sergiuser1/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
       options = {
@@ -86,7 +77,7 @@ require("lazy").setup({
         section_separators = "",
       },
       sections = {
-        lualine_x = { encoding, "fileformat", "filetype" },
+        lualine_x = { { "encoding", show_bomb = true }, "fileformat", "filetype" },
       },
     },
   },
@@ -263,8 +254,7 @@ vim.defer_fn(function()
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
       "c",
-      "cpp",
-      "go",
+      "c_sharp",
       "lua",
       "python",
       "rust",
@@ -565,9 +555,9 @@ vim.cmd([[
 ]])
 
 -- Remove trailing whitespace
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  command = [[%s/\s\+$//e]],
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+-- 	pattern = { "*" },
+-- 	command = [[%s/\s\+$//e]],
+-- })
 
 -- vim: ts=2 sts=2 sw=2 et
