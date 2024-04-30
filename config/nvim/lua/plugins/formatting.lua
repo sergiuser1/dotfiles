@@ -20,6 +20,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         sh = { "shfmt" },
+        cs = { "csharpier" },
       },
     })
 
