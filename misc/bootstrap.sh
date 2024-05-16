@@ -35,5 +35,18 @@ create_links() {
     echo "Done"
 }
 
-# Create base links
+# Disable Discord checking for updates
+update_discord_settings() {
+	DISCORD_CONFIG="$HOME/.config/discord/settings.json"
+
+	command -v jq &>/dev/null || return
+	[ -f $DISCORD_CONFIG ] || return
+    [ $(<$DISCORD_CONFIG jq 'has("SKIP_HOST_UPDATE")') = 'false' ] || return
+
+	echo "Updating Discord config"
+	jq '. += { "SKIP_HOST_UPDATE" : true }' <$DISCORD_CONFIG >/tmp/discord.json
+	mv /tmp/discord.json $DISCORD_CONFIG
+}
+
 create_links
+update_discord_settings
