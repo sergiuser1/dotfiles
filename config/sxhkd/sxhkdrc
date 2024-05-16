@@ -138,7 +138,7 @@ super + alt + shift + {h,j,k,l}
 
 
 # Print with delay
-{alt + shift + } @Print
+alt + shift + @Print
     maim -s -d 3 | xclip -selection clipboard -t image/png
 
 # Print screen

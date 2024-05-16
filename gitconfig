@@ -12,6 +12,22 @@
 [core]
 	quotepath = off
 [blame]
-	; ignoreRevsFile = .git-blame-ignore-revs
 	markIgnoredLines = true
 	markUnblamableLines = true
+
+# git delta
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    true-color = always
+    navigate = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
