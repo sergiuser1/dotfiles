@@ -21,6 +21,7 @@ return {
         python = { "isort", "black" },
         sh = { "shfmt" },
         cs = { "csharpier" },
+        php = { "pretty-php" },
       },
     })
 

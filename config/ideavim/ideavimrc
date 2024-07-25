@@ -5,5 +5,7 @@ Plug 'machakann/vim-highlightedyank'
 set clipboard^=ideaput
 set ideajoin
 noremap <C-c> y
-nmap gI :action GotoImplementation<CR>
 nmap <leader>f :action RunFileTemplateByName:Reformat<CR>
+nmap gI <Action>(GotoImplementation)
+nmap gu <Action>(FindUsages)
+nmap gh <Action>(ShowErrorDescription)
