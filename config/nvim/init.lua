@@ -152,6 +152,20 @@ require("lazy").setup({
   {
     "lambdalisue/suda.vim",
   },
+
+  {
+    "lervag/vimtex",
+    init = function()
+      vim.g.vimtex_quickfix_ignore_filters = {
+        "Marginpar on page",
+        "Overfull",
+        "Underfull",
+        "overfull",
+        "underfull",
+        "citation",
+      }
+    end,
+  },
 }, {})
 
 -- Set highlight on search
