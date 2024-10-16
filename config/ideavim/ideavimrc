@@ -5,7 +5,7 @@ Plug 'machakann/vim-highlightedyank'
 set clipboard^=ideaput
 set ideajoin
 noremap <C-c> y
-nmap <leader>f :action RunFileTemplateByName:Reformat<CR>
+nmap <leader>f :!dotnet csharpier %<CR>
 nmap gI <Action>(GotoImplementation)
 nmap gu <Action>(FindUsages)
 nmap gh <Action>(ShowErrorDescription)

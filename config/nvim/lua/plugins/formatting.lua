@@ -22,6 +22,7 @@ return {
         sh = { "shfmt" },
         cs = { "csharpier" },
         php = { "pretty-php" },
+        sql = { "sql_formatter" },
       },
     })
 

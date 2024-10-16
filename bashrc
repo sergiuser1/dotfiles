@@ -114,7 +114,7 @@ alias fig='find | grep '
 # Better git blame
 # https://blog.andrewray.me/a-better-git-blame/
 alias git-follow='git log -p -M --follow --stat --'
-alias git-remove-merged-branches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+alias git-remove-merged-branches='git branch --merged | grep -E -v "(^\*|master|dev)" | xargs git branch -D'
 
 # Vi mode
 set -o vi
