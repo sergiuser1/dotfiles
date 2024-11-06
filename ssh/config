@@ -23,4 +23,3 @@ Host wbdb-php
     HostName 20.56.54.248
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_ed25519
-
