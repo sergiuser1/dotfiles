@@ -132,7 +132,7 @@ eval "$(zoxide init bash --cmd j)"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .git'
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.sh
-
+export PSQLRC=~/.config/postgres/psqlrc
 
 # Load Angular CLI autocompletion.
 # source <(ng completion script)
