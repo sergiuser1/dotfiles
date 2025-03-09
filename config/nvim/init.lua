@@ -10,6 +10,9 @@ vim.g.loaded_netrwPlugin = 1
 -- Remove intro message
 vim.opt.shortmess:append("I")
 
+vim.opt.matchpairs:append("<:>")
+
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -31,7 +34,7 @@ require("lazy").setup({
 
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
-
+  "nanotee/sqls.nvim",
   {
     -- LSP Configuration & Plugins
     "neovim/nvim-lspconfig",
@@ -66,7 +69,7 @@ require("lazy").setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim", opts = {} },
+  -- { "folke/which-key.nvim", opts = {} },
 
   {
     -- Set lualine as statusline
@@ -394,15 +397,15 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require("which-key").register({
-  ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-  ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-  ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-  ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
-  ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-  ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-  ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-})
+-- require("which-key").register({
+--   ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+--   ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+--   ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
+--   ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
+--   ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
+--   ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+--   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+-- })
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.

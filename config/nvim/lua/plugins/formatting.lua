@@ -20,6 +20,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         sh = { "shfmt" },
+        zsh = { "beautysh" },
         cs = { "csharpier" },
         php = { "pretty-php" },
         sql = { "sql_formatter" },
@@ -30,7 +31,7 @@ return {
       conform.format({
         lsp_fallback = true,
         async = false,
-        timeout_ms = 1000,
+        timeout_ms = 2000,
       })
     end, { desc = "[F]ormat file or range (in visual mode)" })
   end,

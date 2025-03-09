@@ -1,33 +1,34 @@
 [user]
-	email = sergiu.ojog@tuta.io
-	name = sergiuser1
+  email = sergiu.ojog@tuta.io
+  name = sergiuser1
 [pull]
-	rebase = true
+  rebase = true
 [push]
-	autoSetupRemote = true
+  autoSetupRemote = true
 [advice]
-	skippedCherryPicks = false
+  skippedCherryPicks = false
 [init]
-	defaultBranch = master
+  defaultBranch = master
 [core]
-	quotepath = off
+  quotepath = off
 [blame]
-	markIgnoredLines = true
-	markUnblamableLines = true
+  markIgnoredLines = true
+  markUnblamableLines = true
 
 # git delta
 [core]
-    pager = delta
+  pager = delta
+  excludesfile = ~/.gitignore
 
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [delta]
-    true-color = always
-    navigate = true
+  true-color = always
+  navigate = true
 
 [merge]
-    conflictstyle = diff3
+  conflictstyle = diff3
 
 [diff]
-    colorMoved = default
+  colorMoved = default
