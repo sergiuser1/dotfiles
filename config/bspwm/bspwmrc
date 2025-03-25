@@ -10,6 +10,8 @@ start_once(){
 $HOME/bin/keyboard
 killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 
+mon_arr=( $(xrandr | grep " connected" | cut -f 1 -d " " | grep -v eDP1) )
+
 if [ $(hostname) = 'desks' ]; then
     MONITOR1="DP-4"
     MONITOR2="DP-0"
@@ -24,8 +26,9 @@ elif [ $(hostname) = 'bloks' ]; then
     bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
     xwallpaper --output eDP1 --center $HOME/.local/wallpapers/house.jpg
 else
-    bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
-    xwallpaper --output eDP1 --zoom $HOME/.local/wallpapers/australia-12-apostles.jpg
+    MONITOR1=${mon_arr[0]}
+    bspc monitor "$MONITOR1" -d 1 2 3 4 5 6 7 8 9 10
+    xwallpaper --output "$MONITOR1" --zoom $HOME/.local/wallpapers/australia-12-apostles.jpg
 fi
 
 bspc config border_width         4

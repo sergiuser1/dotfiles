@@ -24,6 +24,7 @@ return {
         cs = { "csharpier" },
         php = { "pretty-php" },
         sql = { "sql_formatter" },
+        tex = { "tex-fmt" },
       },
     })
 

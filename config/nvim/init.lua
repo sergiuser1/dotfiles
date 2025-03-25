@@ -11,7 +11,25 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.shortmess:append("I")
 
 vim.opt.matchpairs:append("<:>")
+--
+-- Show whitespace characters
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "→ ",
+  space = " ",
+  trail = "·",
+  extends = ">",
+  precedes = "<"
+}
 
+-- Enable diagnostics signs in the gutter
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true
+})
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -73,7 +91,7 @@ require("lazy").setup({
 
   {
     -- Set lualine as statusline
-    "sergiuser1/lualine.nvim",
+    "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
       options = {
@@ -84,6 +102,10 @@ require("lazy").setup({
       },
       sections = {
         lualine_x = { { "encoding", show_bomb = true }, "fileformat", "filetype" },
+      },
+      tabline = {
+        lualine_a = { 'buffers' },
+        lualine_z = { 'tabs' }
       },
     },
   },

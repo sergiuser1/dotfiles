@@ -1,19 +1,31 @@
 [user]
   email = sergiu.ojog@tuta.io
   name = sergiuser1
+
 [pull]
   rebase = true
+
 [push]
   autoSetupRemote = true
+  default = simple
+  followTags = true
+
 [advice]
   skippedCherryPicks = false
+
 [init]
   defaultBranch = master
+
 [core]
   quotepath = off
+
 [blame]
   markIgnoredLines = true
   markUnblamableLines = true
+
+[alias]
+  fuck = commit --all --no-edit --amend
+  fpush = push --force-with-lease
 
 # git delta
 [core]
@@ -32,3 +44,13 @@
 
 [diff]
   colorMoved = default
+
+[branch]
+  sort = -committerdate
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+# vim: ft=gitconfig ts=2 sw=0

@@ -4,7 +4,10 @@
 # Autocomplete
 autoload -Uz compinit
 compinit
-#
+## Make Ctrl-W delete small words instead of WORDs
+autoload -U select-word-style
+select-word-style bash
+
 # Case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
@@ -45,7 +48,7 @@ export EDITOR=nvim
 export BROWSER=firefox
 export PATH="$HOME/bin:$PATH"
 # rerun last command as sudo
-alias pls='sudo $(history -p !!)'
+alias pls='sudo $(fc -ln -1)'
 
 # alias for sudo vim
 alias svim='sudo -e '

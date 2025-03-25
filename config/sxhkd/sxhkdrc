@@ -51,7 +51,7 @@ super + g
 # set the window state
 # FIXME: add floating support
 super + {y,shift + y,s,f}
-    bspc node -t ~{tiled,pseudo_tiled,floating,fullscreen}
+    bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
 
 # Set hidden flag
 super + u
@@ -168,7 +168,7 @@ XF86AudioMicMute
 
 ## Brightness
 XF86MonBrightness{Down,Up}
-    xbacklight {-,+} 10
+    xbacklight {-dec,-inc} 10
 # Program bindings
 super + o
     firefox
