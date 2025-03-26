@@ -8,6 +8,9 @@ case "$HOST" in
 sinkpad | desks | seoj-linux0x)
     BAR="$HOST"
     ;;
+sandisk)
+    BAR="sinkpad"
+    ;;
 *)
     BAR=default
     ;;
