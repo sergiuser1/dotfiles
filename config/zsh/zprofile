@@ -1,0 +1,29 @@
+# vim: ft=zsh ts=2 sw=0
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+# Custom path
+export PATH="$HOME/bin:$PATH"
+
+# Firefox
+export MOZ_USE_XINPUT2=1
+
+export BROWSER=firefox
+export EDITOR=nvim
+
+# Man
+export MANPAGER="less -R --use-color -Dd+g -Du+r"
+export MANROFFOPT="-P -c"
+
+export LESS='-i -n -R -F -X'
+
+
+export TERMINFO="$XDG_DATA_HOME"/terminfo
+export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
+
+export GOPATH="$XDG_DATA_HOME/go"
+
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg

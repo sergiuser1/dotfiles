@@ -8,6 +8,9 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
+
 # Case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
@@ -40,15 +43,11 @@ PS1="${bold}${green}%n@%m${reset}:${blue}%1~${white}\$${reset} "
 alias ls='ls -lFhX --group-directories-first --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
-export LESS='-i -n -R -F -X'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 
-export EDITOR=nvim
-export BROWSER=firefox
-export PATH="$HOME/bin:$PATH"
 # rerun last command as sudo
-alias pls='sudo $(fc -ln -1)'
+alias pls='sudo zsh -c "$(fc -ln -1)"'
 
 # alias for sudo vim
 alias svim='sudo -e '
@@ -85,11 +84,11 @@ bindkey -M viins '\e.' insert-last-word
 bindkey -M vicmd '\e.' insert-last-word
 
 # History
-HISTCONTROL=ignoreboth
-SAVEHIST=10000
-HISTSIZE=10000
-HISTFILESIZE=20000
-HISTFILE=~/.zsh_history
+export HISTCONTROL=ignoreboth
+export SAVEHIST=10000
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 
 setopt APPEND_HISTORY
 setopt SHARE_HISTORY
@@ -106,13 +105,3 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .g
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.sh
 export PSQLRC=~/.config/postgres/psqlrc
-
-# Load Angular CLI autocompletion.
-# source <(ng completion script)
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
-export MANPAGER="less -R --use-color -Dd+g -Du+r"
-export MANROFFOPT="-P -c"

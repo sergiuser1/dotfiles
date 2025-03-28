@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Check if we are in the 'dotfiles' folder
 [ ${PWD##*/} = 'dotfiles' ] || exit 1
@@ -19,6 +19,10 @@ create_links() {
 
         if [[ "$file" == bin/* ]]; then
             destination="${file}"
+        elif [[ "$file" == config/zsh/* ]]; then
+            dirname=$(dirname "$file")
+            filename=$(basename "$file")
+            destination=".${dirname}/.${filename}"
         else
             destination=".${file}"
         fi
@@ -35,17 +39,22 @@ create_links() {
     echo "Done"
 }
 
+create_missing_folders() {
+    mkdir -p "$HOME/.local/state/zsh"
+    mkdir -p "$HOME/.cache"
+}
+
 # Disable Discord checking for updates
 update_discord_settings() {
-	DISCORD_CONFIG="$HOME/.config/discord/settings.json"
+    DISCORD_CONFIG="$HOME/.config/discord/settings.json"
 
-	command -v jq &>/dev/null || return
-	[ -f $DISCORD_CONFIG ] || return
+    command -v jq &>/dev/null || return
+    [ -f $DISCORD_CONFIG ] || return
     [ $(<$DISCORD_CONFIG jq 'has("SKIP_HOST_UPDATE")') = 'false' ] || return
 
-	echo "Updating Discord config"
-	jq '. += { "SKIP_HOST_UPDATE" : true }' <$DISCORD_CONFIG >/tmp/discord.json
-	mv /tmp/discord.json $DISCORD_CONFIG
+    echo "Updating Discord config"
+    jq '. += { "SKIP_HOST_UPDATE" : true }' <$DISCORD_CONFIG >/tmp/discord.json
+    mv /tmp/discord.json $DISCORD_CONFIG
 }
 
 create_links

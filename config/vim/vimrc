@@ -1,5 +1,8 @@
 " Vim configuration
 
+" XDG 
+runtime xdg.vim
+
 "" Sensible defaults
 
 " Don't auto set end of line
@@ -168,6 +171,7 @@ set incsearch
 set list
 set listchars=tab:•\ ,trail:•,extends:»,precedes:«,nbsp:‡
 
+set shortmess+=I
 
 " Plugins
 " call plug#begin('~/.vim/plugged')
