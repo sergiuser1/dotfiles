@@ -19,7 +19,7 @@ vim.opt.listchars = {
   space = " ",
   trail = "·",
   extends = ">",
-  precedes = "<"
+  precedes = "<",
 }
 
 -- Enable diagnostics signs in the gutter
@@ -28,7 +28,7 @@ vim.diagnostic.config({
   signs = true,
   underline = true,
   update_in_insert = false,
-  severity_sort = true
+  severity_sort = true,
 })
 
 -- Install package manager
@@ -87,7 +87,7 @@ require("lazy").setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  -- { "folke/which-key.nvim", opts = {} },
+  { "folke/which-key.nvim", opts = {} },
 
   {
     -- Set lualine as statusline
@@ -104,8 +104,8 @@ require("lazy").setup({
         lualine_x = { { "encoding", show_bomb = true }, "fileformat", "filetype" },
       },
       tabline = {
-        lualine_a = { 'buffers' },
-        lualine_z = { 'tabs' }
+        lualine_a = { "buffers" },
+        lualine_z = { "tabs" },
       },
     },
   },
@@ -122,7 +122,7 @@ require("lazy").setup({
   -- Fuzzy Finder (files, lsp, etc)
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    branch = "master",
     dependencies = {
       "nvim-lua/plenary.nvim",
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -419,15 +419,11 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
--- require("which-key").register({
---   ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
---   ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
---   ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
---   ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
---   ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
---   ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
---   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
--- })
+require("which-key").add({
+  { "<leader>c", group = "[C]ode" },
+  { "<leader>g", group = "[G]it" },
+  { "<leader>w", group = "[W]orkspace" },
+})
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.

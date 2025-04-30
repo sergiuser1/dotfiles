@@ -52,17 +52,19 @@ bspc rule -a Nsxiv       state=floating
 bspc rule -a Bluetooth state=floating follow=on
 bspc rule -a feh state=floating follow=on
 bspc rule -a Gimp desktop='^8' state=floating follow=on
+
 bspc rule -a TelegramDesktop state=floating
 bspc rule -a *:floating state=floating
 bspc rule -a Signal state=floating
 bspc rule -a mpv state=floating
+bspc rule -a Blueman-manager state=floating
+bspc rule -a Zathura state=tiled
+
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a pavucontrol state=floating
-bspc rule -a Blueman-manager state=floating
 bspc rule -a Nm-connection-editor state=floating
 bspc rule -a zoom state=floating
-bspc rule -a Zathura state=tiled
 
 # Init programs
 start_once redshift
