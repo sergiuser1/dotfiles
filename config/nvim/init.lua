@@ -238,6 +238,9 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+vim.keymap.set('n', 'gb', ':bnext<CR>')
+vim.keymap.set('n', 'gB', ':bprevious<CR>')
+--
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -419,11 +422,11 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require("which-key").add({
-  { "<leader>c", group = "[C]ode" },
-  { "<leader>g", group = "[G]it" },
-  { "<leader>w", group = "[W]orkspace" },
-})
+-- require("which-key").add({
+--   { "<leader>c", group = "[C]ode" },
+--   { "<leader>g", group = "[G]it" },
+--   { "<leader>w", group = "[W]orkspace" },
+-- })
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
@@ -469,15 +472,9 @@ mason_lspconfig.setup({
   ensure_installed = table.insert(vim.tbl_keys(servers), "omnisharp@1.39.8"),
 })
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    })
-  end,
+vim.lsp.config("*", {
+    on_attach = on_attach,
+    -- ....
 })
 
 -- [[ Configure nvim-cmp ]]

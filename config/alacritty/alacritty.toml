@@ -1,6 +1,10 @@
-
 [colors]
 draw_bold_text_with_bright_colors = true
+
+[bell]
+animation = "EaseOutSine"
+duration = 450
+color = "#404040"
 
 [colors.bright]
 black = "0x414868"
@@ -117,7 +121,7 @@ multiplier = 5
 
 [window]
 decorations = "none"
-opacity = 0.95
+opacity = 0.9
 
 [window.dimensions]
 columns = 80

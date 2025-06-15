@@ -15,7 +15,7 @@ Host trifork.github.com
     IdentityFile ~/.ssh/id_ed25519_trifork
 
 Host geoserver-vm
-    HostName 20.224.156.56
+    HostName 40.113.161.82
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_ed25519_trifork
 

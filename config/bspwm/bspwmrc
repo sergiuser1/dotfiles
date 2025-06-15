@@ -10,7 +10,7 @@ start_once(){
 $HOME/bin/keyboard
 killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 
-mon_arr=( $(xrandr | grep " connected" | cut -f 1 -d " " | grep -v eDP1) )
+mon_arr=( $(xrandr | grep " connected" | cut -f 1 -d " " ) )
 
 if [ $(hostname) = 'desks' ]; then
     MONITOR1="DP-4"

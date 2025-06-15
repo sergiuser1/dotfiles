@@ -8,6 +8,8 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
+mkdir -p "$XDG_CACHE_HOME"/zsh "$XDG_STATE_HOME"/zsh
+
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 
@@ -105,4 +107,13 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .g
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.sh
 export PSQLRC=~/.config/postgres/psqlrc
-# setopt interactivecomments
+
+setopt interactivecomments
+setopt nobeep
+
+copy-line() {
+    echo -n $BUFFER | xclip -selection clipboard
+    echo -e '\a'
+}
+zle -N copy-line
+bindkey -M vicmd 'Y' copy-line

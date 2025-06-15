@@ -1,4 +1,4 @@
-source ~/.vimrc
+source ~/.config/vim/vimrc
 
 let mapleader = "\<Space>"
 Plug 'machakann/vim-highlightedyank'
@@ -7,5 +7,5 @@ set ideajoin
 noremap <C-c> y
 nmap <leader>f :!dotnet csharpier %<CR>
 nmap gI <Action>(GotoImplementation)
-nmap gu <Action>(FindUsages)
+nmap gr <Action>(FindUsages)
 nmap gh <Action>(ShowErrorDescription)
