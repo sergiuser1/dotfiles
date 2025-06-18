@@ -1,2 +1,3 @@
-#/usr/bin/sh
+#!/usr/bin/sh
+
 setxkbmap usdk,ru -variant ", phonetic" -option caps:swapescape -option "grp:alt_space_toggle"
