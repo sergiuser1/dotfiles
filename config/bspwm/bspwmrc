@@ -51,7 +51,6 @@ bspc rule -a Sxiv       state=floating
 bspc rule -a Nsxiv       state=floating
 bspc rule -a Bluetooth state=floating follow=on
 bspc rule -a feh state=floating follow=on
-bspc rule -a Gimp desktop='^8' state=floating follow=on
 
 bspc rule -a TelegramDesktop state=floating
 bspc rule -a *:floating state=floating

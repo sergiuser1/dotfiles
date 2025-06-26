@@ -21,10 +21,14 @@ export MANROFFOPT="-P -c"
 
 export LESS='-i -n -R -F -X'
 
-
 export TERMINFO="$XDG_DATA_HOME"/terminfo
 export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
 
 export GOPATH="$XDG_DATA_HOME/go"
 
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+
+# Flutter and Android
+export PATH="$HOME/flutter/bin:$PATH"
+export ANDROID_SDK_ROOT="$HOME/Android"
+export ANDROID_HOME="$HOME/Android"

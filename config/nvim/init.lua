@@ -238,8 +238,8 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('n', 'gb', ':bnext<CR>')
-vim.keymap.set('n', 'gB', ':bprevious<CR>')
+vim.keymap.set("n", "gb", ":bnext<CR>")
+vim.keymap.set("n", "gB", ":bprevious<CR>")
 --
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -258,6 +258,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
   defaults = {
+    path_display = { "smart" },
     mappings = {
       i = {
         ["<C-u>"] = false,
@@ -473,8 +474,8 @@ mason_lspconfig.setup({
 })
 
 vim.lsp.config("*", {
-    on_attach = on_attach,
-    -- ....
+  on_attach = on_attach,
+  -- ....
 })
 
 -- [[ Configure nvim-cmp ]]

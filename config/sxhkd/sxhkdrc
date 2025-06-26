@@ -174,7 +174,7 @@ super + o
     firefox
 
 super + t
-    telegram-desktop
+    Telegram
 
 super + shift + t
     signal-desktop --use-tray-icon
