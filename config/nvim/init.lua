@@ -597,6 +597,12 @@ vim.cmd([[
   set splitright
 ]])
 
+vim.keymap.set('n', '<C-y>', function()
+  local path = vim.fn.expand('%')
+  vim.fn.setreg('+', path)
+  print('Copied: ' .. path)
+end, { desc = 'Copy relative path to clipboard' })
+
 -- Remove trailing whitespace
 -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- 	pattern = { "*" },

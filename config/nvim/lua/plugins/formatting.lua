@@ -27,6 +27,13 @@ return {
         sql = { "sql_formatter" },
         tex = { "tex-fmt" },
       },
+      formatters = {
+        csharpier = {
+          command = "dotnet",
+          args = { "csharpier", "format", "--write-stdout" },
+          stdin = true,
+        },
+      },
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>f", function()
