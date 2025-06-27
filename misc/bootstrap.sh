@@ -17,6 +17,11 @@ create_links() {
         # Remove './' from the beginning
         file="${file#./}"
 
+        # Skip hostname-specific configs
+        if [[ "$file" == *-work || "$file" == *-personal ]]; then
+            continue
+        fi
+
         if [[ "$file" == bin/* ]]; then
             destination="${file}"
         elif [[ "$file" == config/zsh/* ]]; then
@@ -57,5 +62,14 @@ update_discord_settings() {
     mv /tmp/discord.json $DISCORD_CONFIG
 }
 
+setup_git_user_config() {
+    if [[ "$HOSTNAME" == *"linux0x"* ]]; then
+        ln -rsfv "config/git/config-work" "$HOME/.config/git/config-user"
+    else
+        ln -rsfv "config/git/config-personal" "$HOME/.config/git/config-user"
+    fi
+}
+
 create_links
 update_discord_settings
+setup_git_user_config

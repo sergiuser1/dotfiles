@@ -1,0 +1,5 @@
+# vim: ft=gitconfig ts=2 sw=0
+
+[user]
+  email = sergiu.ojog@tuta.io
+  name = sergiuser1

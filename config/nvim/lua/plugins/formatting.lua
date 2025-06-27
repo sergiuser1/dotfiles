@@ -21,7 +21,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         sh = { "shfmt" },
-        zsh = { "beautysh" },
+        zsh = { "shfmt" },
         cs = { "csharpier" },
         php = { "pretty-php" },
         sql = { "sql_formatter" },
