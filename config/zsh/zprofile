@@ -7,7 +7,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # Custom path
 export PATH="$HOME/bin:$PATH"
-export PATH="$PATH:/home/seoj/.dotnet/tools"
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 # Firefox
 export MOZ_USE_XINPUT2=1
