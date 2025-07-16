@@ -54,8 +54,8 @@ super + {y,shift + y,s,f}
     bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
 
 # Set hidden flag
-super + u
-    bspc node -g hidden
+# super + u
+    # bspc node -g hidden
 
 # set the node flags
 super + ctrl + {m,x,y,z}

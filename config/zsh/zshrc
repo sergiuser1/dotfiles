@@ -97,6 +97,8 @@ setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 
+setopt NO_NOMATCH      # Don't error on unmatched patterns
+
 color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
 
 alias xt="export TERM=xterm-256color"

@@ -3,7 +3,6 @@ Host vs-ssh.visualstudio.com
   HostkeyAlgorithms +ssh-rsa
   PubkeyAcceptedAlgorithms +ssh-rsa
 
-
 Host github.com
     HostName github.com
     PreferredAuthentications publickey
@@ -16,6 +15,12 @@ Host trifork.github.com
 
 Host geoserver-vm
     HostName 40.113.161.82
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_ed25519_trifork
+
+Host geoserver-prod-vm
+    User azureuser
+    HostName 108.143.191.15
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_ed25519_trifork
 

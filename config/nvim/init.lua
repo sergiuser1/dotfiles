@@ -603,10 +603,10 @@ vim.keymap.set('n', '<C-y>', function()
   print('Copied: ' .. path)
 end, { desc = 'Copy relative path to clipboard' })
 
+
 -- Remove trailing whitespace
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
--- 	pattern = { "*" },
--- 	command = [[%s/\s\+$//e]],
--- })
+vim.api.nvim_create_user_command('RmWhite', function()
+  vim.cmd([[%s/\s\+$//e]])
+end, {})
 
 -- vim: ts=2 sts=2 sw=2 et

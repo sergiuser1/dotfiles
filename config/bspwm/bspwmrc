@@ -80,5 +80,6 @@ start_once blueman-applet
 #     -notifier '/usr/lib/xsecurelock/until_nonidle /usr/lib/xsecurelock/dimmer' \
 #     -locker xsecurelock
 start_once fusuma
+start_once dunst
 start_once solaar --window=hide
 
