@@ -311,6 +311,29 @@ vim.defer_fn(function()
       "vimdoc",
       "vim",
       "bash",
+      "angular",
+      "css",
+      "csv",
+      "yaml",
+      "jq",
+      "json",
+      "json5",
+      "jsonc",
+      "kotlin",
+      "passwd",
+      "java",
+      "regex",
+      "sql",
+      "ssh_config",
+      "xml",
+      "yaml",
+      -- Git
+      "diff",
+      "git_config",
+      "git_rebase",
+      "gitattributes",
+      "gitcommit",
+      "gitignore",
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -613,5 +636,17 @@ end, { desc = "Copy relative path to clipboard" })
 vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
+
+require("lspconfig").yamlls.setup({
+  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
+  single_file_support = true,
+  settings = {
+    redhat = {
+      telemetry = {
+        enabled = false,
+      },
+    },
+  },
+})
 
 -- vim: ts=2 sts=2 sw=2 et
