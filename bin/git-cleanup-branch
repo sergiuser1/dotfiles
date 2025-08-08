@@ -3,9 +3,9 @@
 main_branch=$(git for-each-ref --format='%(refname:short)' refs/heads/ | grep -E '^(main|master)$')
 
 git checkout -q "$main_branch" &&
-	git for-each-ref refs/heads/ "--format=%(refname:short)" |
-	while read branch; do
-		mergeBase=$(git merge-base "$main_branch" $branch) &&
-			[[ $(git cherry "$main_branch" \
-				$(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch
-	done
+    git for-each-ref refs/heads/ "--format=%(refname:short)" |
+    while read branch; do
+        mergeBase=$(git merge-base "$main_branch" $branch) &&
+            [[ $(git cherry "$main_branch" \
+                $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch
+    done

@@ -396,6 +396,12 @@ local on_attach = function(_, bufnr)
 
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader><CR>", vim.lsp.buf.code_action, "Space + Enter <3")
+  nmap("<leader>ru", function()
+    vim.lsp.buf.code_action({
+      context = { only = { "source.removeUnused.ts" } },
+      apply = true,
+    })
+  end, "[R]emove [U]nused")
 
   nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -597,15 +603,14 @@ vim.cmd([[
   set splitright
 ]])
 
-vim.keymap.set('n', '<C-y>', function()
-  local path = vim.fn.expand('%')
-  vim.fn.setreg('+', path)
-  print('Copied: ' .. path)
-end, { desc = 'Copy relative path to clipboard' })
-
+vim.keymap.set("n", "<C-y>", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  print("Copied: " .. path)
+end, { desc = "Copy relative path to clipboard" })
 
 -- Remove trailing whitespace
-vim.api.nvim_create_user_command('RmWhite', function()
+vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
 
