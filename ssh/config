@@ -25,6 +25,6 @@ Host geoserver-prod-vm
     IdentityFile ~/.ssh/id_ed25519_trifork
 
 Host wbdb-php
-    HostName 20.56.54.248
+    HostName 10.10.18.5
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_ed25519
