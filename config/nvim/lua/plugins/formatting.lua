@@ -12,6 +12,7 @@ return {
         typescriptreact = { "prettier" },
         svelte = { "prettier" },
         css = { "prettier" },
+        scss = { "prettier" },
         html = { "prettier" },
         htmlangular = { "prettier" },
         json = { "prettier" },
@@ -26,6 +27,7 @@ return {
         php = { "pretty-php" },
         sql = { "sql_formatter" },
         tex = { "tex-fmt" },
+        xml = { "xmlformatter" },
       },
       formatters = {
         csharpier = {

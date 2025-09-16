@@ -39,6 +39,7 @@
 [delta]
   true-color = always
   navigate = true
+  tabs = 4
 
 [merge]
   conflictstyle = diff3
