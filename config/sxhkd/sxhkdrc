@@ -184,8 +184,8 @@ super + BackSpace
     displayoff
 
 # Pause notification
-super + minus
-    notify-send "Dunst paused" && dunstctl set-paused toggle
+# super + minus
+    # notify-send "Dunst paused" && dunstctl set-paused toggle
 
 super + backslash
     pkill -USR1 redshift
