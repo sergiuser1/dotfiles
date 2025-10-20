@@ -39,5 +39,9 @@
     "editor.defaultFormatter": "vscode.html-language-features"
   },
   "window.menuBarVisibility": "toggle",
-  "explorer.confirmDelete": false
+  "explorer.confirmDelete": false,
+  "redhat.telemetry.enabled": false,
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  }
 }
