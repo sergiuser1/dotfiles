@@ -1,7 +1,8 @@
-Host vs-ssh.visualstudio.com
+Host ssh.dev.azure.com
   IdentityFile ~/.ssh/id_rsa
   HostkeyAlgorithms +ssh-rsa
   PubkeyAcceptedAlgorithms +ssh-rsa
+  WarnWeakCrypto no
 
 Host github.com
     HostName github.com

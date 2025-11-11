@@ -32,3 +32,6 @@ export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export PATH="$HOME/flutter/bin:$PATH"
 export ANDROID_SDK_ROOT="$HOME/Android"
 export ANDROID_HOME="$HOME/Android"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"

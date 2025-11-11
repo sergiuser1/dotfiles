@@ -191,6 +191,27 @@ require("lazy").setup({
       }
     end,
   },
+  -- Treesitter injection
+  {
+    "dariuscorvus/tree-sitter-language-injection.nvim",
+    opts = {
+      java = {
+        comment = {
+          langs = {
+            { name = "xml", match = "^//+( )*lang=xml" },
+            { name = "html", match = "^//+( )*lang=html" },
+          },
+          query = [[
+          ((line_comment) @comment
+            .
+            (string_literal) @injection.content
+            (#match? @comment "{match}")
+            (#set! injection.language "{name}"))
+        ]],
+        },
+      },
+    },
+  },
 }, {})
 
 -- Set highlight on search
@@ -559,6 +580,17 @@ vim.cmd.colorscheme("tokyonight")
 
 require("lspconfig").pyright.setup({})
 local null_ls = require("null-ls")
+
+require("lspconfig").rust_analyzer.setup({
+  settings = {
+    ["rust-analyzer"] = {
+      checkOnSave = false, -- disable save-only checking
+      diagnostics = {
+        enable = true,
+      },
+    },
+  },
+})
 
 null_ls.setup({
   sources = {
