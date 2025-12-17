@@ -53,3 +53,5 @@
   prune = true
   pruneTags = true
   all = true
+[safe]
+	directory = *

@@ -63,7 +63,7 @@ update_discord_settings() {
 }
 
 setup_git_user_config() {
-    if [[ "$HOSTNAME" == *"linux0x"* ]]; then
+    if [[ "$HOSTNAME" == *"BC"* ]]; then
         ln -rsfv "config/git/config-work" "$HOME/.config/git/config-user"
     else
         ln -rsfv "config/git/config-personal" "$HOME/.config/git/config-user"
