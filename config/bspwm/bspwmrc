@@ -13,8 +13,8 @@ killall -q sxhkd; sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 mon_arr=( $(xrandr | grep " connected" | cut -f 1 -d " " ) )
 
 if [ $(hostname) = 'desks' ]; then
-    MONITOR1="DP-4"
-    MONITOR2="DP-0"
+    MONITOR1="DP-1"
+    MONITOR2="DP-3"
 
     bspc monitor $MONITOR1 -d 1 3 5 7 9
     bspc monitor $MONITOR2 -d 2 4 6 8 10
@@ -64,6 +64,7 @@ bspc rule -a Screenkey manage=off
 bspc rule -a pavucontrol state=floating
 bspc rule -a Nm-connection-editor state=floating
 bspc rule -a zoom state=floating
+bspc rule -a zen:Places state=floating
 
 # Init programs
 start_once redshift
