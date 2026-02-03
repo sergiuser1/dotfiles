@@ -35,3 +35,8 @@ export ANDROID_HOME="$HOME/Android"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# Local
+export PATH="$HOME/.local/bin:$PATH"
+
+export WIND=/mnt/c/Users/sero

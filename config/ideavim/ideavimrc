@@ -9,3 +9,6 @@ nmap <leader>f :!dotnet csharpier %<CR>
 nmap gI <Action>(GotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap gh <Action>(ShowErrorDescription)
+
+nmap ]c <Action>(VcsShowNextChangeMarker)
+nmap [c <Action>(VcsShowPrevChangeMarker)

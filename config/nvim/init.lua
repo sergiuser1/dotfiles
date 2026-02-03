@@ -13,7 +13,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.shortmess:append("I")
 
 vim.opt.matchpairs:append("<:>")
---
+
 -- Show whitespace characters
 vim.opt.list = true
 vim.opt.listchars = {
@@ -31,6 +31,50 @@ vim.diagnostic.config({
   underline = true,
   update_in_insert = false,
   severity_sort = true,
+})
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 0
+vim.opt.expandtab = true
+vim.opt.autoindent = true
+
+-- Delete without yanking
+vim.keymap.set("n", "x", '"_x')
+vim.keymap.set("n", "d", '"_d')
+vim.keymap.set("n", "D", '"_D')
+vim.keymap.set("v", "d", '"_d')
+vim.keymap.set("n", "c", '"_c')
+vim.keymap.set("n", "s", '"_s')
+vim.keymap.set("n", "C", '"_C')
+vim.keymap.set("n", "Y", "y$")
+
+-- Cut/copy to system clipboard
+vim.keymap.set("n", "<leader>dd", '"+dd')
+vim.keymap.set("n", "<leader>x", '"+x')
+vim.keymap.set("n", "<leader>d", '"+d')
+vim.keymap.set("n", "<leader>D", '"+D')
+vim.keymap.set("v", "<leader>d", '"+d')
+vim.keymap.set("n", "<leader>Y", ":%y<CR>")
+
+-- Search highlight toggle
+vim.api.nvim_create_augroup("incsearch-highlight", { clear = true })
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+  pattern = "/,\\?",
+  group = "incsearch-highlight",
+  callback = function()
+    vim.keymap.set("c", "<Tab>", "<C-G>")
+    vim.keymap.set("c", "<S-Tab>", "<C-T>")
+    vim.opt.hlsearch = true
+  end,
+})
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  pattern = "/,\\?",
+  group = "incsearch-highlight",
+  callback = function()
+    pcall(vim.keymap.del, "c", "<Tab>")
+    pcall(vim.keymap.del, "c", "<S-Tab>")
+    vim.opt.hlsearch = false
+  end,
 })
 
 -- Install package manager
@@ -51,26 +95,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   { import = "plugins" },
-
-  -- Detect tabstop and shiftwidth automatically
-  "tpope/vim-sleuth",
-  "nanotee/sqls.nvim",
-  {
-    -- LSP Configuration & Plugins
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      "folke/neodev.nvim",
-    },
-  },
 
   {
     -- Autocompletion
@@ -192,26 +216,9 @@ require("lazy").setup({
         "citation",
       }
     end,
-  },
-  -- Treesitter injection
-  {
-    "dariuscorvus/tree-sitter-language-injection.nvim",
-    opts = {
-      java = {
-        comment = {
-          langs = {
-            { name = "xml", match = "^//+( )*lang=xml" },
-            { name = "html", match = "^//+( )*lang=html" },
-          },
-          query = [[
-          ((line_comment) @comment
-            .
-            (string_literal) @injection.content
-            (#match? @comment "{match}")
-            (#set! injection.language "{name}"))
-        ]],
-        },
-      },
+
+    {
+      "Hoffs/omnisharp-extended-lsp.nvim",
     },
   },
 }, {})
@@ -426,12 +433,11 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
+local on_attach = function(client, bufnr)
+  if client.name == "omnisharp" then
+    print("OmniSharp attached")
+  end
+
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -449,7 +455,14 @@ local on_attach = function(_, bufnr)
     })
   end, "[R]emove [U]nused")
 
-  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  if client.name == "omnisharp" then
+    nmap("gd", function()
+      require("omnisharp_extended").telescope_lsp_definitions()
+    end, "[G]oto [D]efinition")
+  else
+    nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  end
+
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("ga", require("telescope.builtin").lsp_type_definitions, "[G]oto Type Definition [A]")
@@ -481,19 +494,9 @@ end
 --   { "<leader>w", group = "[W]orkspace" },
 -- })
 
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
 require("mason").setup()
 require("mason-lspconfig").setup()
 
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property 'filetypes' to the map in question.
 local servers = {
   -- clangd = {},
   -- gopls = {},
@@ -501,11 +504,17 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-  angularls = {},
 
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
+      runtime = { version = "LuaJIT" },
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME },
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
       telemetry = { enable = false },
     },
   },
@@ -522,12 +531,11 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
-  ensure_installed = table.insert(vim.tbl_keys(servers), "omnisharp@1.39.8"),
+  ensure_installed = vim.tbl_keys(servers),
 })
 
 vim.lsp.config("*", {
   on_attach = on_attach,
-  -- ....
 })
 
 -- [[ Configure nvim-cmp ]]
@@ -600,47 +608,14 @@ null_ls.setup({
   },
 })
 
+-- Tree
 require("nvim-tree").setup({})
-
-vim.cmd('nnoremap x "_x')
-vim.cmd('nnoremap d "_d')
-vim.cmd('nnoremap D "_D')
-vim.cmd('vnoremap d "_d')
-vim.cmd('nnoremap c "_c')
-vim.cmd('nnoremap s "_s')
-vim.cmd('nnoremap C "_C')
-vim.cmd("nnoremap Y y$")
-vim.cmd("")
-vim.cmd('nnoremap <leader>dd "+dd')
-vim.cmd('nnoremap <leader>x "+x')
-vim.cmd('nnoremap <leader>d "+d')
-vim.cmd('nnoremap <leader>D "cD')
-vim.cmd('vnoremap <leader>d "+d')
-vim.cmd("nnoremap <leader>Y :%y<CR>")
-vim.cmd([[
-  augroup vimrc-incsearch-highlight
-  autocmd!
-  autocmd CmdlineEnter /,\? :cnoremap <Tab> <C-G>| cnoremap <S-Tab> <C-T>| set hlsearch
-  autocmd CmdlineLeave /,\? :cunmap <Tab>| cunmap <S-Tab>|set nohlsearch
-  augroup END
-  ]])
-
--- File picker tree
-vim.cmd("nnoremap <C-N> :NvimTreeToggle<CR>")
-vim.cmd("nnoremap <C-S-N> :NvimTreeFindFileToggle<CR>")
-
--- FIXME: How do I do this?
--- vim.keymap.set("n", "<C-N>", "nvim-tree-api.tree.toggle()")
-
-vim.cmd([[
-  " Show existing tab with 4 spaces width
-  set tabstop=4
-  " Use same indent as tabstop
-  set shiftwidth=0
-  " On pressing tab, insert 4 spaces
-  set expandtab
-  set autoindent
-  ]])
+vim.keymap.set("n", "<C-N>", function()
+  require("nvim-tree.api").tree.toggle()
+end)
+vim.keymap.set("n", "<C-S-N>", function()
+  require("nvim-tree.api").tree.find_file({ open = true, focus = true })
+end)
 
 -- When opening a file, go the last cursor position
 vim.cmd([[
@@ -684,15 +659,17 @@ require("lspconfig").yamlls.setup({
 })
 
 local on_attach_lemminx = function(client, bufnr)
-  vim.keymap.set('n', 'K', function()
+  vim.keymap.set("n", "K", function()
     local params = vim.lsp.util.make_position_params()
-    vim.lsp.buf_request(0, 'textDocument/documentSymbol', params, function(_, result)
-      if not result then return end
-      
-      local line = vim.fn.line('.') - 1
+    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
+      if not result then
+        return
+      end
+
+      local line = vim.fn.line(".") - 1
       local function find_path(symbols, path)
         for _, symbol in ipairs(symbols) do
-          if symbol.range.start.line <= line and symbol.range['end'].line >= line then
+          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
             local new_path = path .. "/" .. symbol.name
             if symbol.children then
               return find_path(symbol.children, new_path)
@@ -702,7 +679,7 @@ local on_attach_lemminx = function(client, bufnr)
         end
         return path
       end
-      
+
       local path = find_path(result, "")
       if path ~= "" then
         print(path)
@@ -713,16 +690,32 @@ local on_attach_lemminx = function(client, bufnr)
   end, { buffer = bufnr })
 end
 
-require('lspconfig').lemminx.setup({
+require("lspconfig").lemminx.setup({
   on_attach = on_attach,
   settings = {
     xml = {
       symbols = {
-        maxItemsComputed = 10000,  -- Increase limit
+        maxItemsComputed = 10000, -- Increase limit
         showReferencedGrammars = false,
       },
     },
   },
 })
+
+-- require("lspconfig").omnisharp.setup({
+  -- on_attach = on_attach,
+
+  -- settings = {
+  --   FormattingOptions = {
+  --         EnableEditorConfigSupport = true,
+  --         OrganizeImports = true,
+  --   },
+  -- RoslynExtensionsOptions = {
+  --   EnableAnalyzersSupport = true,
+  --   EnableImportCompletion = true,
+  --   AnalyzeOpenDocumentsOnly = false,
+  -- },
+  -- },
+-- })
 
 -- vim: ts=2 sts=2 sw=2 et

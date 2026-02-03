@@ -3,13 +3,13 @@ return {
   opts = {
     toggler = {
       ---Line-comment toggle keymap, Control + /
-      line = "<C-/>",
+      line = "<C-_>",
       ---Block-comment toggle keymap
-      block = "<leader><C-/>",
+      block = "<leader><C-_>",
     },
     opleader = {
       ---Line-comment keymap
-      line = "<C-/>",
+      line = "<C-_>",
     },
     -- Ignore empty lines
     ignore = "^$",
@@ -23,4 +23,17 @@ return {
       end
     end,
   },
+  config = function(_, opts)
+    require("Comment").setup(opts)
+
+    -- Add Ctrl+/ as alternative (works in GUI/some terminals)
+    local api = require("Comment.api")
+    vim.keymap.set("n", "<C-/>", api.toggle.linewise.current, { desc = "Toggle comment" })
+    vim.keymap.set(
+      "v",
+      "<C-/>",
+      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+      { desc = "Toggle comment" }
+    )
+  end,
 }
