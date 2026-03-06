@@ -893,4 +893,121 @@ vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
 
+require("lspconfig").yamlls.setup({
+  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
+  single_file_support = true,
+  settings = {
+    redhat = {
+      telemetry = {
+        enabled = false,
+      },
+    },
+  },
+})
+
+local on_attach_lemminx = function(client, bufnr)
+  vim.keymap.set("n", "K", function()
+    local params = vim.lsp.util.make_position_params()
+    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
+      if not result then
+        return
+      end
+
+      local line = vim.fn.line(".") - 1
+      local function find_path(symbols, path)
+        for _, symbol in ipairs(symbols) do
+          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
+            local new_path = path .. "/" .. symbol.name
+            if symbol.children then
+              return find_path(symbol.children, new_path)
+            end
+            return new_path
+          end
+        end
+        return path
+      end
+
+      local path = find_path(result, "")
+      if path ~= "" then
+        print(path)
+      else
+        print("No XML path found")
+      end
+    end)
+  end, { buffer = bufnr })
+end
+
+require("lspconfig").lemminx.setup({
+  on_attach = on_attach,
+  settings = {
+    xml = {
+      symbols = {
+        maxItemsComputed = 10000, -- Increase limit
+        showReferencedGrammars = false,
+      },
+    },
+  },
+})
+
+-- require("lspconfig").omnisharp.setup({
+  -- on_attach = on_attach,
+
+  -- settings = {
+  --   FormattingOptions = {
+  --         EnableEditorConfigSupport = true,
+  --         OrganizeImports = true,
+  --   },
+  -- RoslynExtensionsOptions = {
+  --   EnableAnalyzersSupport = true,
+  --   EnableImportCompletion = true,
+  --   AnalyzeOpenDocumentsOnly = false,
+  -- },
+  -- },
+-- })
+
+require("lspconfig").yamlls.setup({
+  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
+  single_file_support = true,
+  settings = {
+    redhat = {
+      telemetry = {
+        enabled = false,
+      },
+    },
+  },
+})
+
+local on_attach_lemminx = function(client, bufnr)
+  vim.keymap.set("n", "K", function()
+    local params = vim.lsp.util.make_position_params()
+    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
+      if not result then
+        return
+      end
+
+      local line = vim.fn.line(".") - 1
+      local function find_path(symbols, path)
+        for _, symbol in ipairs(symbols) do
+          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
+            local new_path = path .. "/" .. symbol.name
+            if symbol.children then
+              return find_path(symbol.children, new_path)
+            end
+            return new_path
+          end
+        end
+        return path
+      end
+
+      local path = find_path(result, "")
+      if path ~= "" then
+        print(path)
+      else
+        print("No XML path found")
+      end
+    end)
+  end, { buffer = bufnr })
+end
+
+
 -- vim: ts=2 sts=2 sw=2 et
