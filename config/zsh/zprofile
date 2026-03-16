@@ -12,7 +12,7 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 # Firefox
 export MOZ_USE_XINPUT2=1
 
-export BROWSER=zen-browser
+export BROWSER=firefox
 export EDITOR=nvim
 
 # Man
@@ -20,6 +20,8 @@ export MANPAGER="less -R --use-color -Dd+g -Du+r"
 export MANROFFOPT="-P -c"
 
 export LESS='-i -n -R -F -X'
+
+export COLORTERM=truecolor
 
 export TERMINFO="$XDG_DATA_HOME"/terminfo
 export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo

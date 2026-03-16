@@ -171,7 +171,7 @@ XF86MonBrightness{Down,Up}
     xbacklight {-dec,-inc} 10
 # Program bindings
 super + o
-    $BROWSER
+    firefox
 
 super + t
     Telegram

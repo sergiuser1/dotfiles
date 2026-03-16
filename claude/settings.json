@@ -1,6 +1,10 @@
 {
   "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true"
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
+    "ENABLE_LSP_TOOL": "1"
   },
-  "model": "sonnet"
+  "model": "opus",
+  "enabledPlugins": {
+    "csharp-lsp@claude-plugins-official": true
+  }
 }

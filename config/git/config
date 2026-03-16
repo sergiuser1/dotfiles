@@ -27,6 +27,7 @@
 [alias]
   fuck = commit --all --no-edit --amend
   fpush = push --force-with-lease
+  plog = log -p
 
 # git delta
 [core]
@@ -53,5 +54,3 @@
   prune = true
   pruneTags = true
   all = true
-[safe]
-	directory = *
