@@ -7,5 +7,5 @@ git checkout -q "$main_branch" &&
     while read branch; do
         mergeBase=$(git merge-base "$main_branch" $branch) &&
             [[ $(git cherry "$main_branch" \
-                $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch
-    done
+            $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch
+        done

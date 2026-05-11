@@ -116,24 +116,45 @@ require("lazy").setup({
   { "folke/which-key.nvim", opts = {} },
 
   {
-    -- Set lualine as statusline
     "nvim-lualine/lualine.nvim",
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = "auto",
-        component_separators = "|",
-        section_separators = "",
-      },
-      sections = {
-        lualine_x = { { "encoding", show_bomb = true }, "fileformat", "filetype" },
-      },
-      tabline = {
-        lualine_a = { "buffers" },
-        lualine_z = { "tabs" },
-      },
-    },
+    config = function()
+      local function smart_filename()
+        local winid = vim.g.statusline_winid or 0
+        local bufnr = vim.api.nvim_win_get_buf(winid)
+        local full = vim.api.nvim_buf_get_name(bufnr)
+        if full == "" then return "[No Name]" end
+        local basename = vim.fn.fnamemodify(full, ":t")
+        for _, b in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_loaded(b) and b ~= bufnr then
+            local other = vim.api.nvim_buf_get_name(b)
+            if vim.fn.fnamemodify(other, ":t") == basename and other ~= "" then
+              return vim.fn.fnamemodify(full, ":~:.")
+            end
+          end
+        end
+        return basename
+      end
+
+      require("lualine").setup({
+        options = {
+          icons_enabled = true,
+          theme = "auto",
+          component_separators = "|",
+          section_separators = "",
+        },
+        sections = {
+          lualine_c = { smart_filename },
+          lualine_x = { { "encoding", show_bomb = true }, "fileformat", "filetype" },
+        },
+        inactive_sections = {
+          lualine_c = { smart_filename },
+        },
+        tabline = {
+          lualine_a = { "buffers" },
+          lualine_z = { "tabs" },
+        },
+      })
+    end,
   },
 
   {
@@ -609,7 +630,12 @@ null_ls.setup({
 })
 
 -- Tree
-require("nvim-tree").setup({})
+require("nvim-tree").setup({
+  update_focused_file = {
+    enable = true,
+    update_root = false,
+  },
+})
 vim.keymap.set("n", "<C-N>", function()
   require("nvim-tree.api").tree.toggle()
 end)

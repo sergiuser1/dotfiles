@@ -2,6 +2,7 @@
 
 
 # Autocomplete
+fpath=($ZDOTDIR/completions $fpath)
 autoload -Uz compinit
 compinit
 ## Make Ctrl-W delete small words instead of WORDs
@@ -66,7 +67,6 @@ alias fig='find | grep '
 # Better git blame
 # https://blog.andrewray.me/a-better-git-blame/
 alias git-follow='git log -p -M --follow --stat --'
-alias git-remove-merged-branches='git branch --merged | grep -E -v "(^\*|master|dev)" | xargs git branch -D'
 
 ## Enable vi mode
 bindkey -v
