@@ -42,3 +42,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 export WIND=/mnt/c/Users/sero
+
+export JAVA_HOME=/usr/lib/jvm/default
