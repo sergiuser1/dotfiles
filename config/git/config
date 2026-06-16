@@ -49,6 +49,7 @@
 
 [branch]
   sort = -committerdate
+	autosetupmerge = yes
 
 [fetch]
   prune = true

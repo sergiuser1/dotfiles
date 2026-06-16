@@ -237,10 +237,27 @@ require("lazy").setup({
         "citation",
       }
     end,
+  },
 
-    {
-      "Hoffs/omnisharp-extended-lsp.nvim",
-    },
+  {
+    "seblyng/roslyn.nvim",
+    ft = { "cs" },
+    config = function()
+      -- Enable navigating to decompiled sources (go-to-definition on
+      -- external/NuGet/framework types shows real decompiled C# instead of
+      -- metadata stubs), and let symbol search look in reference assemblies.
+      vim.lsp.config("roslyn", {
+        settings = {
+          ["csharp|symbol_search"] = {
+            dotnet_search_reference_assemblies = true,
+          },
+          ["navigation"] = {
+            dotnet_navigate_to_decompiled_sources = true,
+          },
+        },
+      })
+      require("roslyn").setup({})
+    end,
   },
 }, {})
 
@@ -305,6 +322,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
+-- [[ SQL Anywhere highlighting ]]
+-- Treesitter's `sql` grammar is generic ANSI and butchers SQL Anywhere syntax.
+-- Vim's built-in `sqlanywhere` dialect handles it properly, so for SQL buffers we
+-- stop treesitter and switch the syntax dialect.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sql",
+  callback = function()
+    pcall(vim.treesitter.stop)
+    vim.cmd("SQLSetType sqlanywhere")
+  end,
+})
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
@@ -364,6 +393,7 @@ vim.defer_fn(function()
       "bash",
       "angular",
       "css",
+      "html",
       "csv",
       "yaml",
       "jq",
@@ -455,10 +485,6 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open float
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 local on_attach = function(client, bufnr)
-  if client.name == "omnisharp" then
-    print("OmniSharp attached")
-  end
-
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -476,13 +502,7 @@ local on_attach = function(client, bufnr)
     })
   end, "[R]emove [U]nused")
 
-  if client.name == "omnisharp" then
-    nmap("gd", function()
-      require("omnisharp_extended").telescope_lsp_definitions()
-    end, "[G]oto [D]efinition")
-  else
-    nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  end
+  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
@@ -728,20 +748,5 @@ require("lspconfig").lemminx.setup({
   },
 })
 
--- require("lspconfig").omnisharp.setup({
-  -- on_attach = on_attach,
-
-  -- settings = {
-  --   FormattingOptions = {
-  --         EnableEditorConfigSupport = true,
-  --         OrganizeImports = true,
-  --   },
-  -- RoslynExtensionsOptions = {
-  --   EnableAnalyzersSupport = true,
-  --   EnableImportCompletion = true,
-  --   AnalyzeOpenDocumentsOnly = false,
-  -- },
-  -- },
--- })
 
 -- vim: ts=2 sts=2 sw=2 et
