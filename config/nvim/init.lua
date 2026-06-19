@@ -190,10 +190,14 @@ require("lazy").setup({
   {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     },
-    build = ":TSUpdate",
+    build = function()
+      require("nvim-treesitter").update()
+    end,
   },
 
   require("kickstart.plugins.debug"),
@@ -374,109 +378,92 @@ vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = 
 vim.keymap.set("n", "<leader>gs", require("telescope.builtin").git_status, { desc = "[G]it [S]tatus" })
 
 -- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-  require("nvim-treesitter.configs").setup({
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = {
-      "c",
-      "c_sharp",
-      "lua",
-      "python",
-      "rust",
-      "tsx",
-      "javascript",
-      "typescript",
-      "vimdoc",
-      "vim",
-      "bash",
-      "angular",
-      "css",
-      "html",
-      "csv",
-      "yaml",
-      "jq",
-      "json",
-      "json5",
-      "jsonc",
-      "kotlin",
-      "passwd",
-      "java",
-      "regex",
-      "sql",
-      "ssh_config",
-      "xml",
-      "yaml",
-      -- Git
-      "diff",
-      "git_config",
-      "git_rebase",
-      "gitattributes",
-      "gitcommit",
-      "gitignore",
-    },
+-- nvim-treesitter `main` branch (required for Neovim 0.12).
+-- Parsers are installed imperatively; highlight/indent/fold are enabled per-buffer
+-- via FileType autocmd.
+local ts_parsers = {
+  "c", "c_sharp", "lua", "python", "rust", "tsx", "javascript", "typescript",
+  "vimdoc", "vim", "bash", "angular", "css", "html", "csv", "yaml", "jq",
+  "json", "json5", "jsonc", "kotlin", "markdown", "markdown_inline", "passwd",
+  "java", "regex", "sql", "ssh_config", "xml",
+  "diff", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore",
+}
 
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
+local ts_ok, nts = pcall(require, "nvim-treesitter")
+if ts_ok then
+  local installed = {}
+  for _, p in ipairs(nts.get_installed and nts.get_installed() or {}) do
+    installed[p] = true
+  end
+  local missing = {}
+  for _, p in ipairs(ts_parsers) do
+    if not installed[p] then
+      table.insert(missing, p)
+    end
+  end
+  if #missing > 0 then
+    nts.install(missing)
+  end
+end
 
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "<c-space>",
-        node_incremental = "<c-space>",
-        scope_incremental = "<c-s>",
-        node_decremental = "<M-space>",
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ["aa"] = "@parameter.outer",
-          ["ia"] = "@parameter.inner",
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          ["]m"] = "@function.outer",
-          ["]]"] = "@class.outer",
-        },
-        goto_next_end = {
-          ["]M"] = "@function.outer",
-          ["]["] = "@class.outer",
-        },
-        goto_previous_start = {
-          ["[m"] = "@function.outer",
-          ["[["] = "@class.outer",
-        },
-        goto_previous_end = {
-          ["[M"] = "@function.outer",
-          ["[]"] = "@class.outer",
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ["<leader>a"] = "@parameter.inner",
-        },
-        swap_previous = {
-          ["<leader>A"] = "@parameter.inner",
-        },
-      },
-    },
-  })
-end, 0)
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(ev)
+    local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+    if not lang or lang == "sql" then
+      return
+    end
+    if pcall(vim.treesitter.start, ev.buf, lang) then
+      vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
+  end,
+})
+
+-- nvim-treesitter-textobjects (main branch) — keymaps call functions directly.
+local sel_ok, ts_select = pcall(require, "nvim-treesitter-textobjects.select")
+local mov_ok, ts_move = pcall(require, "nvim-treesitter-textobjects.move")
+local swp_ok, ts_swap = pcall(require, "nvim-treesitter-textobjects.swap")
+
+if sel_ok then
+  local map = function(lhs, capture)
+    vim.keymap.set({ "x", "o" }, lhs, function()
+      ts_select.select_textobject(capture, "textobjects")
+    end, { desc = "TS select " .. capture })
+  end
+  map("aa", "@parameter.outer")
+  map("ia", "@parameter.inner")
+  map("af", "@function.outer")
+  map("if", "@function.inner")
+  map("ac", "@class.outer")
+  map("ic", "@class.inner")
+end
+
+if mov_ok then
+  local moves = {
+    { "]m", "goto_next_start",     "@function.outer" },
+    { "]]", "goto_next_start",     "@class.outer" },
+    { "]M", "goto_next_end",       "@function.outer" },
+    { "][", "goto_next_end",       "@class.outer" },
+    { "[m", "goto_previous_start", "@function.outer" },
+    { "[[", "goto_previous_start", "@class.outer" },
+    { "[M", "goto_previous_end",   "@function.outer" },
+    { "[]", "goto_previous_end",   "@class.outer" },
+  }
+  for _, m in ipairs(moves) do
+    vim.keymap.set({ "n", "x", "o" }, m[1], function()
+      ts_move[m[2]](m[3], "textobjects")
+    end, { desc = "TS " .. m[2] .. " " .. m[3] })
+  end
+end
+
+if swp_ok then
+  vim.keymap.set("n", "<leader>a", function()
+    ts_swap.swap_next("@parameter.inner")
+  end, { desc = "TS swap next parameter" })
+  vim.keymap.set("n", "<leader>A", function()
+    ts_swap.swap_previous("@parameter.inner")
+  end, { desc = "TS swap previous parameter" })
+end
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
