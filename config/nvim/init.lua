@@ -258,9 +258,40 @@ require("lazy").setup({
           ["navigation"] = {
             dotnet_navigate_to_decompiled_sources = true,
           },
+          ["csharp|background_analysis"] = {
+            dotnet_analyzer_diagnostics_scope = "fullSolution",
+            dotnet_compiler_diagnostics_scope = "fullSolution",
+          },
         },
       })
       require("roslyn").setup({})
+    end,
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "Nsidorenco/neotest-vstest",
+    },
+    keys = {
+      { "<leader>tn", function() require("neotest").run.run() end, desc = "[T]est [N]earest" },
+      { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "[T]est [F]ile" },
+      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "[T]est [L]ast" },
+      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "[T]est [S]ummary" },
+      { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "[T]est [O]utput" },
+      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "[T]est [O]utput panel" },
+      { "<leader>tx", function() require("neotest").run.stop() end, desc = "[T]est stop" },
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-vstest"),
+        },
+      })
     end,
   },
 }, {})
@@ -413,7 +444,9 @@ vim.api.nvim_create_autocmd("FileType", {
       return
     end
     if pcall(vim.treesitter.start, ev.buf, lang) then
-      vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      if vim.treesitter.query.get(lang, "indents") then
+        vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
       vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end
   end,
@@ -523,7 +556,6 @@ end
 -- })
 
 require("mason").setup()
-require("mason-lspconfig").setup()
 
 local servers = {
   -- clangd = {},
@@ -560,6 +592,7 @@ local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
+  automatic_enable = false,
 })
 
 vim.lsp.config("*", {
