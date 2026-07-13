@@ -200,6 +200,25 @@ require("lazy").setup({
     end,
   },
 
+  {
+    -- Sticky header showing the block(s) the cursor is inside
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "BufReadPost",
+    opts = {
+      max_lines = 6, -- limit header height for deeply nested blocks
+      multiline_threshold = 1, -- collapse each context line to a single line
+    },
+    keys = {
+      {
+        "[x",
+        function()
+          require("treesitter-context").go_to_context(vim.v.count1)
+        end,
+        desc = "Jump to context (enclosing block start)",
+      },
+    },
+  },
+
   require("kickstart.plugins.debug"),
 
   {
@@ -542,6 +561,39 @@ local on_attach = function(client, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, "[W]orkspace [L]ist Folders")
 
+  -- Breadcrumb: show the dotted path of the symbol/block the cursor is inside.
+  nmap("<leader>bp", function()
+    local params = { textDocument = vim.lsp.util.make_text_document_params() }
+    local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
+    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(err, result)
+      if err or not result or vim.tbl_isempty(result) then
+        vim.notify("No symbol path found here", vim.log.levels.WARN)
+        return
+      end
+      local parts = {}
+      local function descend(symbols)
+        for _, sym in ipairs(symbols) do
+          local range = sym.range or (sym.location and sym.location.range)
+          if range and range.start.line <= cursor_line and range["end"].line >= cursor_line then
+            table.insert(parts, sym.name)
+            if sym.children then
+              descend(sym.children)
+            end
+            return
+          end
+        end
+      end
+      descend(result)
+      if vim.tbl_isempty(parts) then
+        vim.notify("No symbol path found here", vim.log.levels.WARN)
+        return
+      end
+      local path = table.concat(parts, ".")
+      vim.fn.setreg("+", path)
+      vim.notify(path, vim.log.levels.INFO)
+    end)
+  end, "[B]readcrumb [P]ath (copy to clipboard)")
+
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
     vim.lsp.buf.format()
@@ -557,27 +609,57 @@ end
 
 require("mason").setup()
 
+-- Per-server overrides. Any server installed via Mason is enabled automatically
+-- (see automatic_enable below); these tables only add settings on top of
+-- nvim-lspconfig's defaults. A server with an empty table just uses defaults.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
   lua_ls = {
-    Lua = {
-      runtime = { version = "LuaJIT" },
-      workspace = {
-        checkThirdParty = false,
-        library = { vim.env.VIMRUNTIME },
+    settings = {
+      Lua = {
+        runtime = { version = "LuaJIT" },
+        workspace = {
+          checkThirdParty = false,
+          library = { vim.env.VIMRUNTIME },
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        telemetry = { enable = false },
       },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      telemetry = { enable = false },
     },
   },
+  pyright = {},
+  rust_analyzer = {
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = false, -- disable save-only checking
+        diagnostics = {
+          enable = true,
+        },
+      },
+    },
+  },
+  yamlls = {
+    root_markers = { ".git", "package.json", ".yaml-language-server" },
+    settings = {
+      redhat = {
+        telemetry = {
+          enabled = false,
+        },
+      },
+    },
+  },
+  lemminx = {
+    settings = {
+      xml = {
+        symbols = {
+          maxItemsComputed = 10000, -- Increase limit
+          showReferencedGrammars = false,
+        },
+      },
+    },
+  },
+  terraformls = {},
 }
 
 -- Setup neovim lua configuration
@@ -587,16 +669,21 @@ require("neodev").setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
--- Ensure the servers above are installed
+-- Global defaults applied to every server, plus per-server overrides above.
+vim.lsp.config("*", {
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+for name, cfg in pairs(servers) do
+  vim.lsp.config(name, cfg)
+end
+
+-- Ensure the servers above are installed and auto-enable every installed server.
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
-  automatic_enable = false,
-})
-
-vim.lsp.config("*", {
-  on_attach = on_attach,
+  automatic_enable = true,
 })
 
 -- [[ Configure nvim-cmp ]]
@@ -649,19 +736,7 @@ cmp.setup({
 
 vim.cmd.colorscheme("tokyonight")
 
-require("lspconfig").pyright.setup({})
 local null_ls = require("null-ls")
-
-require("lspconfig").rust_analyzer.setup({
-  settings = {
-    ["rust-analyzer"] = {
-      checkOnSave = false, -- disable save-only checking
-      diagnostics = {
-        enable = true,
-      },
-    },
-  },
-})
 
 null_ls.setup({
   sources = {
@@ -711,62 +786,6 @@ end, { desc = "Copy relative path to clipboard" })
 vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
-
-require("lspconfig").yamlls.setup({
-  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
-  single_file_support = true,
-  settings = {
-    redhat = {
-      telemetry = {
-        enabled = false,
-      },
-    },
-  },
-})
-
-local on_attach_lemminx = function(client, bufnr)
-  vim.keymap.set("n", "K", function()
-    local params = vim.lsp.util.make_position_params()
-    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
-      if not result then
-        return
-      end
-
-      local line = vim.fn.line(".") - 1
-      local function find_path(symbols, path)
-        for _, symbol in ipairs(symbols) do
-          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
-            local new_path = path .. "/" .. symbol.name
-            if symbol.children then
-              return find_path(symbol.children, new_path)
-            end
-            return new_path
-          end
-        end
-        return path
-      end
-
-      local path = find_path(result, "")
-      if path ~= "" then
-        print(path)
-      else
-        print("No XML path found")
-      end
-    end)
-  end, { buffer = bufnr })
-end
-
-require("lspconfig").lemminx.setup({
-  on_attach = on_attach,
-  settings = {
-    xml = {
-      symbols = {
-        maxItemsComputed = 10000, -- Increase limit
-        showReferencedGrammars = false,
-      },
-    },
-  },
-})
 
 
 -- vim: ts=2 sts=2 sw=2 et
