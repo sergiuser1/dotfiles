@@ -66,6 +66,7 @@ bspc rule -a Nm-connection-editor state=floating
 bspc rule -a zoom state=floating
 
 # Init programs
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' &
 start_once redshift
 start_once picom
 # pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &

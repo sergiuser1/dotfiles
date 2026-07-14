@@ -3,11 +3,12 @@
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
     "ENABLE_LSP_TOOL": "1"
   },
-  "model": "opus",
+  "model": "fable",
   "enabledPlugins": {
     "csharp-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
+  "theme": "dark",
   "editorMode": "vim",
   "voiceEnabled": false
 }
