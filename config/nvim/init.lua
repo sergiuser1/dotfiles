@@ -122,7 +122,9 @@ require("lazy").setup({
         local winid = vim.g.statusline_winid or 0
         local bufnr = vim.api.nvim_win_get_buf(winid)
         local full = vim.api.nvim_buf_get_name(bufnr)
-        if full == "" then return "[No Name]" end
+        if full == "" then
+          return "[No Name]"
+        end
         local basename = vim.fn.fnamemodify(full, ":t")
         for _, b in ipairs(vim.api.nvim_list_bufs()) do
           if vim.api.nvim_buf_is_loaded(b) and b ~= bufnr then
@@ -297,13 +299,55 @@ require("lazy").setup({
       "Nsidorenco/neotest-vstest",
     },
     keys = {
-      { "<leader>tn", function() require("neotest").run.run() end, desc = "[T]est [N]earest" },
-      { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "[T]est [F]ile" },
-      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "[T]est [L]ast" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "[T]est [S]ummary" },
-      { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "[T]est [O]utput" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "[T]est [O]utput panel" },
-      { "<leader>tx", function() require("neotest").run.stop() end, desc = "[T]est stop" },
+      {
+        "<leader>tn",
+        function()
+          require("neotest").run.run()
+        end,
+        desc = "[T]est [N]earest",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand("%"))
+        end,
+        desc = "[T]est [F]ile",
+      },
+      {
+        "<leader>tl",
+        function()
+          require("neotest").run.run_last()
+        end,
+        desc = "[T]est [L]ast",
+      },
+      {
+        "<leader>ts",
+        function()
+          require("neotest").summary.toggle()
+        end,
+        desc = "[T]est [S]ummary",
+      },
+      {
+        "<leader>to",
+        function()
+          require("neotest").output.open({ enter = true })
+        end,
+        desc = "[T]est [O]utput",
+      },
+      {
+        "<leader>tO",
+        function()
+          require("neotest").output_panel.toggle()
+        end,
+        desc = "[T]est [O]utput panel",
+      },
+      {
+        "<leader>tx",
+        function()
+          require("neotest").run.stop()
+        end,
+        desc = "[T]est stop",
+      },
     },
     config = function()
       require("neotest").setup({
@@ -432,11 +476,41 @@ vim.keymap.set("n", "<leader>gs", require("telescope.builtin").git_status, { des
 -- Parsers are installed imperatively; highlight/indent/fold are enabled per-buffer
 -- via FileType autocmd.
 local ts_parsers = {
-  "c", "c_sharp", "lua", "python", "rust", "tsx", "javascript", "typescript",
-  "vimdoc", "vim", "bash", "angular", "css", "html", "csv", "yaml", "jq",
-  "json", "json5", "jsonc", "kotlin", "markdown", "markdown_inline", "passwd",
-  "java", "regex", "sql", "ssh_config", "xml",
-  "diff", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore",
+  "c",
+  "c_sharp",
+  "lua",
+  "python",
+  "rust",
+  "tsx",
+  "javascript",
+  "typescript",
+  "vimdoc",
+  "vim",
+  "bash",
+  "angular",
+  "css",
+  "html",
+  "csv",
+  "yaml",
+  "jq",
+  "json",
+  "json5",
+  "jsonc",
+  "kotlin",
+  "markdown",
+  "markdown_inline",
+  "passwd",
+  "java",
+  "regex",
+  "sql",
+  "ssh_config",
+  "xml",
+  "diff",
+  "git_config",
+  "git_rebase",
+  "gitattributes",
+  "gitcommit",
+  "gitignore",
 }
 
 local ts_ok, nts = pcall(require, "nvim-treesitter")
@@ -492,14 +566,14 @@ end
 
 if mov_ok then
   local moves = {
-    { "]m", "goto_next_start",     "@function.outer" },
-    { "]]", "goto_next_start",     "@class.outer" },
-    { "]M", "goto_next_end",       "@function.outer" },
-    { "][", "goto_next_end",       "@class.outer" },
+    { "]m", "goto_next_start", "@function.outer" },
+    { "]]", "goto_next_start", "@class.outer" },
+    { "]M", "goto_next_end", "@function.outer" },
+    { "][", "goto_next_end", "@class.outer" },
     { "[m", "goto_previous_start", "@function.outer" },
     { "[[", "goto_previous_start", "@class.outer" },
-    { "[M", "goto_previous_end",   "@function.outer" },
-    { "[]", "goto_previous_end",   "@class.outer" },
+    { "[M", "goto_previous_end", "@function.outer" },
+    { "[]", "goto_previous_end", "@class.outer" },
   }
   for _, m in ipairs(moves) do
     vim.keymap.set({ "n", "x", "o" }, m[1], function()
@@ -786,6 +860,5 @@ end, { desc = "Copy relative path to clipboard" })
 vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
-
 
 -- vim: ts=2 sts=2 sw=2 et
