@@ -56,6 +56,32 @@ vim.keymap.set("n", "<leader>D", '"+D')
 vim.keymap.set("v", "<leader>d", '"+d')
 vim.keymap.set("n", "<leader>Y", ":%y<CR>")
 
+-- Yank to system clipboard with common leading indentation stripped
+-- (handy for pasting code into Teams/chat without extra whitespace)
+vim.keymap.set("v", "<leader>y", function()
+  local sline = vim.fn.line("v")
+  local eline = vim.fn.line(".")
+  if sline > eline then
+    sline, eline = eline, sline
+  end
+  local lines = vim.fn.getline(sline, eline)
+  local min_indent = math.huge
+  for _, l in ipairs(lines) do
+    if l:match("%S") then
+      min_indent = math.min(min_indent, #l:match("^%s*"))
+    end
+  end
+  if min_indent == math.huge then
+    min_indent = 0
+  end
+  for i, l in ipairs(lines) do
+    lines[i] = l:sub(min_indent + 1)
+  end
+  vim.fn.setreg("+", table.concat(lines, "\n"))
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "nx", false)
+  print(string.format("Dedent yank: %d line(s)", #lines))
+end, { desc = "[Y]ank dedented to clipboard (Teams)" })
+
 -- Search highlight toggle
 vim.api.nvim_create_augroup("incsearch-highlight", { clear = true })
 vim.api.nvim_create_autocmd("CmdlineEnter", {
@@ -562,6 +588,12 @@ if sel_ok then
   map("if", "@function.inner")
   map("ac", "@class.outer")
   map("ic", "@class.inner")
+  map("ai", "@conditional.outer")
+  map("ii", "@conditional.inner")
+  map("ab", "@block.outer")
+  map("ib", "@block.inner")
+  map("al", "@loop.outer")
+  map("il", "@loop.inner")
 end
 
 if mov_ok then
@@ -850,11 +882,11 @@ vim.cmd([[
   set splitright
 ]])
 
-vim.keymap.set("n", "<C-y>", function()
+vim.keymap.set("n", "<leader>yp", function()
   local path = vim.fn.expand("%")
   vim.fn.setreg("+", path)
   print("Copied: " .. path)
-end, { desc = "Copy relative path to clipboard" })
+end, { desc = "[Y]ank relative [p]ath to clipboard" })
 
 -- Remove trailing whitespace
 vim.api.nvim_create_user_command("RmWhite", function()
