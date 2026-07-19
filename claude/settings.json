@@ -10,5 +10,7 @@
   "effortLevel": "medium",
   "theme": "dark",
   "editorMode": "vim",
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "model": "sonnet",
+  "voiceEnabled": true
 }

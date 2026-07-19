@@ -277,6 +277,10 @@ require("lazy").setup({
   },
 
   {
+    "sindrets/diffview.nvim",
+  },
+
+  {
     "lervag/vimtex",
     init = function()
       vim.g.vimtex_quickfix_ignore_filters = {
@@ -813,7 +817,7 @@ cmp.setup({
     ["<C-Space>"] = cmp.mapping.complete({}),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+      select = false,
     }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -950,19 +954,19 @@ require("lspconfig").lemminx.setup({
 })
 
 -- require("lspconfig").omnisharp.setup({
-  -- on_attach = on_attach,
+-- on_attach = on_attach,
 
-  -- settings = {
-  --   FormattingOptions = {
-  --         EnableEditorConfigSupport = true,
-  --         OrganizeImports = true,
-  --   },
-  -- RoslynExtensionsOptions = {
-  --   EnableAnalyzersSupport = true,
-  --   EnableImportCompletion = true,
-  --   AnalyzeOpenDocumentsOnly = false,
-  -- },
-  -- },
+-- settings = {
+--   FormattingOptions = {
+--         EnableEditorConfigSupport = true,
+--         OrganizeImports = true,
+--   },
+-- RoslynExtensionsOptions = {
+--   EnableAnalyzersSupport = true,
+--   EnableImportCompletion = true,
+--   AnalyzeOpenDocumentsOnly = false,
+-- },
+-- },
 -- })
 
 require("lspconfig").yamlls.setup({

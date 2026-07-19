@@ -177,7 +177,7 @@ super + t
     Telegram
 
 super + shift + t
-    signal-desktop --use-tray-icon
+    signal-desktop --use-tray-icon --password-store="kwallet6"
 
 # Turn screens off
 super + BackSpace
