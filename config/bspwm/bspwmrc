@@ -54,7 +54,7 @@ bspc rule -a feh state=floating follow=on
 
 bspc rule -a TelegramDesktop state=floating
 bspc rule -a *:floating state=floating
-bspc rule -a Signal state=floating
+bspc rule -a *:signal state=floating
 bspc rule -a mpv state=floating
 bspc rule -a Blueman-manager state=floating
 bspc rule -a Zathura state=tiled
@@ -69,6 +69,7 @@ bspc rule -a zoom state=floating
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' &
 start_once redshift
 start_once picom
+start_once easyeffects --gapplication-service
 # pgrep telegram || DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY=1 telegram-desktop -startintray &
 
 # Polybar and hacks
