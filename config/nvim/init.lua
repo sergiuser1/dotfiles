@@ -525,7 +525,6 @@ local ts_parsers = {
   "jq",
   "json",
   "json5",
-  "jsonc",
   "kotlin",
   "markdown",
   "markdown_inline",
