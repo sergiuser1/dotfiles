@@ -162,6 +162,7 @@ sxiv
 sysbench
 tcpdump
 telegram-desktop
+thinkfan
 thunar
 thunar-archive-plugin
 tldr
