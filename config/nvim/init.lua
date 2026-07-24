@@ -407,6 +407,42 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
+-- Rider-style auto write / auto read
+-- Auto-reload files changed outside of nvim
+vim.o.autoread = true
+-- Auto-save when leaving insert mode, changing text, or losing focus
+vim.o.autowriteall = true
+
+vim.api.nvim_create_augroup("AutoReadWrite", { clear = true })
+
+-- Check for external changes on common events and reload if needed
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = "AutoReadWrite",
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- Auto-save the current buffer (skip special/unnamed/readonly buffers)
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged", "FocusLost" }, {
+  group = "AutoReadWrite",
+  pattern = "*",
+  callback = function()
+    if
+      vim.bo.buftype == ""
+      and vim.bo.modifiable
+      and not vim.bo.readonly
+      and vim.fn.expand("%") ~= ""
+      and vim.bo.modified
+    then
+      vim.cmd("silent! write")
+    end
+  end,
+})
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
