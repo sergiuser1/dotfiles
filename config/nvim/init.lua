@@ -486,18 +486,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
--- [[ SQL Anywhere highlighting ]]
--- Treesitter's `sql` grammar is generic ANSI and butchers SQL Anywhere syntax.
--- Vim's built-in `sqlanywhere` dialect handles it properly, so for SQL buffers we
--- stop treesitter and switch the syntax dialect.
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "sql",
-  callback = function()
-    pcall(vim.treesitter.stop)
-    vim.cmd("SQLSetType sqlanywhere")
-  end,
-})
-
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
@@ -519,7 +507,18 @@ pcall(require("telescope").load_extension, "fzf")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
-vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+vim.keymap.set("n", "<leader><space>", function()
+  -- Alt-based keys aren't reliably delivered by every terminal, so bind the
+  -- buffer-delete action to Alt-free keys as well (<Tab> multi-select works too)
+  require("telescope.builtin").buffers({
+    attach_mappings = function(_, map)
+      local actions = require("telescope.actions")
+      map("n", "d", actions.delete_buffer)
+      map("i", "<C-d>", actions.delete_buffer)
+      return true
+    end,
+  })
+end, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -601,6 +600,13 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(ev)
+    -- tree-sitter-sql targets ANSI/Postgres/MySQL and has no grammar for T-SQL
+    -- procedural syntax (BEGIN TRY/CATCH, THROW, GO batches, etc). It marks those
+    -- regions as unparseable ERROR nodes with no highlight captures, leaving big
+    -- chunks of real-world T-SQL files uncoloured. The legacy regex-based
+    -- syntax/sql.vim doesn't need a full valid parse, so it colours much more
+    -- reliably; mssql.nvim's LSP semantic tokens add T-SQL-specific colouring
+    -- on top once connected.
     local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
     if not lang or lang == "sql" then
       return
@@ -894,10 +900,32 @@ null_ls.setup({
 })
 
 -- Tree
+-- nvim-tree has no built-in width persistence: it re-applies the configured
+-- width on every open. Track the last size ourselves and feed it back.
+local nvim_tree_width = 30
+
+vim.api.nvim_create_autocmd("WinResized", {
+  callback = function()
+    local ok, api = pcall(require, "nvim-tree.api")
+    if not ok then
+      return
+    end
+    local win = api.tree.winid()
+    if win and vim.api.nvim_win_is_valid(win) then
+      nvim_tree_width = vim.api.nvim_win_get_width(win)
+    end
+  end,
+})
+
 require("nvim-tree").setup({
   update_focused_file = {
     enable = true,
     update_root = false,
+  },
+  view = {
+    width = function()
+      return nvim_tree_width
+    end,
   },
 })
 vim.keymap.set("n", "<C-N>", function()
