@@ -297,7 +297,11 @@ require("lazy").setup({
   {
     "seblyng/roslyn.nvim",
     ft = { "cs" },
-    config = function()
+    -- Must be `init`, not `config`: the plugin's own plugin/roslyn.lua calls
+    -- vim.lsp.enable("roslyn"), which attaches to the already-open buffer while
+    -- the plugin is sourced -- i.e. before `config` would run. Registering the
+    -- settings in `init` guarantees the client starts with them.
+    init = function()
       -- Enable navigating to decompiled sources (go-to-definition on
       -- external/NuGet/framework types shows real decompiled C# instead of
       -- metadata stubs), and let symbol search look in reference assemblies.
@@ -315,8 +319,39 @@ require("lazy").setup({
           },
         },
       })
-      require("roslyn").setup({})
+
+      -- Warm-start Roslyn when nvim opens inside a solution directory. The
+      -- server only attaches to `cs` buffers, so load the first .cs file of the
+      -- solution as a hidden buffer to kick off the (slow) solution load up
+      -- front, instead of paying for it on the first C# file you open.
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          local sln = vim.fs.find(function(name)
+            return name:match("%.slnx?$")
+          end, { path = vim.uv.cwd(), upward = true, type = "file" })[1]
+          if not sln then
+            return
+          end
+          if next(vim.lsp.get_clients({ name = "roslyn" })) then
+            return
+          end
+
+          local root = vim.fs.dirname(sln)
+          for name, type in vim.fs.dir(root, { depth = 8 }) do
+            if type == "file" and name:match("%.cs$") and not name:match("[/\\]obj[/\\]") and not name:match("[/\\]bin[/\\]") then
+              local buf = vim.fn.bufadd(vim.fs.joinpath(root, name))
+              vim.fn.bufload(buf)
+              vim.bo[buf].buflisted = false
+              -- set explicitly: bufload() doesn't always run filetype detection,
+              -- and the FileType event is what triggers the LSP attach
+              vim.bo[buf].filetype = "cs"
+              return
+            end
+          end
+        end,
+      })
     end,
+    opts = {},
   },
 
   {
@@ -532,7 +567,11 @@ vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { des
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+-- Roslyn (and other pull-diagnostic servers) only publish diagnostics for open
+-- files, so ask for solution-wide ones via workspace/diagnostic first
+vim.keymap.set("n", "<leader>sd", function()
+  require("telescope.builtin").diagnostics({ workspace = true, sort_by = "severity" })
+end, { desc = "[S]earch [D]iagnostics (workspace)" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "<leader>gs", function()
   require("telescope.builtin").git_status({
