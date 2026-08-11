@@ -24,6 +24,14 @@ return {
         )
         vim.keymap.set("n", "<leader>hu", require("gitsigns").reset_hunk, { buffer = bufnr, desc = "[U]ndo git hunk" })
         vim.keymap.set("n", "<leader>hs", require("gitsigns").stage_hunk, { buffer = bufnr, desc = "[S]tage git hunk" })
+        -- whole-file diffs: against the index (i.e. before the dirty changes),
+        -- and against HEAD (ignoring whatever is staged)
+        vim.keymap.set("n", "<leader>hd", function()
+          require("gitsigns").diffthis()
+        end, { buffer = bufnr, desc = "[D]iff file against index" })
+        vim.keymap.set("n", "<leader>hD", function()
+          require("gitsigns").diffthis("HEAD")
+        end, { buffer = bufnr, desc = "[D]iff file against HEAD" })
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns

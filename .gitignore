@@ -2,3 +2,6 @@
 
 .env
 *.env
+
+# generated compiled spell word lists
+*.add.spl

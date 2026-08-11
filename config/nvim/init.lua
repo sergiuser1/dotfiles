@@ -14,6 +14,48 @@ vim.opt.shortmess:append("I")
 
 vim.opt.matchpairs:append("<:>")
 
+-- [[ Spell checking ]]
+-- `camel` splits CamelCase/mixedCase words so identifiers are checked
+-- per-component, i.e. IFuckedUpSplling only flags "Splling"
+vim.opt.spelllang = "en_gb"
+vim.opt.spelloptions = "camel"
+-- don't nag about lowercase sentence starts; comments rarely capitalise
+vim.opt.spellcapcheck = ""
+-- personal dictionary, kept in the dotfiles repo. `zg` adds a word, `zw`
+-- marks one wrong, `zug`/`zuw` undo. Lowercase entries also match Utc/UTC.
+vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
+vim.fn.mkdir(vim.fn.stdpath("config") .. "/spell", "p")
+
+-- `zg` recompiles the word list itself, but editing the .add file by hand
+-- leaves the compiled .spl stale, so rebuild it when the source is newer.
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    local add = vim.o.spellfile
+    if vim.fn.getftime(add) > vim.fn.getftime(add .. ".spl") then
+      pcall(vim.cmd, "silent mkspell! " .. vim.fn.fnameescape(add))
+    end
+  end,
+})
+
+-- Misspellings get a subtle underline rather than red, which is reserved for
+-- actual errors. Re-applied on colourscheme changes since those reset it.
+local function spell_highlights()
+  local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+  for _, group in ipairs({ "SpellBad", "SpellCap", "SpellRare", "SpellLocal" }) do
+    vim.api.nvim_set_hl(0, group, { undercurl = true, sp = comment.fg })
+  end
+end
+vim.api.nvim_create_autocmd("ColorScheme", { callback = spell_highlights })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gitcommit", "markdown", "text", "tex", "plaintex" },
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
+
+
 -- Show whitespace characters
 vim.opt.list = true
 vim.opt.listchars = {
@@ -255,9 +297,46 @@ require("lazy").setup({
 
   {
     "folke/todo-comments.nvim",
-    opts = {
-      signs = false,
-    },
+    opts = function()
+      -- The defaults only match SCREAMING keywords followed immediately by a
+      -- colon, so `todo:` and `TODO(sero):` are both missed. Matching is forced
+      -- case sensitive upstream (the regex is prefixed with \C), so lower/Title
+      -- case spellings have to be registered as explicit aliases.
+      local keywords = {
+        FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        TODO = { icon = " ", color = "info" },
+        HACK = { icon = " ", color = "warning" },
+        WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      }
+
+      for name, keyword in pairs(keywords) do
+        local spellings = { name }
+        vim.list_extend(spellings, keyword.alt or {})
+
+        local alt = keyword.alt or {}
+        for _, spelling in ipairs(spellings) do
+          table.insert(alt, spelling:lower())
+          table.insert(alt, spelling:sub(1, 1) .. spelling:sub(2):lower())
+        end
+        keyword.alt = alt
+      end
+
+      return {
+        signs = false,
+        keywords = keywords,
+        highlight = {
+          -- keyword may be followed by an optional (author) or [author]
+          pattern = [=[.*<((KEYWORDS)%(\s*[([][^)\]]*[)\]])?)\s*:]=],
+        },
+        search = {
+          -- same as above, but ripgrep's regex needs `[` escaped inside a class
+          pattern = [=[\b(KEYWORDS)(\s*[(\[][^)\]]*[)\]])?\s*:]=],
+        },
+      }
+    end,
   },
 
   {
@@ -319,37 +398,6 @@ require("lazy").setup({
           },
         },
       })
-
-      -- Warm-start Roslyn when nvim opens inside a solution directory. The
-      -- server only attaches to `cs` buffers, so load the first .cs file of the
-      -- solution as a hidden buffer to kick off the (slow) solution load up
-      -- front, instead of paying for it on the first C# file you open.
-      vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function()
-          local sln = vim.fs.find(function(name)
-            return name:match("%.slnx?$")
-          end, { path = vim.uv.cwd(), upward = true, type = "file" })[1]
-          if not sln then
-            return
-          end
-          if next(vim.lsp.get_clients({ name = "roslyn" })) then
-            return
-          end
-
-          local root = vim.fs.dirname(sln)
-          for name, type in vim.fs.dir(root, { depth = 8 }) do
-            if type == "file" and name:match("%.cs$") and not name:match("[/\\]obj[/\\]") and not name:match("[/\\]bin[/\\]") then
-              local buf = vim.fn.bufadd(vim.fs.joinpath(root, name))
-              vim.fn.bufload(buf)
-              vim.bo[buf].buflisted = false
-              -- set explicitly: bufload() doesn't always run filetype detection,
-              -- and the FileType event is what triggers the LSP attach
-              vim.bo[buf].filetype = "cs"
-              return
-            end
-          end
-        end,
-      })
     end,
     opts = {},
   },
@@ -377,6 +425,15 @@ require("lazy").setup({
           require("neotest").run.run(vim.fn.expand("%"))
         end,
         desc = "[T]est [F]ile",
+      },
+      {
+        "<leader>ta",
+        function()
+          -- Run every test in the project (cwd), not just the current file
+          require("neotest").run.run(vim.uv.cwd())
+          require("neotest").summary.open()
+        end,
+        desc = "[T]est [A]ll",
       },
       {
         "<leader>tl",
@@ -507,6 +564,36 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 vim.keymap.set("n", "gb", ":bnext<CR>")
 vim.keymap.set("n", "gB", ":bprevious<CR>")
+
+-- Window resize submode: enter it once, then tap the keys repeatedly instead of
+-- respamming <C-w>. Any unhandled key (e.g. <Esc>) leaves the mode.
+local resize_actions = {
+  [">"] = "vertical resize +5",
+  ["<"] = "vertical resize -5",
+  ["+"] = "resize +3",
+  ["-"] = "resize -3",
+  ["="] = "wincmd =",
+  ["|"] = "wincmd |",
+  ["_"] = "wincmd _",
+}
+
+vim.keymap.set("n", "<leader>W", function()
+  while true do
+    vim.api.nvim_echo({
+      { "-- RESIZE --", "ModeMsg" },
+      { "  < > width   + - height   = equalise   | _ maximise   any other key exits" },
+    }, false, {})
+
+    local ok, key = pcall(vim.fn.getcharstr)
+    vim.api.nvim_echo({}, false, {})
+    if not ok or not resize_actions[key] then
+      return
+    end
+
+    vim.cmd(resize_actions[key])
+    vim.cmd("redraw")
+  end
+end, { desc = "[W]indow resize mode" })
 --
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
