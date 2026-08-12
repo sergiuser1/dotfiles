@@ -476,6 +476,20 @@ require("lazy").setup({
         adapters = {
           require("neotest-vstest"),
         },
+        icons = {
+          parameterized = "",
+        },
+        highlights = {
+          parameterized = "NeotestNamespace",
+        },
+        status = {
+          virtual_text = false,
+        },
+      })
+
+      vim.fn.sign_define("neotest_parameterized", {
+        text = "",
+        texthl = "NeotestNamespace",
       })
     end,
   },
@@ -507,6 +521,99 @@ vim.o.autowriteall = true
 
 vim.api.nvim_create_augroup("AutoReadWrite", { clear = true })
 
+-- Fingerprint a file's contents ignoring only *insignificant* whitespace:
+-- trailing whitespace, CR from CRLF endings, trailing blank lines, and a
+-- leading BOM. Indentation is preserved so Python/YAML re-indents still count
+-- as real changes. readfile() returns raw bytes, so the BOM must be stripped
+-- by hand here -- Neovim only hides it from the *buffer*, not from readfile().
+local function insignificant_whitespace_fingerprint(lines)
+  local cleaned = {}
+  for i, line in ipairs(lines) do
+    cleaned[i] = (line:gsub("%s+$", ""))
+  end
+
+  if cleaned[1] then
+    cleaned[1] = (cleaned[1]:gsub("^\239\187\191", ""))
+  end
+
+  for i = #cleaned, 1, -1 do
+    if cleaned[i] == "" then
+      cleaned[i] = nil
+    else
+      break
+    end
+  end
+
+  return table.concat(cleaned, "\n")
+end
+
+local disk_state_cache = {}
+
+-- Deliberate 'bomb'/'fileformat' toggles must count as real changes: the buffer
+-- text is identical either way, so only the on-disk bytes reveal them.
+local function disk_state(bufnr, path)
+  local uv = vim.uv or vim.loop
+  local stat = uv.fs_stat(path)
+  if not stat then
+    return nil
+  end
+
+  local key = string.format("%s:%d:%d:%d", path, stat.mtime.sec, stat.mtime.nsec, stat.size)
+  local cached = disk_state_cache[bufnr]
+  if cached and cached.key == key then
+    return cached
+  end
+
+  local raw = vim.fn.readfile(path, "b")
+  local first = raw[1] or ""
+  local state = {
+    key = key,
+    fingerprint = insignificant_whitespace_fingerprint(raw),
+    bomb = first:sub(1, 3) == "\239\187\191",
+    fileformat = first:sub(-1) == "\r" and "dos" or "unix",
+    empty = #raw == 0 or (#raw == 1 and first == ""),
+  }
+
+  disk_state_cache[bufnr] = state
+  return state
+end
+
+vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+  group = "AutoReadWrite",
+  callback = function(args)
+    disk_state_cache[args.buf] = nil
+  end,
+})
+
+local function has_only_whitespace_changes(bufnr)
+  if vim.bo[bufnr].binary then
+    return false
+  end
+
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if path == "" or vim.fn.filereadable(path) ~= 1 then
+    return false
+  end
+
+  if vim.api.nvim_buf_line_count(bufnr) > 50000 then
+    return false
+  end
+
+  local on_disk = disk_state(bufnr, path)
+  if not on_disk then
+    return false
+  end
+
+  if not on_disk.empty then
+    if vim.bo[bufnr].bomb ~= on_disk.bomb or vim.bo[bufnr].fileformat ~= on_disk.fileformat then
+      return false
+    end
+  end
+
+  local in_buffer = insignificant_whitespace_fingerprint(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true))
+  return in_buffer == on_disk.fingerprint
+end
+
 -- Check for external changes on common events and reload if needed
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
   group = "AutoReadWrite",
@@ -530,6 +637,11 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged", "FocusLost" }, {
       and vim.fn.expand("%") ~= ""
       and vim.bo.modified
     then
+      if has_only_whitespace_changes(0) then
+        vim.bo.modified = false
+        return
+      end
+
       vim.cmd("silent! write")
     end
   end,
@@ -1090,62 +1202,6 @@ vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
 
-require("lspconfig").yamlls.setup({
-  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
-  single_file_support = true,
-  settings = {
-    redhat = {
-      telemetry = {
-        enabled = false,
-      },
-    },
-  },
-})
-
-local on_attach_lemminx = function(client, bufnr)
-  vim.keymap.set("n", "K", function()
-    local params = vim.lsp.util.make_position_params()
-    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
-      if not result then
-        return
-      end
-
-      local line = vim.fn.line(".") - 1
-      local function find_path(symbols, path)
-        for _, symbol in ipairs(symbols) do
-          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
-            local new_path = path .. "/" .. symbol.name
-            if symbol.children then
-              return find_path(symbol.children, new_path)
-            end
-            return new_path
-          end
-        end
-        return path
-      end
-
-      local path = find_path(result, "")
-      if path ~= "" then
-        print(path)
-      else
-        print("No XML path found")
-      end
-    end)
-  end, { buffer = bufnr })
-end
-
-require("lspconfig").lemminx.setup({
-  on_attach = on_attach,
-  settings = {
-    xml = {
-      symbols = {
-        maxItemsComputed = 10000, -- Increase limit
-        showReferencedGrammars = false,
-      },
-    },
-  },
-})
-
 -- require("lspconfig").omnisharp.setup({
 -- on_attach = on_attach,
 
@@ -1161,50 +1217,5 @@ require("lspconfig").lemminx.setup({
 -- },
 -- },
 -- })
-
-require("lspconfig").yamlls.setup({
-  root_dir = require("lspconfig.util").root_pattern(".git", "package.json", ".yaml-language-server") or vim.fn.getcwd,
-  single_file_support = true,
-  settings = {
-    redhat = {
-      telemetry = {
-        enabled = false,
-      },
-    },
-  },
-})
-
-local on_attach_lemminx = function(client, bufnr)
-  vim.keymap.set("n", "K", function()
-    local params = vim.lsp.util.make_position_params()
-    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, function(_, result)
-      if not result then
-        return
-      end
-
-      local line = vim.fn.line(".") - 1
-      local function find_path(symbols, path)
-        for _, symbol in ipairs(symbols) do
-          if symbol.range.start.line <= line and symbol.range["end"].line >= line then
-            local new_path = path .. "/" .. symbol.name
-            if symbol.children then
-              return find_path(symbol.children, new_path)
-            end
-            return new_path
-          end
-        end
-        return path
-      end
-
-      local path = find_path(result, "")
-      if path ~= "" then
-        print(path)
-      else
-        print("No XML path found")
-      end
-    end)
-  end, { buffer = bufnr })
-end
-
 
 -- vim: ts=2 sts=2 sw=2 et
