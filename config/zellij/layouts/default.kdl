@@ -1,0 +1,8 @@
+// Overrides zellij's built-in "default" layout: keeps the top tab-bar but
+// drops the bottom status-bar (the line with the keybinding hints).
+layout {
+    pane size=1 borderless=true {
+        plugin location="compact-bar"
+    }
+    pane
+}
