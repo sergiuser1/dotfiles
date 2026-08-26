@@ -63,10 +63,20 @@ update_discord_settings() {
 }
 
 setup_git_user_config() {
+    local source
     if [[ "$HOSTNAME" == *"BC"* ]]; then
-        ln -rsfv "config/git/config-work" "$HOME/.config/git/config-user"
+        source="config/git/config-work"
     else
-        ln -rsfv "config/git/config-personal" "$HOME/.config/git/config-user"
+        source="config/git/config-personal"
+    fi
+
+    local target="$HOME/.config/git/config-user"
+
+    # Only (re)link and print if it isn't already pointing at the right file.
+    # readlink alone would return the relative symlink target (e.g.
+    # "../../dotfiles/..."), so resolve both sides with -f before comparing.
+    if [[ "$ARG" == "-f" || "$(readlink -f "$target")" != "$(readlink -f "$source")" ]]; then
+        ln -rsfv "$source" "$target"
     fi
 }
 

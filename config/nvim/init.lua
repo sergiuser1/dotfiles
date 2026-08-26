@@ -141,7 +141,6 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
   callback = function()
     pcall(vim.keymap.del, "c", "<Tab>")
     pcall(vim.keymap.del, "c", "<S-Tab>")
-    vim.opt.hlsearch = false
   end,
 })
 
@@ -254,6 +253,20 @@ require("lazy").setup({
           return vim.fn.executable("make") == 1
         end,
       },
+      -- Routes vim.ui.select (code actions, refactor menus, etc.) through a
+      -- telescope window instead of the tiny bottom inputlist
+      "nvim-telescope/telescope-ui-select.nvim",
+    },
+  },
+
+  {
+    -- Routes vim.ui.input (LSP rename, etc.) through a floating window
+    -- instead of the plain command-line prompt. Only its input override is
+    -- used -- vim.ui.select stays on telescope-ui-select above.
+    "stevearc/dressing.nvim",
+    opts = {
+      input = { enabled = true },
+      select = { enabled = false },
     },
   },
 
@@ -655,7 +668,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 100
 vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
@@ -734,10 +747,17 @@ require("telescope").setup({
       },
     },
   },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown({}),
+    },
+  },
 })
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
+-- Route vim.ui.select (code actions, refactors, etc.) through telescope
+pcall(require("telescope").load_extension, "ui-select")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -847,6 +867,11 @@ vim.api.nvim_create_autocmd("FileType", {
     -- on top once connected.
     local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
     if not lang or lang == "sql" then
+      -- Force the legacy regex highlighter explicitly instead of hoping it's
+      -- already active -- otherwise a stale/partial treesitter attachment
+      -- (or a filetype-detection race) can leave the buffer under-coloured,
+      -- unlike telescope's preview buffers which force this the same way.
+      vim.bo[ev.buf].syntax = vim.bo[ev.buf].filetype
       return
     end
     if pcall(vim.treesitter.start, ev.buf, lang) then
@@ -857,6 +882,63 @@ vim.api.nvim_create_autocmd("FileType", {
     end
   end,
 })
+
+local function clean_sql_compare_script(bufnr)
+  bufnr = bufnr or 0
+  vim.api.nvim_buf_call(bufnr, function()
+    vim.cmd("silent! %s/\\r$//e")
+    vim.cmd("retab")
+  end)
+
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local start_idx, end_idx
+  for i, line in ipairs(lines) do
+    if line:match("^%s*/%*") then
+      start_idx = i
+      break
+    end
+  end
+  if start_idx then
+    for i = start_idx, #lines do
+      if lines[i]:match("%*/%s*$") then
+        end_idx = i
+        break
+      end
+    end
+  end
+
+  if start_idx and end_idx then
+    local new_lines = {}
+    for i = 1, start_idx - 1 do
+      table.insert(new_lines, lines[i])
+    end
+    table.insert(new_lines, lines[start_idx])
+    for i = start_idx + 1, end_idx - 1 do
+      if lines[i]:match("^Script created by") then
+        table.insert(new_lines, lines[i])
+      end
+    end
+    table.insert(new_lines, lines[end_idx])
+    for i = end_idx + 1, #lines do
+      table.insert(new_lines, lines[i])
+    end
+    lines = new_lines
+  end
+
+  local final_lines = {}
+  for i, line in ipairs(lines) do
+    table.insert(final_lines, line)
+    if line:match("^GO%s*$") and lines[i + 1] ~= nil and lines[i + 1] ~= "" then
+      table.insert(final_lines, "")
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, final_lines)
+end
+
+vim.api.nvim_create_user_command("CleanSqlCompareScript", function()
+  clean_sql_compare_script(0)
+end, {})
 
 -- nvim-treesitter-textobjects (main branch) — keymaps call functions directly.
 local sel_ok, ts_select = pcall(require, "nvim-treesitter-textobjects.select")
@@ -991,6 +1073,23 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
+
+  -- Rider-style "highlight all usages of the symbol under the cursor"
+  -- (textDocument/documentHighlight), driven off CursorHold so it kicks in
+  -- automatically without needing to trigger a references search.
+  if client:supports_method("textDocument/documentHighlight") then
+    local group = vim.api.nvim_create_augroup("lsp-document-highlight-" .. bufnr, { clear = true })
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      group = group,
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = group,
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
+    })
+  end
 end
 
 -- document existing key chains
