@@ -71,6 +71,10 @@ alias git-follow='git log -w -p -M --follow --stat --'
 ## Enable vi mode
 bindkey -v
 
+# Time in 10ms units to wait for a multi-key sequence; the default of 40 (400ms)
+# makes <Esc> feel laggy when leaving insert mode
+KEYTIMEOUT=1
+
 # Allow backspace and delete to work as expected in vi mode
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
@@ -78,7 +82,7 @@ bindkey "^H" backward-delete-char
 bindkey "^U" backward-kill-line
 
 # Fix delete key behavior
-bindkey "^[[3~" delete-char Vi mode
+bindkey "^[[3~" delete-char
 
 bindkey '^R' history-incremental-search-backward
 

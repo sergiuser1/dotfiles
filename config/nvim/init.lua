@@ -387,32 +387,46 @@ require("lazy").setup({
   },
 
   {
-    "seblyng/roslyn.nvim",
-    ft = { "cs" },
-    -- Must be `init`, not `config`: the plugin's own plugin/roslyn.lua calls
-    -- vim.lsp.enable("roslyn"), which attaches to the already-open buffer while
-    -- the plugin is sourced -- i.e. before `config` would run. Registering the
-    -- settings in `init` guarantees the client starts with them.
-    init = function()
-      -- Enable navigating to decompiled sources (go-to-definition on
-      -- external/NuGet/framework types shows real decompiled C# instead of
-      -- metadata stubs), and let symbol search look in reference assemblies.
-      vim.lsp.config("roslyn", {
-        settings = {
-          ["csharp|symbol_search"] = {
-            dotnet_search_reference_assemblies = true,
-          },
-          ["navigation"] = {
-            dotnet_navigate_to_decompiled_sources = true,
-          },
-          ["csharp|background_analysis"] = {
-            dotnet_analyzer_diagnostics_scope = "fullSolution",
-            dotnet_compiler_diagnostics_scope = "fullSolution",
+    "GustavEikaas/easy-dotnet.nvim",
+    ft = { "cs", "cshtml", "razor", "csproj", "fsproj" },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      csproj_mappings = false,
+      fsproj_mappings = false,
+      auto_bootstrap_namespace = {
+        enabled = false,
+      },
+      debugger = {
+        auto_register_dap = false,
+      },
+      lsp = {
+        preload_roslyn = true,
+        roslynator_enabled = true,
+        easy_dotnet_analyzer_enabled = false,
+        auto_refresh_codelens = false,
+        config = {
+          settings = {
+            ["csharp|symbol_search"] = {
+              dotnet_search_reference_assemblies = true,
+            },
+            ["navigation"] = {
+              dotnet_navigate_to_decompiled_sources = true,
+            },
+            ["csharp|background_analysis"] = {
+              dotnet_analyzer_diagnostics_scope = "fullSolution",
+              dotnet_compiler_diagnostics_scope = "fullSolution",
+            },
+            ["csharp|code_lens"] = {
+              dotnet_enable_references_code_lens = false,
+            },
           },
         },
-      })
-    end,
-    opts = {},
+      },
+      test_runner = {
+        auto_start_testrunner = false,
+        neotest_integration = true,
+      },
+    },
   },
 
   {
@@ -786,8 +800,8 @@ vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { des
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
--- Roslyn (and other pull-diagnostic servers) only publish diagnostics for open
--- files, so ask for solution-wide ones via workspace/diagnostic first
+-- Pull-diagnostic servers only publish diagnostics for open files, so ask for
+-- solution-wide ones via workspace/diagnostic first.
 vim.keymap.set("n", "<leader>sd", function()
   require("telescope.builtin").diagnostics({ workspace = true, sort_by = "severity" })
 end, { desc = "[S]earch [D]iagnostics (workspace)" })
@@ -1092,6 +1106,34 @@ local on_attach = function(client, bufnr)
   end
 end
 
+local refresh_pull_diagnostics = function(client, bufnr)
+  local providers = client.dynamic_capabilities.capabilities.diagnosticProvider or {}
+  for _, provider in ipairs(providers) do
+    local identifier = provider.registerOptions and provider.registerOptions.identifier
+    if identifier then
+      client:request(vim.lsp.protocol.Methods.textDocument_diagnostic, {
+        identifier = identifier,
+        textDocument = vim.lsp.util.make_text_document_params(bufnr),
+      }, nil, bufnr)
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("easy-dotnet-lsp-attach", { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == "easy_dotnet" then
+      on_attach(client, args.buf)
+      vim.defer_fn(function()
+        if not client:is_stopped() and vim.api.nvim_buf_is_valid(args.buf) then
+          refresh_pull_diagnostics(client, args.buf)
+        end
+      end, 100)
+    end
+  end,
+})
+
 -- document existing key chains
 -- require("which-key").add({
 --   { "<leader>c", group = "[C]ode" },
@@ -1300,21 +1342,5 @@ end, { desc = "[Y]ank relative [p]ath to clipboard" })
 vim.api.nvim_create_user_command("RmWhite", function()
   vim.cmd([[%s/\s\+$//e]])
 end, {})
-
--- require("lspconfig").omnisharp.setup({
--- on_attach = on_attach,
-
--- settings = {
---   FormattingOptions = {
---         EnableEditorConfigSupport = true,
---         OrganizeImports = true,
---   },
--- RoslynExtensionsOptions = {
---   EnableAnalyzersSupport = true,
---   EnableImportCompletion = true,
---   AnalyzeOpenDocumentsOnly = false,
--- },
--- },
--- })
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -37,6 +37,7 @@
   diffFilter = delta --color-only
 
 [delta]
+  dark = true
   true-color = always
   navigate = true
   tabs = 4

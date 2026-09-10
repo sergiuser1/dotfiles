@@ -1,9 +1,0 @@
-{
-  "RoslynExtensionsOptions": {
-    "EnableDecompilationSupport": true,
-    "EnableAnalyzersSupport": false
-  },
-  "msbuild": {
-    "EnablePackageAutoRestore": true
-  }
-}
