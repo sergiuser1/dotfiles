@@ -5,3 +5,5 @@ export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 # Local secrets
 [ -f "$HOME/.env" ] && source "$HOME/.env"
+
+export CLEARING_COPILOT_ROOT="$HOME/git/clearing.copilot"
