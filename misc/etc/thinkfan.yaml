@@ -1,0 +1,19 @@
+# /etc/thinkfan.yaml
+sensors:
+  - hwmon: /sys/devices/platform/coretemp.0/hwmon
+    name: coretemp
+    indices: [1]          # Package id 0 (overall CPU temp)
+
+fans:
+  - tpacpi: /proc/acpi/ibm/fan
+
+levels:
+  - [0, 0, 55]
+  - [1, 48, 58]
+  - [2, 50, 60]
+  - [3, 52, 63]
+  - [4, 55, 66]
+  - [5, 58, 70]
+  - [6, 61, 75]
+  - [7, 64, 80]
+  - ["level full-speed", 78, 32767]

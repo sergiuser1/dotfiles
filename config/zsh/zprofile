@@ -12,7 +12,7 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 # Firefox
 export MOZ_USE_XINPUT2=1
 
-export BROWSER=firefox
+export BROWSER=zen-browser
 export EDITOR=nvim
 
 # Man
