@@ -1,5 +1,4 @@
 return {
-  "tpope/vim-sleuth",
   "nanotee/sqls.nvim",
   {
     "folke/neodev.nvim",

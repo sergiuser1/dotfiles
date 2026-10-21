@@ -68,12 +68,35 @@ vim.opt.listchars = {
 
 -- Enable diagnostics signs in the gutter
 vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
+  virtual_text = { severity = { min = vim.diagnostic.severity.INFO } },
+  signs = { severity = { min = vim.diagnostic.severity.INFO } },
   underline = true,
   update_in_insert = false,
   severity_sort = true,
 })
+
+local function hint_highlights()
+  local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+  vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underdotted = true, sp = comment.fg })
+end
+hint_highlights()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = hint_highlights })
+
+local diagnostic_severity_overrides = {
+  RCS1001 = vim.diagnostic.severity.HINT,
+  RCS1003 = vim.diagnostic.severity.HINT,
+}
+
+local diagnostic_set = vim.diagnostic.set
+vim.diagnostic.set = function(namespace, bufnr, diagnostics, opts)
+  for _, d in ipairs(diagnostics or {}) do
+    local severity = diagnostic_severity_overrides[d.code]
+    if severity then
+      d.severity = severity
+    end
+  end
+  return diagnostic_set(namespace, bufnr, diagnostics, opts)
+end
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
