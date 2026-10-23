@@ -557,6 +557,8 @@ vim.o.mouse = "a"
 
 vim.o.clipboard = "unnamedplus"
 
+vim.opt.path:append("**")
+
 -- Enable break indent
 vim.o.breakindent = true
 

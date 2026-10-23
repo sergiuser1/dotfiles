@@ -120,6 +120,63 @@ zellij() {
     fi
 }
 
+if [[ -n "$ZELLIJ" ]]; then
+    _zt_chpwd() {
+        local root name
+        root="$(git rev-parse --show-toplevel 2>/dev/null)"
+        if [[ -n "$root" ]]; then
+            name="${root:t}"
+        elif [[ "$PWD" == "$HOME" ]]; then
+            name="~"
+        else
+            name="${PWD:t}"
+        fi
+        _zt_repo="${name#clearing.}"
+        _zt_tab_id=""
+    }
+
+    _zt_ensure_tab_id() {
+        [[ -n "$_zt_tab_id" ]] && return
+        _zt_tab_id="$(command zellij action list-panes --json </dev/null 2>/dev/null \
+            | jq -r --argjson id "$ZELLIJ_PANE_ID" '.[] | select(.is_plugin | not) | select(.id == $id) | .tab_id')"
+    }
+
+    _zt_preexec() {
+        local w cmd
+        for w in ${(z)1}; do
+            case "$w" in
+                sudo|env|time|nohup|command|exec|noglob|builtin|-*|*=*) ;;
+                *) cmd="${w:t}"; break ;;
+            esac
+        done
+        [[ -z "$cmd" ]] && return
+        _zt_ensure_tab_id
+        [[ -z "$_zt_tab_id" ]] && return
+        local id="$_zt_tab_id" label="$_zt_repo ($cmd)"
+        ( sleep 1; command zellij action rename-tab-by-id "$id" "$label" ) </dev/null &>/dev/null &!
+        _zt_pending=$!
+    }
+
+    _zt_precmd() {
+        if [[ -n "$_zt_pending" ]]; then
+            kill "$_zt_pending" 2>/dev/null || _zt_last=""
+            _zt_pending=""
+        fi
+        _zt_ensure_tab_id
+        [[ -z "$_zt_tab_id" ]] && return
+        local label="$_zt_repo (zsh)"
+        [[ "$_zt_tab_id:$label" == "$_zt_last" ]] && return
+        _zt_last="$_zt_tab_id:$label"
+        command zellij action rename-tab-by-id "$_zt_tab_id" "$label" </dev/null &>/dev/null &!
+    }
+
+    autoload -Uz add-zsh-hook
+    add-zsh-hook chpwd _zt_chpwd
+    add-zsh-hook preexec _zt_preexec
+    add-zsh-hook precmd _zt_precmd
+    _zt_chpwd
+fi
+
 eval "$(zoxide init zsh --cmd j)"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --exclude .git'
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
