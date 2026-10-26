@@ -1020,6 +1020,41 @@ if mov_ok then
       ts_move[m[2]](m[3], "textobjects")
     end, { desc = "TS " .. m[2] .. " " .. m[3] })
   end
+
+  local function enclosing_fn()
+    local node = vim.treesitter.get_node()
+    while node do
+      local t = node:type()
+      if node:field("name")[1] and (t:find("function") or t:find("method") or t:find("constructor")) then
+        return node
+      end
+      node = node:parent()
+    end
+  end
+
+  local function jump_to_name()
+    local node = enclosing_fn()
+    if node then
+      local row, col = node:field("name")[1]:start()
+      vim.api.nvim_win_set_cursor(0, { row + 1, col })
+    end
+  end
+
+  for _, m in ipairs({ { "[m", "goto_previous_start" }, { "]m", "goto_next_start" } }) do
+    vim.keymap.set("n", m[1], function()
+      local node = enclosing_fn()
+      if node then
+        local nrow, ncol = node:field("name")[1]:start()
+        local cur = vim.api.nvim_win_get_cursor(0)
+        if cur[1] - 1 == nrow and cur[2] == ncol and m[2] == "goto_previous_start" then
+          local srow, scol = node:start()
+          vim.api.nvim_win_set_cursor(0, { srow + 1, scol })
+        end
+      end
+      ts_move[m[2]]("@function.outer", "textobjects")
+      jump_to_name()
+    end, { desc = "TS " .. m[2] .. " function name" })
+  end
 end
 
 if swp_ok then
